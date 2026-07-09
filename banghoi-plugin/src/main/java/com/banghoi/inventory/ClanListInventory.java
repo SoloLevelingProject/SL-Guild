@@ -1,0 +1,231 @@
+package com.banghoi.inventory;
+
+import com.banghoi.BangHoi;
+import com.banghoi.api.enums.ItemType;
+import com.banghoi.api.storage.IClanData;
+import com.banghoi.clan.ClanManager;
+import com.banghoi.file.inventory.ClanListInventoryFile;
+import com.banghoi.language.Messages;
+import com.banghoi.storage.PluginDataManager;
+import com.banghoi.util.HashMapUtil;
+import com.banghoi.util.ItemUtil;
+import com.banghoi.util.MessageUtil;
+import com.banghoi.util.StringUtil;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ClanListInventory extends PaginatedInventory {
+
+    FileConfiguration fileConfiguration = ClanListInventoryFile.get();
+    private SortItemType sortItemType;
+
+    public ClanListInventory(Player owner) {
+        super(owner);
+        sortItemType = SortItemType.HIGHESTSCORE;
+    }
+
+    @Override
+    public void open() {
+        super.open();
+    }
+
+    @Override
+    public String getMenuName() {
+        String title = fileConfiguration.getString("title");
+        title = title.replace("%search%",
+                getSearch() != null
+                        ? fileConfiguration.getString("title-placeholders.search").replace("%search%", getSearch())
+                        : "");
+        title = title.replace("%totalClans%", String.valueOf(PluginDataManager.getClanDatabase().size()));
+        return BangHoi.nms.addColor(title);
+    }
+
+    @Override
+    public int getSlots() {
+        int rows = fileConfiguration.getInt("rows") * 9;
+        if (rows < 27 || rows > 54)
+            return 54;
+        return rows;
+    }
+
+    @Override
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
+
+        ItemStack itemStack = event.getCurrentItem();
+        String itemCustomData = BangHoi.nms.getCustomData(itemStack);
+
+        playClickSound(fileConfiguration, itemCustomData);
+
+        if (itemCustomData.equals("prevPage")) {
+            if (getPage() != 0) {
+                setPage(getPage() - 1);
+                open();
+            }
+        }
+        if (itemCustomData.equals("nextPage")) {
+            if (!((index + 1) >= PluginDataManager.getClanDatabase().size())) {
+                setPage(getPage() + 1);
+                open();
+            } else {
+                MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
+            }
+        }
+        if (itemCustomData.equals("close"))
+            getOwner().closeInventory();
+        if (itemCustomData.equals("back"))
+            new ClanMenuInventory(getOwner()).open();
+        if (itemCustomData.equals("sort")) {
+            if (sortItemType == SortItemType.HIGHESTSCORE)
+                sortItemType = SortItemType.HIGHESTPLAYERSIZE;
+            else if (sortItemType == SortItemType.HIGHESTPLAYERSIZE)
+                sortItemType = SortItemType.OLDEST;
+            else if (sortItemType == SortItemType.OLDEST)
+                sortItemType = SortItemType.HIGHESTSCORE;
+            setSearch(null);
+            setPage(0);
+            super.open();
+        }
+        if (itemCustomData.equals("back"))
+            new ClanMenuInventory(getOwner()).open();
+        if (itemCustomData.contains("clan=")) {
+            playClickSound(fileConfiguration, "clan");
+            itemCustomData = itemCustomData.replace("clan=", "");
+            new ViewClanInformationInventory(getOwner(), itemCustomData).open();
+        }
+
+        return true;
+    }
+
+    @Override
+    public void setMenuItems() {
+        BangHoi.support.getFoliaLib().getScheduler().runAsync(task -> {
+
+            addPaginatedMenuItems(fileConfiguration, true);
+
+            ItemStack clanListInfoItem = BangHoi.nms.addCustomData(
+                    getClanInfoItemStack(ItemUtil.getItem(
+                            ItemType.valueOf(fileConfiguration.getString("items.clanListInfo.type").toUpperCase()),
+                            fileConfiguration.getString("items.clanListInfo.value"),
+                            fileConfiguration.getInt("items.clanListInfo.customModelData"),
+                            fileConfiguration.getString("items.clanListInfo.name"),
+                            fileConfiguration.getStringList("items.clanListInfo.lore"), false)),
+                    "clanListInfoItem");
+            int clanListInfoSlot = fileConfiguration.getInt("items.clanListInfo.slot");
+            if (clanListInfoSlot < 0)
+                clanListInfoSlot = 0;
+            if (clanListInfoSlot > 8)
+                clanListInfoSlot = 8;
+            clanListInfoSlot = (getSlots() - 9) + clanListInfoSlot;
+            inventory.setItem(clanListInfoSlot, clanListInfoItem);
+
+            ItemStack sortItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.sort.type").toUpperCase()),
+                    fileConfiguration.getString("items.sort.value"),
+                    fileConfiguration.getInt("items.sort.customModelData"),
+                    fileConfiguration.getString("items.sort.name"),
+                    fileConfiguration.getStringList("items.sort.lore." + sortItemType.toString()), false), "sort");
+            int sortItemSlot = fileConfiguration.getInt("items.sort.slot");
+            if (sortItemSlot < 0)
+                sortItemSlot = 0;
+            if (sortItemSlot > 8)
+                sortItemSlot = 8;
+            sortItemSlot = (getSlots() - 9) + sortItemSlot;
+            inventory.setItem(sortItemSlot, sortItem);
+
+            if (PluginDataManager.getClanDatabase().isEmpty())
+                return;
+
+            List<String> clans = new ArrayList<>();
+
+            if (sortItemType == SortItemType.HIGHESTSCORE)
+                clans = HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansScoreHashMap());
+            if (sortItemType == SortItemType.HIGHESTPLAYERSIZE)
+                clans = HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansPlayerSize());
+            if (sortItemType == SortItemType.OLDEST)
+                clans = HashMapUtil.sortFromLowestToGreatestL(ClanManager.getClansCreatedDate());
+
+            if (getSearch() != null) {
+                List<String> newClans = new ArrayList<>();
+                for (String clan : clans) {
+                    if (clan.toLowerCase().contains(getSearch().toLowerCase())) {
+                        newClans.add(clan);
+                    }
+                }
+                clans.clear();
+                clans.addAll(newClans);
+            }
+
+            for (int i = 0; i < getMaxItemsPerPage(); i++) {
+                index = getMaxItemsPerPage() * getPage() + i;
+                if (index >= clans.size())
+                    break;
+                if (clans.get(index) != null) {
+                    String clanName = clans.get(index);
+                    IClanData clanData = PluginDataManager.getClanDatabase(clanName);
+                    ItemStack clanItem = ItemUtil.getItem(
+                            clanData.getIconType(),
+                            clanData.getIconValue(),
+                            0,
+                            fileConfiguration.getString("items.clan.name"),
+                            fileConfiguration.getStringList("items.clan.lore"), false);
+                    ItemStack itemStack = BangHoi.nms.addCustomData(ItemUtil.getClanItemStack(clanItem, clanData),
+                            "clan=" + clanName);
+                    inventory.addItem(itemStack);
+                }
+            }
+        });
+    }
+
+    private @NotNull ItemStack getClanInfoItemStack(ItemStack itemStack) {
+        ItemStack modItem = new ItemStack(itemStack);
+        ItemMeta itemMeta = modItem.getItemMeta();
+
+        List<String> itemLore = itemMeta.getLore();
+
+        String NAString = "N/A";
+        String bestScoreClanName;
+        int bestScoreClanValue;
+        String oldestClanName;
+        String oldestClanValue;
+        if (!PluginDataManager.getClanDatabase().isEmpty()) {
+            IClanData bestScoreClan = PluginDataManager
+                    .getClanDatabase(HashMapUtil.sortFromGreatestToLowestI(ClanManager.getClansScoreHashMap()).get(0));
+            IClanData oldestClan = PluginDataManager
+                    .getClanDatabase(HashMapUtil.sortFromLowestToGreatestL(ClanManager.getClansCreatedDate()).get(0));
+            bestScoreClanName = ClanManager.getFormatClanName(bestScoreClan);
+            oldestClanName = ClanManager.getFormatClanName(oldestClan);
+            bestScoreClanValue = (int) com.banghoi.util.ScoreCalculator.calculateScore(bestScoreClan);
+            oldestClanValue = StringUtil.dateTimeToDateFormat(oldestClan.getCreatedDate());
+        } else {
+            bestScoreClanValue = 0;
+            bestScoreClanName = NAString;
+            oldestClanName = NAString;
+            oldestClanValue = NAString;
+        }
+
+        itemLore.replaceAll(string -> BangHoi.nms.addColor(string.replace("%totalClans%",
+                String.valueOf(PluginDataManager.getClanDatabase().size()))
+                .replace("%totalPlayers%", String.valueOf(PluginDataManager.getPlayerDatabase().size()))
+                .replace("%bestScoreClan%", bestScoreClanName)
+                .replace("%bestScoreClanValue%", String.valueOf(bestScoreClanValue))
+                .replace("%oldestClan%", oldestClanName)
+                .replace("%oldestClanValue%", oldestClanValue)));
+        itemMeta.setLore(itemLore);
+        modItem.setItemMeta(itemMeta);
+        return modItem;
+    }
+
+    public enum SortItemType {
+        HIGHESTSCORE, HIGHESTPLAYERSIZE, OLDEST
+    }
+
+}

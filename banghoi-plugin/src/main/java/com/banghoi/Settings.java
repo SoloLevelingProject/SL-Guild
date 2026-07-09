@@ -1,0 +1,264 @@
+package com.banghoi;
+
+import com.banghoi.api.enums.Rank;
+import com.banghoi.api.enums.Subject;
+import com.banghoi.util.MessageUtil;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class Settings {
+
+        public static boolean DEBUG_ENABLED;
+        public static String DEBUG_PREFIX;
+        public static String LANGUAGE;
+        public static String DATABASE_TYPE;
+        public static boolean DATABASE_SETTING_SMART_LOADING_ENABLED;
+        public static boolean DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED;
+        public static boolean DATABASE_AUTO_SAVE_ENABLED;
+        public static int DATABASE_AUTO_SAVE_SECONDS;
+        public static String DATABASE_BACK_UP_FILE_NAME_FORMAT;
+        public static String DATABASE_SETTINGS_H2_FILE_NAME;
+        public static String DATABASE_SETTINGS_H2_TABLE_CLAN;
+        public static String DATABASE_SETTINGS_H2_TABLE_PLAYER;
+        public static String DATABASE_SETTINGS_SQLITE_FILE_NAME;
+        public static String DATABASE_SETTINGS_SQLITE_TABLE_CLAN;
+        public static String DATABASE_SETTINGS_SQLITE_TABLE_PLAYER;
+        public static int PROGRESS_BAR_TOTAL_BARS;
+        public static String PROGRESS_BAR_SYMBOL_COMPLETED;
+        public static String PROGRESS_BAR_SYMBOL_NOTCOMPLETED;
+        public static boolean CLAN_SETTING_CREATE_ENABLED;
+        public static String CLAN_SETTING_CREATE_TYPE;
+        public static long CLAN_SETTING_CREATE_CURRENCY;
+        public static int CLAN_SETTING_TIME_TO_ACCEPT;
+        public static int CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT;
+        public static String CLAN_SETTING_ICON_DEFAULT_TYPE;
+        public static String CLAN_SETTING_ICON_DEFAULT_VALUE;
+        public static boolean CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED;
+        public static long CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY;
+        public static List<String> CLAN_SETTING_PROHIBITED_NAME = new ArrayList<>();
+        public static List<String> CLAN_SETTING_PROHIBITED_CHARACTER = new ArrayList<>();
+        public static int CLAN_SETTING_NAME_MINIMUM_LENGTH;
+        public static int CLAN_SETTING_NAME_MAXIMUM_LENGTH;
+        public static int CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH;
+        public static int CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH;
+        public static HashMap<Subject, Rank> CLAN_SETTING_PERMISSION_DEFAULT = new HashMap<>();
+        public static int CLAN_SETTINGS_MAX_STORAGE_DEFAULT;
+        public static List<String> CLAN_SETTINGS_CREATION_BROADCAST;
+        public static boolean CLAN_SETTING_PERMISSION_DEFAULT_FORCED;
+        public static boolean CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED;
+        public static List<String> CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS;
+        public static boolean CLAN_SETTINGS_SPAWN_SETTINGS_ENABLED;
+        public static boolean CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_ENABLED;
+        public static int CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_SECONDS;
+        public static boolean CHAT_SETTING_USE_PAPER_ASYNC_CHAT;
+        public static String CHAT_SETTING_STOP_USING_CHAT_WORD;
+        public static int CHAT_SETTING_TIME_OUT;
+        public static int SIGN_INPUT_SETTINGS_TIME_OUT;
+        public static boolean VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED;
+        public static boolean STORAGE_SETTINGS_ENABLED;
+        public static int STORAGE_SETTINGS_SLOTS;
+        public static int STORAGE_SETTINGS_MAX_INVENTORY;
+        public static List<String> STORAGE_SETTINGS_BLACKLIST_MATERIAL = new ArrayList<>();
+        public static boolean CUSTOM_HEADS_API_V2_ENABLED;
+        public static String CUSTOM_HEADS_API_V2_CUSTOM_KEY;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_NAME;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CUSTOMNAME;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMATNAME;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_OWNER;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MESSAGE;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_CREATEDDATE;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MEMBERS;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_ALLIES;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SUBJECTPERMISSION_;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_SUBJECTPERMISSION_;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDCHANNELID;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDJOINLINK;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_RANK;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_RANK;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_JOINDATE;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_JOINDATE;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_SCORECOLLECTED;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_LASTACTIVATED;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_LASTACTIVATED;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME_;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_;
+        public static String SOFT_DEPEND_DISCORDWEBHOOK_URL;
+
+        // Contribution settings
+        public static boolean CONTRIBUTION_ENABLED;
+        public static boolean CONTRIBUTION_MONEY_ENABLED;
+        public static long CONTRIBUTION_MONEY_AMOUNT;
+        public static long CONTRIBUTION_MONEY_CONGHUAN_REWARD;
+        public static boolean CONTRIBUTION_TURTLETOP_ENABLED;
+        public static String SCORE_TURTLETOP_POINT;
+        public static int CONTRIBUTION_MONEY_MAX_TIMES_PER_DAY;
+
+        public static void setupValue() {
+                MessageUtil.debug("SETTINGS", "Loading settings from config yaml...");
+                FileConfiguration configuration = BangHoi.plugin.getConfig();
+
+                DEBUG_ENABLED = configuration.getBoolean("debug.enabled");
+                DEBUG_PREFIX = configuration.getString("debug.prefix");
+                LANGUAGE = configuration.getString("language");
+                DATABASE_TYPE = configuration.getString("database.type");
+                DATABASE_SETTING_SMART_LOADING_ENABLED = configuration.getBoolean("database.smart-loading.enabled");
+                DATABASAE_SETTING_FIX_BUG_DATABASE_ENABLED = configuration
+                                .getBoolean("database.fix-bug-database.enabled");
+                DATABASE_AUTO_SAVE_ENABLED = configuration.getBoolean("database.auto-save.enabled");
+                DATABASE_AUTO_SAVE_SECONDS = configuration.getInt("database.auto-save.seconds");
+                DATABASE_BACK_UP_FILE_NAME_FORMAT = configuration
+                                .getString("database.backup-settings.file-name-date-format");
+                DATABASE_SETTINGS_H2_FILE_NAME = configuration.getString("database.settings.h2.file-name");
+                DATABASE_SETTINGS_H2_TABLE_CLAN = configuration.getString("database.settings.h2.table.clan");
+                DATABASE_SETTINGS_H2_TABLE_PLAYER = configuration.getString("database.settings.h2.table.player");
+                DATABASE_SETTINGS_SQLITE_FILE_NAME = configuration.getString("database.settings.sqlite.file-name", "sqliteDatabase");
+                DATABASE_SETTINGS_SQLITE_TABLE_CLAN = configuration.getString("database.settings.sqlite.table.clan", "clandata");
+                DATABASE_SETTINGS_SQLITE_TABLE_PLAYER = configuration.getString("database.settings.sqlite.table.player", "playerdata");
+                PROGRESS_BAR_TOTAL_BARS = configuration.getInt("progress-bar.total-bars");
+                PROGRESS_BAR_SYMBOL_COMPLETED = configuration.getString("progress-bar.symbol.completed");
+                PROGRESS_BAR_SYMBOL_NOTCOMPLETED = configuration.getString("progress-bar.symbol.not-completed");
+                CLAN_SETTING_CREATE_ENABLED = configuration
+                                .getBoolean("clan-settings.creating-clan-settings.currency-requirement.enabled");
+                CLAN_SETTING_CREATE_TYPE = configuration
+                                .getString("clan-settings.creating-clan-settings.currency-requirement.type");
+                CLAN_SETTING_CREATE_CURRENCY = configuration
+                                .getLong("clan-settings.creating-clan-settings.currency-requirement.value");
+                CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT = configuration
+                                .getInt("clan-settings.creating-clan-settings.maximum-member-default");
+                CLAN_SETTING_ICON_DEFAULT_TYPE = configuration
+                                .getString("clan-settings.creating-clan-settings.icon-default.type");
+                CLAN_SETTING_ICON_DEFAULT_VALUE = configuration
+                                .getString("clan-settings.creating-clan-settings.icon-default.value");
+                CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED = configuration
+                                .getBoolean("clan-settings.on-join.clan-broadcast.enabled");
+                CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY = configuration
+                                .getLong("clan-settings.on-join.clan-broadcast.enabled");
+                CLAN_SETTING_TIME_TO_ACCEPT = configuration.getInt("clan-settings.invite-settings.time-to-accept");
+                if (!CLAN_SETTING_PROHIBITED_NAME.isEmpty())
+                        CLAN_SETTING_PROHIBITED_NAME.clear();
+                CLAN_SETTING_PROHIBITED_NAME
+                                .addAll(configuration
+                                                .getStringList("clan-settings.clan-name-settings.prohibited-name"));
+                if (!CLAN_SETTING_PROHIBITED_CHARACTER.isEmpty())
+                        CLAN_SETTING_PROHIBITED_CHARACTER.clear();
+                CLAN_SETTING_PROHIBITED_CHARACTER
+                                .addAll(configuration.getStringList(
+                                                "clan-settings.clan-name-settings.prohibited-character"));
+                CLAN_SETTING_NAME_MINIMUM_LENGTH = configuration
+                                .getInt("clan-settings.clan-name-settings.minimum-length.clan-name");
+                CLAN_SETTING_NAME_MAXIMUM_LENGTH = configuration
+                                .getInt("clan-settings.clan-name-settings.maximum-length.clan-name");
+                CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH = configuration
+                                .getInt("clan-settings.clan-name-settings.minimum-length.clan-custom-name");
+                CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH = configuration
+                                .getInt("clan-settings.clan-name-settings.maximum-length.clan-custom-name");
+                if (!CLAN_SETTING_PERMISSION_DEFAULT.isEmpty())
+                        CLAN_SETTING_PERMISSION_DEFAULT.clear();
+                for (Subject subject : Subject.values())
+                        CLAN_SETTING_PERMISSION_DEFAULT.put(subject, Rank.valueOf(
+                                        configuration.getString(
+                                                        "clan-settings.creating-clan-settings.permission-default."
+                                                                        + subject)));
+                CLAN_SETTINGS_MAX_STORAGE_DEFAULT = configuration
+                                .getInt("clan-settings.creating-clan-settings.max-storage-default");
+                CLAN_SETTINGS_CREATION_BROADCAST = configuration
+                                .getStringList("clan-settings.creating-clan-settings.creation-broadcast");
+                CLAN_SETTING_PERMISSION_DEFAULT_FORCED = configuration
+                                .getBoolean("clan-settings.permission-default-forced");
+                CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED = configuration
+                                .getBoolean("clan-settings.set-spawn-settings.blacklist-worlds.enabled");
+                CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_WORLDS = configuration
+                                .getStringList("clan-settings.set-spawn-settings.blacklist-worlds.worlds");
+                CLAN_SETTINGS_SPAWN_SETTINGS_ENABLED = configuration.getBoolean("clan-settings.spawn-settings.enabled");
+                CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_ENABLED = configuration
+                                .getBoolean("clan-settings.spawn-settings.countdown.enabled");
+                CLAN_SETTING_SPAWN_SETTINGS_COUNTDOWN_SECONDS = configuration
+                                .getInt("clan-settings.spawn-settings.countdown.seconds");
+                CHAT_SETTING_USE_PAPER_ASYNC_CHAT = configuration.getBoolean("chat-settings.use-paper-async-chat");
+                CHAT_SETTING_STOP_USING_CHAT_WORD = configuration.getString("chat-settings.stop-using-chat-word");
+                CHAT_SETTING_TIME_OUT = configuration.getInt("chat-settings.time-out");
+                SIGN_INPUT_SETTINGS_TIME_OUT = configuration.getInt("sign-input-settings.time-out");
+                VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED = configuration
+                                .getBoolean("vanish-settings.hide-vanish-player.enabled");
+                STORAGE_SETTINGS_ENABLED = configuration.getBoolean("storage-settings.enabled");
+                STORAGE_SETTINGS_SLOTS = configuration.getInt("storage-settings.slots");
+                STORAGE_SETTINGS_MAX_INVENTORY = configuration.getInt("storage-settings.max-storage");
+                STORAGE_SETTINGS_BLACKLIST_MATERIAL = configuration
+                                .getStringList("storage-settings.black-list-material");
+                CUSTOM_HEADS_API_V2_ENABLED = configuration.getBoolean("custom-heads.API-v2.enabled");
+                CUSTOM_HEADS_API_V2_CUSTOM_KEY = configuration.getString("custom-heads.API-v2.custom-key");
+                SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_NAME = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_name");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CUSTOMNAME = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_customname");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMATNAME = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_formatname");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_OWNER = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_owner");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MESSAGE = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_message");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_score");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_warning");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_maxmembers");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_createddate");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_CREATEDDATE = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_format_createddate");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MEMBERS = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_members");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_ALLIES = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_allies");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SUBJECTPERMISSION_ = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_subjectpermission_");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_SUBJECTPERMISSION_ = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_format_subjectpermission_");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDCHANNELID = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_discordchannelid");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDJOINLINK = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.clan_discordjoinlink");
+                SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_RANK = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.player_rank");
+                SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_RANK = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.player_format_rank");
+                SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_JOINDATE = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.player_joindate");
+                SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_JOINDATE = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.player_format_joindate");
+                SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_SCORECOLLECTED = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.player_scorecollected");
+                SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_LASTACTIVATED = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.player_lastactivated");
+                SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_LASTACTIVATED = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.player_format_lastactivated");
+                SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME_ = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.top_score_name_");
+                SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_ = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.top_score_value_");
+                SOFT_DEPEND_DISCORDWEBHOOK_URL = configuration.getString("soft-depends.discordWebhook.webhookURL");
+
+                // Contribution settings
+                CONTRIBUTION_ENABLED = configuration.getBoolean("contribution-settings.enabled", true);
+                CONTRIBUTION_MONEY_ENABLED = configuration.getBoolean("contribution-settings.money.enabled", true);
+                CONTRIBUTION_MONEY_AMOUNT = configuration.getLong("contribution-settings.money.amount", 10000);
+                CONTRIBUTION_MONEY_CONGHUAN_REWARD = configuration
+                                .getLong("contribution-settings.money.conghuan-reward", 10);
+                CONTRIBUTION_TURTLETOP_ENABLED = configuration.getBoolean("contribution-settings.turtletop.enabled",
+                                true);
+                SCORE_TURTLETOP_POINT = configuration.getString("contribution-settings.score-turtletop-point",
+                                "conghuan");
+                CONTRIBUTION_MONEY_MAX_TIMES_PER_DAY = configuration
+                                .getInt("contribution-settings.money.max-times-per-day", 1);
+        }
+}

@@ -1,0 +1,188 @@
+title: '&0 📦 Kho Đồ Bang'
+rows: 6
+storage-track:
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 19
+- 20
+- 21
+- 22
+- 23
+- 24
+- 25
+- 28
+- 29
+- 30
+- 31
+- 32
+- 33
+- 34
+items:
+  border:
+    enabled: true
+    name: ' '
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    leave-blank:
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 28
+    - 29
+    - 30
+    - 31
+    - 32
+    - 33
+    - 34
+    - 47
+    - 48
+    - 49
+    - 50
+    - 51
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
+    lore:
+    - ''
+
+  storage:
+    unlocked:
+      name: '&#83FF29Kho #%storageNumber%'
+      type: customhead
+      value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDE2ZDI1OTUzZDRiOGU2MzM0OTI2ZTIwNmFjMzIzZTc3NzMzZWQ3MDQwMWZkMWE4ZWVmN2UyMzkwZTQwZGIzZCJ9fX0=
+      customModelData: 0
+      click-sound:
+        enabled: true
+        name: BLOCK_STONE_BUTTON_CLICK_ON
+        volume: 1
+        pitch: 2
+      lore:
+      - ''
+      - ' &8 ❙ &#ADF3FDThông tin'
+      - '  &8○ &7Đã sử dụng: &#83FF29%usedSlots%&7/52'
+      - ''
+      - '%checkPermission%'
+    locked:
+      name: '&#FF4444Kho #%storageNumber%'
+      type: customhead
+      value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2NjNDcwYWUyNjMxZWZkZmFmOTY3YjM2OTQxM2JjMjQ1MWNkN2EzOTQ2NWRhNzgzNmE2YzdhMTRlODc3In19fQ==
+      customModelData: 0
+      click-sound:
+        enabled: true
+        name: BLOCK_STONE_BUTTON_CLICK_ON
+        volume: 1
+        pitch: 2
+      lore:
+      - ''
+      - ' &8 ❙ &#FF4444Trạng thái'
+      - '  &8○ &cKho chưa được mở khóa!'
+      - ''
+      - ' &8 ❙ &#ADF3FDMô tả'
+      - '  &8○ &7Mở khóa thêm kho bằng tài nguyên'
+      - '  &8○ &7tại giao diện Nâng Cấp SL-Guild'
+      - ''
+      - '  &#E43A96Chuột phải&f để mở menu nâng cấp'
+    placeholders:
+      checkPermission:
+        'true': '  &#E43A96Chuột trái&f để mở kho đồ'
+        'false': '  &cBạn cần chức vụ %getRequiredRank% để mở.'
+
+  prevPage:
+    name: '&#83FF29◀ Trang Trước'
+    slot: 47
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM5NzExMjRiZTg5YWM3ZGM5YzkyOWZlOWI2ZWZhN2EwN2NlMzdjZTFkYTJkZjY5MWJmODY2MzQ2NzQ3N2M3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: UI_LOOM_SELECT_PATTERN
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Trở về trang %prevPage%'
+    - ''
+    - '  &#E43A96Nhấn&f để quay lại'
+
+  back:
+    name: '&#FDD500🔙 Quay Lại'
+    slot: 48
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - '  &#E43A96Nhấn&f để quay lại'
+
+  close:
+    name: '&#FF4444✕ Đóng'
+    slot: 49
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - '  &#E43A96Nhấn&f để thoát'
+
+  clanStorageInfo:
+    name: '&#ADF3FDℹ Thông Tin Kho Đồ'
+    slot: 50
+    type: material
+    value: BOOK
+    customModelData: 0
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#FDD500SL-Guild: %clanName%'
+    - '  &8○ &7Số lượng kho: &#83FF29%clanMaxStorage%&8/&#2ECC71%serverMaxStorage%'
+    - '  &8○ &7Tổng vật phẩm: &#FDD500%itemsStored%'
+
+  nextPage:
+    name: '&#83FF29▶ Trang Sau'
+    slot: 51
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY3MWM0YzA0MzM3YzM4YTVjN2YzMWE1Yzc1MWY5OTFlOTZjMDNkZjczMGNkYmVlOTkzMjA2NTVjMTlkIn19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: UI_LOOM_SELECT_PATTERN
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Chuyển sang trang %nextPage%'
+    - ''
+    - '  &#E43A96Nhấn&f để tiếp tục'

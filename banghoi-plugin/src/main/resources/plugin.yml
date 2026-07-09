@@ -1,0 +1,20 @@
+name: SL-Guild
+author: SoloLevelingProject
+version: '${project.version}'
+main: com.banghoi.BangHoi
+api-version: 1.16
+softdepend:
+  - Vault
+  - PlayerPoints
+  - PlaceholderAPI
+loadbefore:
+  - TurtleTop
+folia-supported: true
+commands:
+  clan:
+    aliases:
+      - slguild
+  clanadmin:
+    aliases:
+      - slguildadmin
+      - slguildad

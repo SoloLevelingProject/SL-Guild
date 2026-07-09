@@ -1,0 +1,92 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# Contribution Inventory
+
+title: '&0Cống Hiến - &#7526ad%formatClanName%'
+rows: 4
+items:
+  border:
+    enabled: true
+    name: ''
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    leave-blank:
+      - 11
+      - 15
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
+    lore:
+      - ''
+  close:
+    name: '&cĐóng'
+    slot: 31
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&eClick để đóng'
+  back:
+    name: '&eQuay Lại'
+    slot: 30
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&eClick để quay lại'
+  money-contribute:
+    name: '&eCống hiến tiền'
+    slot: 11
+    type: material
+    value: GOLD_INGOT
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'ENTITY_EXPERIENCE_ORB_PICKUP'
+      volume: 1
+      pitch: 1
+    lore:
+      - ''
+      - '&fSố tiền cần cống hiến: &e%amount%'
+      - '&fĐiểm cống hiến nhận được: &b%conghuan%'
+      - ''
+      - '&7Giới hạn: %maxTimes% lần/ngày'
+      - '&7Số lần còn lại: &e%timesRemaining%'
+      - '&7Thời gian còn lại: %cooldown%'
+      - ''
+      - '&eClick để cống hiến tiền'
+  conghuan-info:
+    name: '&bĐiểm Cống Hiến'
+    slot: 15
+    type: material
+    value: NETHER_STAR
+    customModelData: 0
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
+    lore:
+      - ''
+      - '&fTổng điểm cống hiến bang: &b%totalConghuan%'
+      - '&fĐiểm bạn đã cống hiến: &e%yourConghuan%'
+      - ''
+      - '&7Nguồn: Cống Hiến'

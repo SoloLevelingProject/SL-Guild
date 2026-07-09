@@ -1,0 +1,273 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by SoloLevelingProject
+#
+#  Lưu ý:
+#  * Bạn có thể chỉnh thành '' nếu muốn tắt dòng message đó
+#    đối với list thì chỉ cần một dòng (- '') là được
+#  * Có hỗ trợ hex color
+#  * Nhớ thêm dấu cách vào '' thành ' ' nếu bạn cho dòng đó
+#    không có gì nhưng ý của bạn là xuống dòng
+
+rank-display:
+  MEMBER: '&#83FF29Thành Viên'
+  MANAGER: '&#1D98D1Quản Lý'
+  LEADER: '&#FDD500Bang Chủ'
+
+currency-display:
+  VAULT:
+    symbol: '&6$'
+    name: '&6Tiền'
+  PLAYERPOINTS:
+    symbol: '&b۞'
+    name: '&bXu'
+
+status:
+  ENABLE: '&aĐang hoạt động'
+  DISABLE: '&cĐã bị ngừng hoạt động'
+
+subject:
+  name:
+    INVITE: Mời thành viên
+    KICK: Đuổi thành viên
+    SETCUSTOMNAME: Đổi tên hiển thị
+    SETICON: Đổi biểu tượng
+    SPAWN: Dịch chuyển về căn cứ
+    SETSPAWN: Thiết lập căn cứ
+    SETMESSAGE: Thiết lập lời nhắn
+    SETMANAGER: Thêm quản lý
+    REMOVEMANAGER: Bãi nhiệm quản lý
+    CHAT: Kênh chat bang hội
+    UPGRADE: Nâng cấp bang hội
+    MANAGEALLY: Thiết lập đồng minh
+    OPENSTORAGE: Mở kho bang
+  description:
+    INVITE: Gửi lời mời người chơi khác gia nhập bang
+    KICK: Trục xuất một thành viên ra khỏi bang
+    SETCUSTOMNAME: Thay đổi tên hiển thị của bang (hỗ trợ mã màu)
+    SETICON: Thay đổi biểu tượng đại diện của bang
+    SPAWN: Dịch chuyển về điểm căn cứ của bang
+    SETSPAWN: Thiết lập vị trí hiện tại làm căn cứ
+    SETMESSAGE: Thay đổi lời nhắn/thông báo chung của bang
+    SETMANAGER: Thăng chức một thành viên lên làm quản lý
+    REMOVEMANAGER: Tước quyền quản lý của một thành viên
+    CHAT: Bật hoặc tắt kênh trò chuyện nội bộ bang
+    UPGRADE: Mở giao diện nâng cấp bang hội
+    MANAGEALLY: Gửi yêu cầu và quản lý danh sách bang đồng minh
+    OPENSTORAGE: Mở và sử dụng kho đồ chung của bang
+
+online-status:
+  offline: '&cNGOẠI TUYẾN'
+  online: '&aTRỰC TUYẾN'
+
+unknown: Không rõ
+no-messages: <Chưa có lời nhắn>
+no-customname: <Chưa có tên hiển thị>
+
+time-format:
+  hh-mm-ss: '%hours% giờ %minutes% phút %seconds% giây'
+  mm-ss: '%minutes% phút %seconds% giây'
+  ss: '%seconds% giây'
+
+messages:
+  prefix: '&#ADF3FD&lSL-GUILD &8❙&r '
+  
+  clan-message:
+  - '&8&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+  - '  &#FDD500&lThông báo bang hội &#ADF3FD%formatClanName%'
+  - '  &f%message%'
+  - '&8&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
+
+  permission-required: '%prefix%&cBạn không có quyền thực hiện lệnh này! (&e%permission%&c)'
+  non-console-command: '%prefix%&cConsole không thể sử dụng lệnh này!'
+  command-confirmation: '%prefix%&eNhập lại lệnh một lần nữa để xác nhận.'
+  not-enough-currency: '%prefix%&cBạn không có đủ %currencySymbol%%price% %currencyName%&c.'
+  
+  illegal-minimum-clan-name-length: '%prefix%&cTên bang hội quá ngắn! (Tối thiểu: &e%minimumClanNameLength%&c)'
+  illegal-maximum-clan-name-length: '%prefix%&cTên bang hội quá dài! (Tối đa: &e%maximumClanNameLength%&c)'
+  prohibited-clan-name: '%prefix%&cTên &e%clanName%&c đã bị cấm sử dụng.'
+  prohibited-character: '%prefix%&cKý tự &e%character%&c không được phép dùng trong tên bang.'
+  
+  must-be-in-clan: '%prefix%&cBạn cần phải ở trong một bang hội để làm điều này.'
+  clan-cannot-be-the-same: '%prefix%&cBạn không thể thực hiện thao tác này với bang của chính mình.'
+  target-does-not-exist: '%prefix%&cDữ liệu của người chơi &e%player%&c không tồn tại.'
+  target-must-be-in-clan: '%prefix%&e%player%&c cần phải ở trong một bang hội.'
+  target-clan-membership-error: '%prefix%&e%player%&c không thuộc bang hội của bạn!'
+  target-clan-ally-membership-error: '%prefix%&e%clan%&c không phải là đồng minh của bang bạn.'
+  
+  required-rank: '%prefix%&cBạn cần đạt chức vụ %requiredRank%&c để thực hiện.'
+  invitation-rejection: '%prefix%&cHiện tại bạn không có lời mời gia nhập bang nào.'
+  already-in-clan: '%prefix%&cBạn đã thuộc về một bang hội rồi.'
+  clan-does-not-exist: '%prefix%&cBang hội &e%clan%&c không tồn tại.'
+  clan-is-full: '%prefix%&cBang hội &e%clan%&c đã đạt số lượng tối đa.'
+  join-clan-success: '%prefix%&aGia nhập bang hội &e%clan%&a thành công!'
+  
+  clan-already-exist: '%prefix%&cBang hội mang tên &e%clan%&c đã tồn tại.'
+  create-clan-success: '%prefix%&aTạo bang hội &e%clan%&a thành công!'
+  disband-notification: '%prefix%&cBang hội của bạn (&e%clan%&c) đã bị giải tán!'
+  disband-success: '%prefix%&aGiải tán bang hội &e%clan%&a thành công!'
+  disband-fail: '%prefix%&cGiải tán bang thất bại, vui lòng báo cáo lỗi cho Admin.'
+  
+  target-already-in-clan: '%prefix%&e%player%&c đã ở trong một bang hội khác.'
+  not-enough-member-slots: '%prefix%&cBang hội của bạn đã đạt giới hạn thành viên!'
+  target-invitation: '%prefix%&e%player%&c đang có một lời mời gia nhập bang chờ xử lý.'
+  invitation-success: '%prefix%&aĐã gửi lời mời gia nhập cho &e%player%&a. Họ có &e%seconds% giây&a để chấp nhận.'
+  
+  incoming-clan-invite: |
+    %prefix%&e%player%&a đang mời bạn vào bang hội &e%clan%&a.
+    &aBạn có &e%seconds% giây&a để phản hồi.
+    &#83FF29/clan accept&f - Chấp nhận
+    &#FF4444/clan deny&f - Từ chối
+    
+  invite-expired: '%prefix%&cLời mời gia nhập bang &e%clan%&c đã hết hạn.'
+  inviter-invite-expired: '%prefix%&cLời mời gửi đến &e%player%&c đã hết hạn.'
+  
+  self-kick-error: '%prefix%&cBạn không thể tự trục xuất chính mình.'
+  kick-leader-error: '%prefix%&cBạn không thể trục xuất Bang chủ!'
+  target-removal-success: '%prefix%&aĐã trục xuất &e%player%&a khỏi bang.'
+  kicked-from-clan: '%prefix%&cBạn đã bị trục xuất khỏi bang &e%clan%&c bởi &e%player%&c.'
+  
+  leader-cannot-leave: '%prefix%&cBạn là Bang Chủ nên không thể rời bang. Hãy nhường ngôi hoặc giải tán bang.'
+  leave-clan-success: '%prefix%&aBạn đã rời khỏi bang &e%clan%&a.'
+  rejected-clan-invite: '%prefix%&aĐã từ chối lời mời gia nhập bang &e%clan%&a.'
+  
+  set-custom-name-success: '%prefix%&aĐã đổi tên hiển thị thành &r%newCustomName%&a.'
+  set-message-success: '%prefix%&aĐã đổi lời nhắn bang thành &e%newMessage%&a.'
+  self-targeted-error: '%prefix%&cBạn không thể thao tác lên chính mình.'
+  
+  promote-to-owner-success: '%prefix%&aBạn đã nhường ngôi Bang Chủ cho &e%player%&a.'
+  promoted-to-owner: '%prefix%&a&lCHÚC MỪNG! &e%player%&a đã nhường ngôi Bang Chủ bang &e%clan%&a cho bạn!'
+  
+  already-a-manager: '%prefix%&e%player%&c hiện đã là Quản Lý.'
+  promote-to-manager-success: '%prefix%&aĐã thăng chức &e%player%&a lên làm Quản Lý.'
+  promoted-to-manager: '%prefix%&aBạn đã được thăng chức thành Quản Lý bởi &e%player%&a.'
+  not-a-manager: '%prefix%&e%player%&c không phải là Quản Lý.'
+  remove-a-manager-success: '%prefix%&aĐã tước quyền Quản Lý của &e%player%&a.'
+  manager-removed: '%prefix%&cBạn đã bị tước quyền Quản Lý bởi &e%player%&c.'
+  
+  already-an-ally: '%prefix%&e%clan%&c đã là đồng minh của bang bạn rồi.'
+  already-sent-ally-invite: '%prefix%&cBạn đã gửi lời mời đồng minh tới &e%clan%&c rồi.'
+  send-ally-invite-success: '%prefix%&aĐã gửi yêu cầu liên minh tới bang &e%clan%&a!'
+  accept-ally-invite-success: '%prefix%&aĐã chấp nhận liên minh với bang &e%clan%&a.'
+  reject-ally-invite-success: '%prefix%&aĐã từ chối liên minh với bang &e%clan%&a.'
+  remove-ally-success: '%prefix%&aĐã hủy bỏ liên minh với bang &e%clan%&a.'
+  
+  invalid-icon-value: '%prefix%&cBiểu tượng (Icon) không hợp lệ!'
+  set-icon-success: '%prefix%&aĐã đổi biểu tượng bang thành &e%value%&a.'
+  set-spawn-success: '%prefix%&aĐã đặt căn cứ tại: &eX:%x% Y:%y% Z:%z%&a thuộc thế giới &e%world%&a.'
+  unknown-spawn-point: '%prefix%&cBang hội chưa thiết lập căn cứ!'
+  spawn-point-count-down: '%prefix%&aĐang dịch chuyển trong &e%seconds% giây&a. Vui lòng đứng yên!'
+  move-while-spawning: '%prefix%&cBạn đã di chuyển, quá trình dịch chuyển bị hủy!'
+  spawn-success: '%prefix%&aĐã dịch chuyển về căn cứ bang hội.'
+  
+  change-permission: '%prefix%&aQuyền hạn &e%name%&a đã được thay đổi cấp bậc thành: %newRank%'
+  invalid-icon-type: '%prefix%&cLoại biểu tượng &e%iconType%&c không hợp lệ. Chỉ hỗ trợ: &bMATERIAL&c hoặc &bCUSTOMHEAD&c.'
+  
+  toggle-clan-chat-on: '%prefix%&aĐã &lBẬT&a kênh chat bang hội.'
+  toggle-clan-chat-off: '%prefix%&cĐã &lTẮT&c kênh chat bang hội.'
+  toggle-clan-pvp-on: '%prefix%&aĐã &lBẬT&a PvP bang hội! Bạn có thể tấn công người cùng bang.'
+  toggle-clan-pvp-off: '%prefix%&cĐã &lTẮT&c PvP bang hội an toàn.'
+  clan-member-pvp-deny: '%prefix%&cKhông thể tấn công đồng đội! Dùng lệnh &e/clan pvp&c để bật PvP bang.'
+  clan-member-pvp-deny-victim: '%prefix%&e%player%&c đang tắt tính năng PvP bang hội.'
+  
+  clan-set-spawn-black-list-world: '%prefix%&cThế giới này không cho phép thiết lập căn cứ!'
+  clan-spawn-black-list-world: '%prefix%&cKhông thể dịch chuyển tới thế giới chứa căn cứ. Hãy báo Bang Chủ dời căn cứ.'
+  last-page: '%prefix%&cBạn đang ở trang cuối cùng.'
+  feature-in-progress: '%prefix%&cTính năng này đang được phát triển...'
+  feature-disabled: '%prefix%&cTính năng này đã bị Admin vô hiệu hóa.'
+  invalid-location: '%prefix%&cKhông thể thao tác tại vị trí này!'
+  invalid-number: '%prefix%&cVui lòng nhập một con số hợp lệ!'
+  storage-locked: '%prefix%&cKho đồ &e#%storageNumber%&c chưa được mở khóa!'
+  storage-number-exceed-limit: '%prefix%&cSố thứ tự kho không thể lớn hơn &e%maxStorageNumber%&c.'
+
+  using-chat-box:
+    clan-chat: '&#ADF3FD[Bang] &r%rank% &f%player%&8 ⇨ &f%message%'
+    create-clan: '%prefix%&eNhập &ntên guild&e bạn muốn tạo vào ô chat.'
+    set-custom-name: '%prefix%&eNhập &nTên Hiển Thị&e mới vào ô chat.'
+    set-message: '%prefix%&eNhập &nLời Nhắn&e mới vào ô chat.'
+    cancel-using-chat-box: '&7Nhập &c%word%&7 để hủy bỏ thao tác.'
+    cancel-using-chat-box-success: '%prefix%&aĐã hủy thao tác nhập thành công.'
+    time-out: '%prefix%&cQuá thời gian chờ nhập dữ liệu!'
+
+  using-sign-input:
+    inventory-list-search: '%prefix%&eNhập nội dung cần tìm vào bảng. Bạn có &a%seconds%s&e.'
+    time-out: '%prefix%&cQuá thời gian nhập bảng!'
+
+  clan-broadcast:
+    prefix: '&#ADF3FD&lSL-GUILD &8❙&r '
+    invite-notification: '%prefix%&r%rank% &e%player%&a đã gửi lời mời gia nhập tới &e%target%&a.'
+    player-join-clan: '%prefix%&e%player%&a vừa gia nhập bang hội! Hãy chào mừng nào!'
+    player-removed-from-clan: '%prefix%&e%player%&c đã bị trục xuất bởi &r%rank% &e%by%&c.'
+    player-leave-clan: '%prefix%&e%player%&c đã rời khỏi bang hội.'
+    player-reject-to-join: '%prefix%&e%player%&c đã từ chối lời mời gia nhập.'
+    set-custom-name: '%prefix%&r%rank% &e%player%&a đã đổi tên hiển thị bang thành &r%newCustomName%&a.'
+    set-message: '%prefix%&r%rank% &e%player%&a đã đổi lời nhắn bang thành: &e%newMessage%&a'
+    member-promoted-to-owner: '%prefix%&r%rank% &e%player%&a đã nhường ngôi Bang Chủ cho &e%target%&a.'
+    member-promoted-to-manager: '%prefix%&e%player%&a vừa được thăng chức Quản Lý bởi &r%rank% &e%by%&a.'
+    manager-removed: '%prefix%&r%rank% &e%player%&c đã bãi nhiệm chức vụ của &e%target%&c.'
+    receive-ally-invite: '%prefix%&aBang &e%clan%&a vừa gửi lời mời liên minh. Kiểm tra trong Quản Lý Đồng Minh.'
+    new-ally-notification: '%prefix%&aBang &e%clan%&a đã trở thành đồng minh của chúng ta!'
+    remove-ally-notification: '%prefix%&r%rank% &e%player%&c đã hủy liên minh với bang &e%clan%&c.'
+    ally-removed-notification: '%prefix%&cBang &e%player%&c đã chấm dứt liên minh với bang chúng ta.'
+    upgrade-max-members: '%prefix%&r%rank% &e%player%&a đã nâng cấp giới hạn thành viên lên &e%newMaxMembers%&a.'
+    upgrade-max-storages: '%prefix%&r%rank% &e%player%&a đã mở rộng thêm kho đồ! (Tối đa: &e%newMaxStorages%&a).'
+    set-icon: '%prefix%&r%rank% &e%player%&a đã cập nhật biểu tượng mới cho bang.'
+    set-spawn: '%prefix%&r%rank% &e%player%&a đã di dời căn cứ đến vị trí mới.'
+    change-permission: '%prefix%&r%rank% &e%player%&a đã thay đổi quyền hạn chức vụ.'
+
+  commands:
+    slguild:
+      messages:
+        non-clan-commands:
+        - ' '
+        - '&#ADF3FD&lSL-Guild &8(v%version%)'
+        - ' '
+        - '  &#ADF3FD/clan create <tên> &8- &fTạo guild mới'
+        - '  &#ADF3FD/clan accept &8- &fChấp nhận lời mời'
+        - '  &#ADF3FD/clan deny &8- &fTừ chối lời mời'
+        - '  &#ADF3FD/clan info <tên> &8- &fXem thông tin một guild'
+        - '  &#ADF3FD/clan list &8- &fXem danh sách guild'
+        - ' '
+        in-clan-commands:
+          messages: |2
+            
+            &#ADF3FD&lSL-Guild &8(v%version%)
+            %memberCommands%
+            %managerCommands%
+            %leaderCommands%
+          placeholder:
+            memberCommands:
+              messages: |
+                &r
+                &#83FF29■ Lệnh Thành Viên:
+                &#ADF3FD/clan menu &8- &fMở giao diện guild
+                &#ADF3FD/clan list &8- &fXem danh sách guild
+                &#ADF3FD/clan info <tên> &8- &fXem thông tin guild
+                &#ADF3FD/clan leave &8- &fRời guild
+                &#ADF3FD/clan pvp &8- &fBật/tắt sát thương đồng đội
+                %command%
+              placeholder:
+                command: '&#ADF3FD/clan %command% &8- &f%description%'
+            managerCommands:
+              messages: |
+                &r
+                &#1D98D1■ Lệnh Quản Lý:
+                %command%
+              placeholder:
+                command: '&#ADF3FD/clan %command% &8- &f%description%'
+            leaderCommands:
+              messages: |
+                &r
+                &#FDD500■ Lệnh Bang Chủ:
+                &#ADF3FD/clan setting &8- &fThiết lập quyền hạn
+                &#ADF3FD/clan upgrade &8- &fNâng cấp guild
+                &#ADF3FD/clan setowner &8- &fChuyển quyền Bang Chủ
+                &#ADF3FD/clan disband &8- &fGiải tán guild
+                %command%
+              placeholder:
+                command: '&#ADF3FD/clan %command% &8- &f%description%'
