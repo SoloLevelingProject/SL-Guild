@@ -37,7 +37,7 @@ items:
     - ''
 
   upgradeMaxMember:
-    name: '&#83FF29👥 Nâng Cấp Giới Hạn Thành Viên'
+    name: '&#83FF29👥 Nâng Cấp Level Guild'
     slot: 11
     type: customhead
     value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzVjNWY1NTE4MzRhNTYzZGQ5N2JiNDcwMGJkZjQ4MTk3YTNiY2QwOTc0YTJjYzI2NzMyOWI0YTU5ZDcyYzY3OSJ9fX0=
@@ -50,8 +50,10 @@ items:
     lore:
     - ''
     - ' &8 ❙ &#ADF3FDMô tả'
-    - '  &8○ &7Thành viên hiện tại: &#83FF29%totalMembers%'
-    - '  &8○ &7Nâng cấp tối đa lên: &#2ECC71%newMaxMembers%'
+    - '  &8○ &7Level hiện tại: &#83FF29%currentLevel%'
+    - '  &8○ &7Level tiếp theo: &#2ECC71%newLevel%'
+    - '  &8○ &7Thành viên: &#83FF29%totalMembers%&7/&#83FF29%maxMembers%'
+    - '  &8○ &7Mở khóa tối đa: &#2ECC71%newMaxMembers%'
     - ''
     - ' &8 ❙ &#FDD500Chi phí'
     - '  &8○ &7Giá: &#FDD500%price% %currencySymbol%'

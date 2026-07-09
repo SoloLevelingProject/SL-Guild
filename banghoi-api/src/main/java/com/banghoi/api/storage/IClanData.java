@@ -46,6 +46,10 @@ public interface IClanData {
 
     void setMaxMembers(int maxMembers);
 
+    int getLevel();
+
+    void setLevel(int level);
+
     long getCreatedDate();
 
     void setCreatedDate(long createdDate);

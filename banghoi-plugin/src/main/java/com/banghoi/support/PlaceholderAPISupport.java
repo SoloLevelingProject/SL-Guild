@@ -98,6 +98,9 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
         if (s.equalsIgnoreCase("warning"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING.replace("%value%",
                     String.valueOf(clanData.getWarning()));
+        if (s.equalsIgnoreCase("level"))
+            return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_LEVEL.replace("%value%",
+                    String.valueOf(clanData.getLevel()));
         if (s.equalsIgnoreCase("maxmembers"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS.replace("%value%",
                     String.valueOf(clanData.getMaxMembers()));

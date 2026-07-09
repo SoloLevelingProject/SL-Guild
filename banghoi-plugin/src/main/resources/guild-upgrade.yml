@@ -1,0 +1,9 @@
+default-member: 10
+default-level: 1
+guild-upgrade:
+  2:
+    max-member: 10
+    vault-require: 100000
+  3:
+    max-member: 20
+    vault-require: 200000

@@ -7,6 +7,7 @@ import com.banghoi.api.enums.Rank;
 import com.banghoi.api.enums.Subject;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.api.storage.IPlayerData;
+import com.banghoi.clan.UpgradeManager;
 import com.banghoi.util.MessageUtil;
 import com.banghoi.util.StringUtil;
 import com.google.gson.Gson;
@@ -59,6 +60,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                     " SCORE INTEGER, " +
                     " WARNING INTEGER, " +
                     " MAXMEMBERS INTEGER, " +
+                    " GUILDLEVEL INTEGER, " +
                     " CREATEDDATE INTEGER, " +
                     " ICONTYPE TEXT, " +
                     " ICONVALUE TEXT, " +
@@ -86,6 +88,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
             addColumnIfMissing(statement, clanTable, "STORAGE", "TEXT");
             addColumnIfMissing(statement, clanTable, "MAXSTORAGE", "INTEGER");
             addColumnIfMissing(statement, clanTable, "CONGHUAN", "INTEGER");
+            addColumnIfMissing(statement, clanTable, "GUILDLEVEL", "INTEGER");
             addColumnIfMissing(statement, clanTable, "SPAWNPOINTYAW", "REAL");
             addColumnIfMissing(statement, clanTable, "SPAWNPOINTPITCH", "REAL");
 
@@ -159,11 +162,11 @@ public class PluginDataSQLiteStorage implements PluginStorage {
     private static void initClanData(String clanName) {
         String sql = "INSERT INTO " + clanTable + " (" +
                 "NAME, CUSTOMNAME, OWNER, MESSAGE, SCORE, WARNING, " +
-                "MAXMEMBERS, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
+                "MAXMEMBERS, GUILDLEVEL, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
                 "SPAWNPOINTWORLD, SPAWNPOINTX, SPAWNPOINTY, SPAWNPOINTZ, SPAWNPOINTYAW, SPAWNPOINTPITCH, " +
                 "ALLIES, SUBJECTPERMISSION, ALLYINVITATION, " +
                 "DISCORDCHANNELID, DISCORDJOINLINK, STORAGE, MAXSTORAGE, CONGHUAN) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, clanName); // NAME
             preparedStatement.setString(2, ""); // CUSTOMNAME
@@ -172,24 +175,25 @@ public class PluginDataSQLiteStorage implements PluginStorage {
             preparedStatement.setInt(5, 0); // SCORE
             preparedStatement.setInt(6, 0); // WARNING
             preparedStatement.setInt(7, 0); // MAXMEMBERS
-            preparedStatement.setInt(8, 0); // CREATEDDATE
-            preparedStatement.setString(9, ""); // ICONTYPE
-            preparedStatement.setString(10, ""); // ICONVALUE
-            preparedStatement.setString(11, ""); // MEMBERS
-            preparedStatement.setString(12, ""); // SPAWNPOINTWORLD
-            preparedStatement.setInt(13, 0); // SPAWNPOINTX
-            preparedStatement.setInt(14, 0); // SPAWNPOINTY
-            preparedStatement.setInt(15, 0); // SPAWNPOINTZ
-            preparedStatement.setInt(16, 0); // SPAWNPOINTYAW
-            preparedStatement.setInt(17, 0); // SPAWNPOINTPITCH
-            preparedStatement.setString(18, ""); // ALLIES
-            preparedStatement.setString(19, ""); // SUBJECTPERMISSION
-            preparedStatement.setString(20, ""); // ALLYINVITATION
-            preparedStatement.setLong(21, 0L); // DISCORDCHANNELID
-            preparedStatement.setString(22, ""); // DISCORDJOINLINK
-            preparedStatement.setString(23, ""); // STORAGE
-            preparedStatement.setInt(24, 0); // MAXSTORAGE
-            preparedStatement.setLong(25, 0); // CONGHUAN
+            preparedStatement.setInt(8, 0); // GUILDLEVEL
+            preparedStatement.setInt(9, 0); // CREATEDDATE
+            preparedStatement.setString(10, ""); // ICONTYPE
+            preparedStatement.setString(11, ""); // ICONVALUE
+            preparedStatement.setString(12, ""); // MEMBERS
+            preparedStatement.setString(13, ""); // SPAWNPOINTWORLD
+            preparedStatement.setInt(14, 0); // SPAWNPOINTX
+            preparedStatement.setInt(15, 0); // SPAWNPOINTY
+            preparedStatement.setInt(16, 0); // SPAWNPOINTZ
+            preparedStatement.setInt(17, 0); // SPAWNPOINTYAW
+            preparedStatement.setInt(18, 0); // SPAWNPOINTPITCH
+            preparedStatement.setString(19, ""); // ALLIES
+            preparedStatement.setString(20, ""); // SUBJECTPERMISSION
+            preparedStatement.setString(21, ""); // ALLYINVITATION
+            preparedStatement.setLong(22, 0L); // DISCORDCHANNELID
+            preparedStatement.setString(23, ""); // DISCORDJOINLINK
+            preparedStatement.setString(24, ""); // STORAGE
+            preparedStatement.setInt(25, 0); // MAXSTORAGE
+            preparedStatement.setLong(26, 0); // CONGHUAN
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -236,6 +240,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                 0,
                 0,
                 Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
+                UpgradeManager.getDefaultLevel(),
                 new Date().getTime(),
                 ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
@@ -264,7 +269,11 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                 clanData.setMessage(resultSet.getString("MESSAGE"));
                 clanData.setScore(resultSet.getInt("SCORE"));
                 clanData.setWarning(resultSet.getInt("WARNING"));
-                clanData.setMaxMembers(resultSet.getInt("MAXMEMBERS"));
+                int level = resultSet.getInt("GUILDLEVEL");
+                if (level == 0)
+                    level = UpgradeManager.getLevelForMaxMembers(resultSet.getInt("MAXMEMBERS"));
+                clanData.setLevel(level);
+                clanData.setMaxMembers(UpgradeManager.getMaxMembersForLevel(level));
                 clanData.setCreatedDate(resultSet.getLong("CREATEDDATE"));
                 clanData.setIconType(ItemType.valueOf(resultSet.getString("ICONTYPE").toUpperCase()));
                 clanData.setIconValue(resultSet.getString("ICONVALUE"));
@@ -352,6 +361,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                 + " SCORE = ?,"
                 + " WARNING = ?,"
                 + " MAXMEMBERS = ?,"
+                + " GUILDLEVEL = ?,"
                 + " CREATEDDATE = ?,"
                 + " ICONTYPE = ?,"
                 + " ICONVALUE = ?,"
@@ -381,33 +391,34 @@ public class PluginDataSQLiteStorage implements PluginStorage {
             preparedStatement.setInt(5, clanData.getScore());
             preparedStatement.setInt(6, clanData.getWarning());
             preparedStatement.setInt(7, clanData.getMaxMembers());
-            preparedStatement.setLong(8, clanData.getCreatedDate());
-            preparedStatement.setString(9, clanData.getIconType().toString().toUpperCase());
-            preparedStatement.setString(10, clanData.getIconValue());
-            preparedStatement.setString(11, gson.toJson(clanData.getMembers()));
+            preparedStatement.setInt(8, clanData.getLevel());
+            preparedStatement.setLong(9, clanData.getCreatedDate());
+            preparedStatement.setString(10, clanData.getIconType().toString().toUpperCase());
+            preparedStatement.setString(11, clanData.getIconValue());
+            preparedStatement.setString(12, gson.toJson(clanData.getMembers()));
             if (clanData.getSpawnPoint() != null) {
                 String spawnWorldName = clanData.getSpawnPoint().getWorld() != null
                         ? clanData.getSpawnPoint().getWorld().getName()
                         : clanData instanceof ClanData cd ? cd.getSpawnWorldName() : null;
-                preparedStatement.setString(12, spawnWorldName);
-                preparedStatement.setDouble(13, clanData.getSpawnPoint().getX());
-                preparedStatement.setDouble(14, clanData.getSpawnPoint().getY());
-                preparedStatement.setDouble(15, clanData.getSpawnPoint().getZ());
-                preparedStatement.setDouble(16, clanData.getSpawnPoint().getYaw());
-                preparedStatement.setDouble(17, clanData.getSpawnPoint().getPitch());
+                preparedStatement.setString(13, spawnWorldName);
+                preparedStatement.setDouble(14, clanData.getSpawnPoint().getX());
+                preparedStatement.setDouble(15, clanData.getSpawnPoint().getY());
+                preparedStatement.setDouble(16, clanData.getSpawnPoint().getZ());
+                preparedStatement.setDouble(17, clanData.getSpawnPoint().getYaw());
+                preparedStatement.setDouble(18, clanData.getSpawnPoint().getPitch());
             } else {
-                preparedStatement.setString(12, null);
-                preparedStatement.setDouble(13, 0);
+                preparedStatement.setString(13, null);
                 preparedStatement.setDouble(14, 0);
                 preparedStatement.setDouble(15, 0);
                 preparedStatement.setDouble(16, 0);
                 preparedStatement.setDouble(17, 0);
+                preparedStatement.setDouble(18, 0);
             }
-            preparedStatement.setString(18, gson.toJson(clanData.getAllies()));
-            preparedStatement.setString(19, gson.toJson(clanData.getSubjectPermission()));
-            preparedStatement.setString(20, gson.toJson(clanData.getAllyInvitation()));
-            preparedStatement.setLong(21, clanData.getDiscordChannelID());
-            preparedStatement.setString(22, clanData.getDiscordJoinLink());
+            preparedStatement.setString(19, gson.toJson(clanData.getAllies()));
+            preparedStatement.setString(20, gson.toJson(clanData.getSubjectPermission()));
+            preparedStatement.setString(21, gson.toJson(clanData.getAllyInvitation()));
+            preparedStatement.setLong(22, clanData.getDiscordChannelID());
+            preparedStatement.setString(23, clanData.getDiscordJoinLink());
 
             // LAZY SAVING: sync dirty live pages, then write serialized storage directly.
             // Avoids re-serializing pages that haven't been modified.
@@ -436,10 +447,10 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                 }
             }
 
-            preparedStatement.setString(23, gson.toJson(clanInventoryBase64Converted));
-            preparedStatement.setInt(24, clanData.getMaxStorage());
-            preparedStatement.setLong(25, 0); // CONGHUAN (legacy, no longer used)
-            preparedStatement.setString(26, clanData.getName());
+            preparedStatement.setString(24, gson.toJson(clanInventoryBase64Converted));
+            preparedStatement.setInt(25, clanData.getMaxStorage());
+            preparedStatement.setLong(26, 0); // CONGHUAN (legacy, no longer used)
+            preparedStatement.setString(27, clanData.getName());
             preparedStatement.executeUpdate();
         } catch (Exception exception) {
             exception.printStackTrace();

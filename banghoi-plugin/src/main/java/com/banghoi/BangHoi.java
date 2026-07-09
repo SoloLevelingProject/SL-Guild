@@ -5,6 +5,7 @@ import com.banghoi.api.server.VersionSupport;
 import com.banghoi.command.ClanAdminCommand;
 import com.banghoi.command.ClanCommand;
 import com.banghoi.clan.ClanManager;
+import com.banghoi.file.GuildUpgradeFile;
 import com.banghoi.file.UpgradeFile;
 import com.banghoi.file.inventory.*;
 import com.banghoi.language.English;
@@ -211,6 +212,29 @@ public class BangHoi extends JavaPlugin {
         }
         UpgradeFile.reload();
         MessageUtil.debug("LOADING FILE", "Loaded upgrade.yml.");
+
+        // guild-upgrade.yml
+        String guildUpgradeFileName = "guild-upgrade.yml";
+        File guildUpgradeFile = new File(getDataFolder() + "/guild-upgrade.yml");
+        if (!guildUpgradeFile.exists()) {
+            try {
+                GuildUpgradeFile.setup();
+                GuildUpgradeFile.saveDefault();
+                ConfigUpdater.update(this, guildUpgradeFileName, guildUpgradeFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                GuildUpgradeFile.setup();
+                GuildUpgradeFile.saveDefault();
+                ConfigUpdater.update(this, guildUpgradeFileName, guildUpgradeFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        GuildUpgradeFile.reload();
+        MessageUtil.debug("LOADING FILE", "Loaded guild-upgrade.yml.");
     }
 
     public void initLanguages() {

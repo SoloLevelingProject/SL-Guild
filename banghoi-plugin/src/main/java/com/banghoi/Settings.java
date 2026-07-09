@@ -2,6 +2,7 @@ package com.banghoi;
 
 import com.banghoi.api.enums.Rank;
 import com.banghoi.api.enums.Subject;
+import com.banghoi.clan.UpgradeManager;
 import com.banghoi.util.MessageUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -72,6 +73,7 @@ public class Settings {
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MESSAGE;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_LEVEL;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_CREATEDDATE;
@@ -131,8 +133,7 @@ public class Settings {
                                 .getString("clan-settings.creating-clan-settings.currency-requirement.type");
                 CLAN_SETTING_CREATE_CURRENCY = configuration
                                 .getLong("clan-settings.creating-clan-settings.currency-requirement.value");
-                CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT = configuration
-                                .getInt("clan-settings.creating-clan-settings.maximum-member-default");
+                CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT = UpgradeManager.getDefaultMaxMembers();
                 CLAN_SETTING_ICON_DEFAULT_TYPE = configuration
                                 .getString("clan-settings.creating-clan-settings.icon-default.type");
                 CLAN_SETTING_ICON_DEFAULT_VALUE = configuration
@@ -210,6 +211,8 @@ public class Settings {
                                 .getString("soft-depends.placeholderapi.placeholders.score");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING = configuration
                                 .getString("soft-depends.placeholderapi.placeholders.warning");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_LEVEL = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.level");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS = configuration
                                 .getString("soft-depends.placeholderapi.placeholders.maxmembers");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE = configuration

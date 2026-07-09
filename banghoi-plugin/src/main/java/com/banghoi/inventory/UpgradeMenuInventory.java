@@ -87,15 +87,23 @@ public class UpgradeMenuInventory extends BangHoiInventoryBase {
                 return true;
             }
 
-            CurrencyType upgradeMaxMembersCT = CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.max-members.currency-type").toUpperCase());
-            int newMaxMembers = playerClanData.getMaxMembers() + 1;
-            long value = UpgradeFile.get().getLong("upgrade.max-members.price." + newMaxMembers);
-            if (!(UpgradeFile.get().getConfigurationSection("upgrade.max-members.price").getKeys(false).contains(String.valueOf(newMaxMembers))))
-                value = UpgradeFile.get().getLong("upgrade.max-members.price.else");
-            if (UpgradeManager.checkPlayerCurrency(getOwner(), upgradeMaxMembersCT, value, true)) {
+            int newLevel = playerClanData.getLevel() + 1;
+            if (!UpgradeManager.hasLevel(newLevel)) {
+                MessageUtil.sendMessage(getOwner(), Messages.CLAN_MAX_LEVEL);
+                return true;
+            }
+
+            int newMaxMembers = UpgradeManager.getMaxMembersForLevel(newLevel);
+            long value = UpgradeManager.getVaultRequireForLevel(newLevel);
+            if (UpgradeManager.checkPlayerCurrency(getOwner(), CurrencyType.VAULT, value, true)) {
+                playerClanData.setLevel(newLevel);
                 playerClanData.setMaxMembers(newMaxMembers);
                 PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
-                ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_UPGRADE_MAX_MEMBERS.replace("%player%", getOwner().getName()).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank())).replace("%newMaxMembers%", String.valueOf(playerClanData.getMaxMembers())));
+                ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_UPGRADE_MAX_MEMBERS
+                        .replace("%player%", getOwner().getName())
+                        .replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank()))
+                        .replace("%newLevel%", String.valueOf(playerClanData.getLevel()))
+                        .replace("%newMaxMembers%", String.valueOf(playerClanData.getMaxMembers())));
                 super.open();
             }
         }
@@ -160,18 +168,18 @@ public class UpgradeMenuInventory extends BangHoiInventoryBase {
             inventory.setItem(upgradeMaxMemberItemSlot, upgradeMaxStoragesItem);
 
             List<String> upgradeMaxMembersItemLore = new ArrayList<>();
-            int newMaxMembers = playerClanData.getMaxMembers() + 1;
-            CurrencyType upgradeMaxMembersCurrencyType = CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.max-members.currency-type").toUpperCase());
+            int newLevel = playerClanData.getLevel() + 1;
+            int newMaxMembers = UpgradeManager.getMaxMembersForLevel(newLevel);
+            long price = UpgradeManager.getVaultRequireForLevel(newLevel);
             for (String lore : fileConfiguration.getStringList("items.upgradeMaxMember.lore")) {
                 lore = lore.replace("%totalMembers%", String.valueOf(playerClanData.getMembers().size()));
+                lore = lore.replace("%currentLevel%", String.valueOf(playerClanData.getLevel()));
+                lore = lore.replace("%newLevel%", UpgradeManager.hasLevel(newLevel) ? String.valueOf(newLevel) : "MAX");
+                lore = lore.replace("%maxMembers%", String.valueOf(playerClanData.getMaxMembers()));
                 lore = lore.replace("%newMaxMembers%", String.valueOf(newMaxMembers));
-                lore = lore.replace("%currencySymbol%", StringUtil.getCurrencySymbolFormat(upgradeMaxMembersCurrencyType));
-                lore = lore.replace("%currencyName%", StringUtil.getCurrencyNameFormat(upgradeMaxMembersCurrencyType));
-                if (UpgradeFile.get().getConfigurationSection("upgrade.max-members.price").getKeys(false).contains(String.valueOf(newMaxMembers))) {
-                    lore = lore.replace("%price%", String.valueOf(UpgradeFile.get().getLong("upgrade.max-members.price." + newMaxMembers)));
-                } else {
-                    lore = lore.replace("%price%", String.valueOf(UpgradeFile.get().getLong("upgrade.max-members.price.else")));
-                }
+                lore = lore.replace("%currencySymbol%", StringUtil.getCurrencySymbolFormat(CurrencyType.VAULT));
+                lore = lore.replace("%currencyName%", StringUtil.getCurrencyNameFormat(CurrencyType.VAULT));
+                lore = lore.replace("%price%", UpgradeManager.hasLevel(newLevel) ? String.valueOf(price) : "MAX");
                 upgradeMaxMembersItemLore.add(lore);
             }
             ItemStack upgradeMaxMembersItem = BangHoi.nms.addCustomData(ItemUtil.getItem(

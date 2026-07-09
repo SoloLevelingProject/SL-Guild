@@ -76,8 +76,6 @@ clan-settings:
       enabled: true
       type: VAULT
       value: 1000
-    # Default maximum number of members.
-    maximum-member-default: 5
     # Default clan icon upon creation.
     icon-default:
       type: MATERIAL
@@ -235,6 +233,7 @@ soft-depends:
       message: '%value%'
       score: '%value%'
       warning: '%value%'
+      level: '%value%'
       maxmembers: '%value%'
       createddate: '%value%'
       format_createddate: '%value%'

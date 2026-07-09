@@ -49,6 +49,7 @@ public class Messages {
         public static String ALREADY_IN_CLAN;
         public static String CLAN_DOES_NOT_EXIST;
         public static String CLAN_IS_FULL;
+        public static String CLAN_MAX_LEVEL;
         public static String JOIN_CLAN_SUCCESS;
         public static String CLAN_ALREADY_EXIST;
         public static String CREATE_CLAN_SUCCESS;
@@ -211,6 +212,7 @@ public class Messages {
                 ALREADY_IN_CLAN = fileConfiguration.getString("messages.already-in-clan");
                 CLAN_DOES_NOT_EXIST = fileConfiguration.getString("messages.clan-does-not-exist");
                 CLAN_IS_FULL = fileConfiguration.getString("messages.clan-is-full");
+                CLAN_MAX_LEVEL = fileConfiguration.getString("messages.clan-max-level");
                 JOIN_CLAN_SUCCESS = fileConfiguration.getString("messages.join-clan-success");
                 CLAN_ALREADY_EXIST = fileConfiguration.getString("messages.clan-already-exist");
                 CREATE_CLAN_SUCCESS = fileConfiguration.getString("messages.create-clan-success");

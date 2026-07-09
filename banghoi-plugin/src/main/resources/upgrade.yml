@@ -29,17 +29,3 @@ upgrade:
       # This value is returned when the input is not listed above.
       # Do not delete this line.
       else: 100
-  max-members:
-    # currency-type: VAULT, PLAYERPOINTS
-    currency-type: VAULT
-    # max member: cost
-    # can be added or removed.
-    price:
-      6: 10
-      7: 20
-      8: 30
-      9: 40
-      10: 50
-      # This value is returned when the input is not listed above.
-      # Do not delete this line.
-      else: 100

@@ -8,6 +8,7 @@ import com.banghoi.api.enums.Subject;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.api.storage.IPlayerData;
 import com.banghoi.clan.ClanManager;
+import com.banghoi.clan.UpgradeManager;
 import com.banghoi.util.FileNameUtil;
 import com.banghoi.util.StringUtil;
 import com.cryptomorin.xseries.XMaterial;
@@ -60,7 +61,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
         ClanData clanData = new ClanData(clanName, null, null, null, 0, 0, Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
-                new Date().getTime(), ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
+                UpgradeManager.getDefaultLevel(), new Date().getTime(), ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE, members, null, allies, permissionDefault, allyInvitation, 0,
                 null, newInventory, Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
 
@@ -77,6 +78,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
             clanData.setWarning(storage.getInt("data.warn"));
             clanData.setCreatedDate(storage.getLong("data.ngay_thanh_lap"));
             clanData.setMaxMembers(storage.getInt("data.thanh_vien_toi_da"));
+            clanData.setLevel(UpgradeManager.getLevelForMaxMembers(clanData.getMaxMembers()));
             for (String player : storage.getStringList("data.thanh_vien"))
                 clanData.getMembers().add(player);
 
@@ -120,7 +122,9 @@ public class PluginDataYAMLStorage implements PluginStorage {
             clanData.setScore(storage.getInt("data.score"));
             clanData.setWarning(storage.getInt("data.warning"));
             clanData.setCreatedDate(storage.getLong("data.created-date"));
-            clanData.setMaxMembers(storage.getInt("data.max-members"));
+            int level = storage.getInt("data.level", UpgradeManager.getLevelForMaxMembers(storage.getInt("data.max-members")));
+            clanData.setLevel(level);
+            clanData.setMaxMembers(UpgradeManager.getMaxMembersForLevel(level));
             clanData.setMembers(storage.getStringList("data.members"));
         }
 
@@ -205,6 +209,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
         storage.set("data.message", clanData.getMessage());
         storage.set("data.score", clanData.getScore());
         storage.set("data.created-date", clanData.getCreatedDate());
+        storage.set("data.level", clanData.getLevel());
         storage.set("data.max-members", clanData.getMaxMembers());
         storage.set("data.members", clanData.getMembers());
         storage.set("data.allies", clanData.getAllies());

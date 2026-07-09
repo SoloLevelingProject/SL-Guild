@@ -105,6 +105,7 @@ messages:
   already-in-clan: '%prefix%&cBạn đã thuộc về một bang hội rồi.'
   clan-does-not-exist: '%prefix%&cBang hội &e%clan%&c không tồn tại.'
   clan-is-full: '%prefix%&cBang hội &e%clan%&c đã đạt số lượng tối đa.'
+  clan-max-level: '%prefix%&cGuild của bạn đã đạt level tối đa.'
   join-clan-success: '%prefix%&aGia nhập bang hội &e%clan%&a thành công!'
   
   clan-already-exist: '%prefix%&cBang hội mang tên &e%clan%&c đã tồn tại.'
@@ -214,7 +215,7 @@ messages:
     new-ally-notification: '%prefix%&aBang &e%clan%&a đã trở thành đồng minh của chúng ta!'
     remove-ally-notification: '%prefix%&r%rank% &e%player%&c đã hủy liên minh với bang &e%clan%&c.'
     ally-removed-notification: '%prefix%&cBang &e%player%&c đã chấm dứt liên minh với bang chúng ta.'
-    upgrade-max-members: '%prefix%&r%rank% &e%player%&a đã nâng cấp giới hạn thành viên lên &e%newMaxMembers%&a.'
+    upgrade-max-members: '%prefix%&r%rank% &e%player%&a đã nâng cấp guild lên level &e%newLevel%&a và mở khóa &e%newMaxMembers%&a slot thành viên.'
     upgrade-max-storages: '%prefix%&r%rank% &e%player%&a đã mở rộng thêm kho đồ! (Tối đa: &e%newMaxStorages%&a).'
     set-icon: '%prefix%&r%rank% &e%player%&a đã cập nhật biểu tượng mới cho bang.'
     set-spawn: '%prefix%&r%rank% &e%player%&a đã di dời căn cứ đến vị trí mới.'
