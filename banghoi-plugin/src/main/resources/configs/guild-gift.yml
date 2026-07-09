@@ -1,0 +1,10 @@
+guild-gift:
+  1:
+    commands:
+      - 'console:money give {Player} 1000'
+  2:
+    commands:
+      - 'console:money give {Player} 2000'
+  3:
+    commands:
+      - 'console:money give {Player} 3000'

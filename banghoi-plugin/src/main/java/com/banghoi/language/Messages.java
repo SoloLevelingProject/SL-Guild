@@ -123,6 +123,9 @@ public class Messages {
         public static String GUILD_MAINTENANCE_PAY_DEBT_NOT_ENOUGH;
         public static String GUILD_MAINTENANCE_NO_DEBT;
         public static String GUILD_MAINTENANCE_DISBANDED;
+        public static String GUILD_GIFT_CLAIM_SUCCESS;
+        public static String GUILD_GIFT_ALREADY_CLAIMED;
+        public static String GUILD_GIFT_NO_GIFT;
         public static String USING_CHAT_BOX_CLAN_CHAT;
         public static String USING_CHAT_BOX_CREATE_CLAN;
         public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
@@ -298,6 +301,9 @@ public class Messages {
                 GUILD_MAINTENANCE_PAY_DEBT_NOT_ENOUGH = fileConfiguration.getString("messages.guild-maintenance.pay-debt-not-enough");
                 GUILD_MAINTENANCE_NO_DEBT = fileConfiguration.getString("messages.guild-maintenance.no-debt");
                 GUILD_MAINTENANCE_DISBANDED = fileConfiguration.getString("messages.guild-maintenance.disbanded");
+                GUILD_GIFT_CLAIM_SUCCESS = fileConfiguration.getString("messages.guild-gift.claim-success");
+                GUILD_GIFT_ALREADY_CLAIMED = fileConfiguration.getString("messages.guild-gift.already-claimed");
+                GUILD_GIFT_NO_GIFT = fileConfiguration.getString("messages.guild-gift.no-gift");
                 USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");
                 USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
                 USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");

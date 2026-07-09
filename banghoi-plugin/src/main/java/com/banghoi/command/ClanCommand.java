@@ -8,6 +8,7 @@ import com.banghoi.api.enums.Subject;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.api.storage.IPlayerData;
 import com.banghoi.clan.ClanManager;
+import com.banghoi.clan.GuildGiftManager;
 import com.banghoi.clan.GuildMaintenanceManager;
 import com.banghoi.clan.subject.*;
 import com.banghoi.inventory.*;
@@ -180,6 +181,10 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
             }
             if (args[0].equalsIgnoreCase("trano")) {
                 handlePayMaintenanceDebt(player);
+                return false;
+            }
+            if (args[0].equalsIgnoreCase("qua") || args[0].equalsIgnoreCase("gift") || args[0].equalsIgnoreCase("nhanqua")) {
+                GuildGiftManager.claim(player);
                 return false;
             }
         }
@@ -524,6 +529,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 commands.add("quy");
                 commands.add("lichsuquy");
                 commands.add("trano");
+                commands.add("qua");
                 if (playerData.getRank() == Rank.LEADER || playerData.getRank() == Rank.MANAGER)
                     commands.add("rutien");
                 commands.add("menu");

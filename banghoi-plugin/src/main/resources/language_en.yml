@@ -170,6 +170,10 @@ messages:
     pay-debt-not-enough: '%prefix%&#d12f1d&l| &fGuild fund cannot pay debt. Need &e%debt%&f, balance &e%balance%&f.'
     no-debt: '%prefix%&#35d11d&l| &fGuild has no maintenance debt.'
     disbanded: '%prefix%&#d12f1d&l| &fGuild &e%clan%&f was permanently deleted because maintenance debt expired.'
+  guild-gift:
+    claim-success: '%prefix%&#35d11d&l| &fClaimed daily guild gift for level &e%level%&f.'
+    already-claimed: '%prefix%&#d12f1d&l| &fYou already claimed your guild gift today.'
+    no-gift: '%prefix%&#d12f1d&l| &fNo guild gift is configured for level &e%level%&f.'
   using-chat-box:
     clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
     create-clan: '%prefix%&#eaff00&l| &fPlease enter the clan name in the chat box.'
@@ -237,6 +241,7 @@ messages:
                 &#3498eb/guild quy &fView guild fund
                 &#3498eb/guild lichsuquy &fView guild fund history
                 &#3498eb/guild trano &fPay maintenance debt
+                &#3498eb/guild qua &fClaim daily guild gift
                 %command%
               placeholder:
                 command: '&#3498eb/guild %command% &f%description%'

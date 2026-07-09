@@ -9,6 +9,7 @@ import com.banghoi.api.enums.Subject;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.api.storage.IPlayerData;
 import com.banghoi.clan.ClanManager;
+import com.banghoi.file.GuildGiftFile;
 import com.banghoi.file.GuildUpgradeFile;
 import com.banghoi.file.inventory.*;
 import com.banghoi.language.English;
@@ -82,6 +83,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 SetPermissionInventoryFile.reload();
                 DisbandConfirmationInventoryFile.reload();
                 LeaveConfirmationInventoryFile.reload();
+                GuildGiftFile.reload();
                 GuildUpgradeFile.reload();
 
                 Settings.setupValue();

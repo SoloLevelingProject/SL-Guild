@@ -6,6 +6,7 @@ import com.banghoi.command.ClanAdminCommand;
 import com.banghoi.command.ClanCommand;
 import com.banghoi.clan.ClanManager;
 import com.banghoi.clan.GuildMaintenanceManager;
+import com.banghoi.file.GuildGiftFile;
 import com.banghoi.file.GuildUpgradeFile;
 import com.banghoi.file.inventory.*;
 import com.banghoi.language.English;
@@ -215,6 +216,19 @@ public class BangHoi extends JavaPlugin {
         }
         GuildUpgradeFile.reload();
         MessageUtil.debug("LOADING FILE", "Loaded guild-upgrade.yml.");
+
+        // configs/guild-gift.yml
+        String guildGiftFileName = "configs/guild-gift.yml";
+        File guildGiftFile = new File(getDataFolder() + "/configs/guild-gift.yml");
+        try {
+            GuildGiftFile.setup();
+            GuildGiftFile.saveDefault();
+            ConfigUpdater.update(this, guildGiftFileName, guildGiftFile);
+            GuildGiftFile.reload();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MessageUtil.debug("LOADING FILE", "Loaded guild-gift.yml.");
     }
 
     private void deleteObsoleteFile(String path) {

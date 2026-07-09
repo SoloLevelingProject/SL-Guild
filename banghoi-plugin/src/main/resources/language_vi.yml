@@ -197,6 +197,10 @@ messages:
     pay-debt-not-enough: '%prefix%&cQuỹ guild không đủ trả nợ. Cần &e%debt%&c, hiện có &e%balance%&c.'
     no-debt: '%prefix%&aGuild không có nợ duy trì.'
     disbanded: '%prefix%&cGuild &e%clan%&c bị xóa vĩnh viễn vì nợ phí duy trì quá hạn.'
+  guild-gift:
+    claim-success: '%prefix%&aĐã nhận quà hằng ngày cho guild level &e%level%&a.'
+    already-claimed: '%prefix%&cHôm nay bạn đã nhận quà guild rồi.'
+    no-gift: '%prefix%&cChưa cấu hình quà cho guild level &e%level%&c.'
 
   using-chat-box:
     clan-chat: '&#ADF3FD[Bang] &r%rank% &f%player%&8 ⇨ &f%message%'
@@ -266,6 +270,7 @@ messages:
                 &#ADF3FD/guild quy &8- &fXem quỹ guild
                 &#ADF3FD/guild lichsuquy &8- &fXem lịch sử quỹ guild
                 &#ADF3FD/guild trano &8- &fTrả nợ duy trì guild
+                &#ADF3FD/guild qua &8- &fNhận quà guild hằng ngày
                 %command%
               placeholder:
                 command: '&#ADF3FD/guild %command% &8- &f%description%'
