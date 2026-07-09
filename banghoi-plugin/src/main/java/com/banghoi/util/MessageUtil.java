@@ -12,7 +12,7 @@ public class MessageUtil {
 
     public static void throwErrorMessage(String message) {
         Bukkit.getLogger().severe(BangHoi.nms.addColor(message));
-        log("&4&l[SL-GUILD ERROR] &c&lIf this affects players, please contact your server staff.");
+        log("&4&l[GUILD ERROR] &c&lIf this affects players, please contact your server staff.");
     }
 
     public static void sendBroadCast(String message) {

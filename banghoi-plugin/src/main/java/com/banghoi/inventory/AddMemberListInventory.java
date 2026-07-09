@@ -1,0 +1,182 @@
+package com.banghoi.inventory;
+
+import com.banghoi.BangHoi;
+import com.banghoi.Settings;
+import com.banghoi.api.enums.ItemType;
+import com.banghoi.api.enums.Subject;
+import com.banghoi.clan.ClanManager;
+import com.banghoi.clan.subject.Invite;
+import com.banghoi.file.inventory.AddMemberListInventoryFile;
+import com.banghoi.language.Messages;
+import com.banghoi.storage.PluginDataManager;
+import com.banghoi.util.ItemUtil;
+import com.banghoi.util.MessageUtil;
+import com.banghoi.util.PlayerUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AddMemberListInventory extends PaginatedInventory {
+
+    FileConfiguration fileConfiguration = AddMemberListInventoryFile.get();
+    private SortItemType sortItemType;
+    private List<String> players = new ArrayList<>();
+
+    public AddMemberListInventory(Player owner) {
+        super(owner);
+        sortItemType = SortItemType.NOCLAN;
+    }
+
+    @Override
+    public void open() {
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return;
+        }
+        super.open();
+    }
+
+    @Override
+    public String getMenuName() {
+        String title = fileConfiguration.getString("title");
+        title = title.replace("%search%", getSearch() != null ? fileConfiguration.getString("title-placeholders.search").replace("%search%", getSearch()) : "");
+        return BangHoi.nms.addColor(title);
+    }
+
+    @Override
+    public int getSlots() {
+        int rows = fileConfiguration.getInt("rows") * 9;
+        if (rows < 27 || rows > 54)
+            return 54;
+        return rows;
+    }
+
+    @Override
+    public boolean handleMenu(InventoryClickEvent event) {
+        if (!super.handleMenu(event))
+            return false;
+
+        if (PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName()) == null) {
+            MessageUtil.sendMessage(getOwner(), Messages.MUST_BE_IN_CLAN);
+            getOwner().closeInventory();
+            return false;
+        }
+
+        ItemStack itemStack = event.getCurrentItem();
+        String itemCustomData = BangHoi.nms.getCustomData(itemStack);
+
+        playClickSound(fileConfiguration, itemCustomData);
+        if (itemCustomData.equals("prevPage")) {
+            if (getPage() != 0) {
+                setPage(getPage() - 1);
+                open();
+            }
+        }
+        if (itemCustomData.equals("nextPage")) {
+            if (!((index + 1) >= players.size())) {
+                setPage(getPage() + 1);
+                open();
+            } else {
+                MessageUtil.sendMessage(getOwner(), Messages.LAST_PAGE);
+            }
+        }
+        if (itemCustomData.equals("close"))
+            getOwner().closeInventory();
+        if (itemCustomData.equals("back"))
+            new MembersMenuInventory(getOwner()).open();
+        if (itemCustomData.equals("sort")) {
+            if (sortItemType == SortItemType.NOCLAN)
+                sortItemType = SortItemType.BEINGINVITED;
+            else if (sortItemType == SortItemType.BEINGINVITED)
+                sortItemType = SortItemType.NOCLAN;
+            setSearch(null);
+            setPage(0);
+            super.open();
+        }
+        if (itemCustomData.contains("player=")) {
+            playClickSound(fileConfiguration, "player");
+            itemCustomData = itemCustomData.replace("player=", "");
+            new Invite(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.INVITE), getOwner(), getOwner().getName(), Bukkit.getPlayer(itemCustomData), itemCustomData, Settings.CLAN_SETTING_TIME_TO_ACCEPT).execute();
+            super.open();
+        }
+
+        return true;
+    }
+
+    @Override
+    public void setMenuItems() {
+        BangHoi.support.getFoliaLib().getScheduler().runAsync(task -> {
+
+            addPaginatedMenuItems(fileConfiguration, true);
+
+            ItemStack sortItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.sort.type").toUpperCase()),
+                    fileConfiguration.getString("items.sort.value"),
+                    fileConfiguration.getInt("items.sort.customModelData"),
+                    fileConfiguration.getString("items.sort.name"),
+                    fileConfiguration.getStringList("items.sort.lore." + sortItemType.toString()), false), "sort");
+            int sortItemSlot = fileConfiguration.getInt("items.sort.slot");
+            if (sortItemSlot < 0)
+                sortItemSlot = 0;
+            if (sortItemSlot > 8)
+                sortItemSlot = 8;
+            sortItemSlot = (getSlots() - 9) + sortItemSlot;
+            inventory.setItem(sortItemSlot, sortItem);
+
+            if (PluginDataManager.getClanDatabase().isEmpty())
+                return;
+
+            players.clear();
+
+            if (sortItemType == SortItemType.NOCLAN)
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (PlayerUtil.isVanished(player))
+                        continue;
+                    if (!ClanManager.isPlayerInClan(player) && !ClanManager.beingInvitedPlayers.containsKey(player.getName()))
+                        players.add(player.getName());
+                }
+            if (sortItemType == SortItemType.BEINGINVITED)
+                if (!ClanManager.beingInvitedPlayers.isEmpty())
+                    players.addAll(ClanManager.beingInvitedPlayers.keySet());
+
+            if (getSearch() != null) {
+                List<String> newPlayers = new ArrayList<>();
+                for (String player : players) {
+                    if (player.toLowerCase().contains(getSearch().toLowerCase())) {
+                        newPlayers.add(player);
+                    }
+                }
+                players.clear();
+                players.addAll(newPlayers);
+            }
+
+            for (int i = 0; i < getMaxItemsPerPage(); i++) {
+                index = getMaxItemsPerPage() * getPage() + i;
+                if (index >= players.size())
+                    break;
+                if (players.get(index) != null) {
+                    String playerName = players.get(index);
+                    ItemStack playerItem = ItemUtil.getItem(
+                            ItemType.PLAYERHEAD,
+                            playerName,
+                            0,
+                            fileConfiguration.getString("items.player.name"),
+                            fileConfiguration.getStringList("items.player.lore"), false);
+                    ItemStack itemStack = BangHoi.nms.addCustomData(ItemUtil.getPlayerItemStack(playerItem, playerName), "player=" + playerName);
+                    inventory.addItem(itemStack);
+                }
+            }
+        });
+    }
+
+    public enum SortItemType {
+        NOCLAN, BEINGINVITED
+    }
+
+}

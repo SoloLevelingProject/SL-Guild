@@ -51,7 +51,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ steps.vars.outputs.short_sha }}
-          name: "SL-Guild Build #${{ github.run_number }}"
+          name: "Guild Build #${{ github.run_number }}"
           body: |
             ## Thay đổi
             ${{ steps.changelog.outputs.changes }}
@@ -88,7 +88,7 @@ jobs:
             -X POST "$DISCORD_WEBHOOK_URL" \
             -d "{
               \"embeds\": [{
-                \"title\": \"⚒️ SL-Guild — Bản Build Mới #${{ github.run_number }}\",
+                \"title\": \"⚒️ Guild — Bản Build Mới #${{ github.run_number }}\",
                 \"description\": \"Một bản build mới đã được tạo thành công!\",
                 \"color\": 5025616,
                 \"fields\": [
@@ -109,7 +109,7 @@ jobs:
                   }
                 ],
                 \"footer\": {
-                  \"text\": \"Update bởi ${AUTHOR} • SL-Guild\"
+                  \"text\": \"Update bởi ${AUTHOR} • Guild\"
                 },
                 \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
               }]

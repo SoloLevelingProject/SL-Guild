@@ -75,7 +75,7 @@ time-format:
   ss: '%seconds% giây'
 
 messages:
-  prefix: '&#ADF3FD&lSL-GUILD &8❙&r '
+  prefix: '&#ADF3FD&lGUILD &8❙&r '
   
   clan-message:
   - '&8&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
@@ -199,7 +199,7 @@ messages:
     time-out: '%prefix%&cQuá thời gian nhập bảng!'
 
   clan-broadcast:
-    prefix: '&#ADF3FD&lSL-GUILD &8❙&r '
+    prefix: '&#ADF3FD&lGUILD &8❙&r '
     invite-notification: '%prefix%&r%rank% &e%player%&a đã gửi lời mời gia nhập tới &e%target%&a.'
     player-join-clan: '%prefix%&e%player%&a vừa gia nhập bang hội! Hãy chào mừng nào!'
     player-removed-from-clan: '%prefix%&e%player%&c đã bị trục xuất bởi &r%rank% &e%by%&c.'
@@ -221,11 +221,11 @@ messages:
     change-permission: '%prefix%&r%rank% &e%player%&a đã thay đổi quyền hạn chức vụ.'
 
   commands:
-    slguild:
+    guild:
       messages:
         non-clan-commands:
         - ' '
-        - '&#ADF3FD&lSL-Guild &8(v%version%)'
+        - '&#ADF3FD&lGuild &8(v%version%)'
         - ' '
         - '  &#ADF3FD/clan create <tên> &8- &fTạo guild mới'
         - '  &#ADF3FD/clan accept &8- &fChấp nhận lời mời'
@@ -236,7 +236,7 @@ messages:
         in-clan-commands:
           messages: |2
             
-            &#ADF3FD&lSL-Guild &8(v%version%)
+            &#ADF3FD&lGuild &8(v%version%)
             %memberCommands%
             %managerCommands%
             %leaderCommands%

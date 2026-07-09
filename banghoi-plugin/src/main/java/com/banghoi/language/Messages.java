@@ -291,24 +291,24 @@ public class Messages {
                         subject.setDescription(fileConfiguration.getString("subject.description." + subject));
                 }
                 COMMAND_BANGHOI_MESSAGES_NON_CLAN = fileConfiguration
-                                .getStringList("messages.commands.slguild.messages.non-clan-commands");
+                                .getStringList("messages.commands.guild.messages.non-clan-commands");
                 COMMAND_BANGHOI_MESSAGES_IN_CLAN = fileConfiguration
-                                .getString("messages.commands.slguild.messages.in-clan-commands.messages");
+                                .getString("messages.commands.guild.messages.in-clan-commands.messages");
                 COMMAND_BANGHOI_MESSAGES_IN_CLAN_PLACEHOLDER_MEMBERCOMMANDS = fileConfiguration
-                                .getString("messages.commands.slguild.messages.in-clan-commands.placeholder.memberCommands.messages");
+                                .getString("messages.commands.guild.messages.in-clan-commands.placeholder.memberCommands.messages");
                 COMMAND_BANGHOI_MESSAGES_IN_CLAN_PLACEHOLDER_MANAGERCOMMANDS = fileConfiguration
-                                .getString("messages.commands.slguild.messages.in-clan-commands.placeholder.managerCommands.messages");
+                                .getString("messages.commands.guild.messages.in-clan-commands.placeholder.managerCommands.messages");
                 COMMAND_BANGHOI_MESSAGES_IN_CLAN_PLACEHOLDER_LEADERCOMMANDS = fileConfiguration
-                                .getString("messages.commands.slguild.messages.in-clan-commands.placeholder.leaderCommands.messages");
+                                .getString("messages.commands.guild.messages.in-clan-commands.placeholder.leaderCommands.messages");
                 COMMAND_BANGHOI_MESSAGES_IN_CLAN_PLACEHOLDER_MEMBERCOMMANDS_PLACEHOLDER_COMMAND = fileConfiguration
                                 .getString(
-                                                "messages.commands.slguild.messages.in-clan-commands.placeholder.memberCommands.placeholder.command");
+                                                "messages.commands.guild.messages.in-clan-commands.placeholder.memberCommands.placeholder.command");
                 COMMAND_BANGHOI_MESSAGES_IN_CLAN_PLACEHOLDER_MANAGERCOMMANDS_PLACEHOLDER_COMMAND = fileConfiguration
                                 .getString(
-                                                "messages.commands.slguild.messages.in-clan-commands.placeholder.managerCommands.placeholder.command");
+                                                "messages.commands.guild.messages.in-clan-commands.placeholder.managerCommands.placeholder.command");
                 COMMAND_BANGHOI_MESSAGES_IN_CLAN_PLACEHOLDER_LEADERCOMMANDS_PLACEHOLDER_COMMAND = fileConfiguration
                                 .getString(
-                                                "messages.commands.slguild.messages.in-clan-commands.placeholder.leaderCommands.placeholder.command");
+                                                "messages.commands.guild.messages.in-clan-commands.placeholder.leaderCommands.placeholder.command");
                 CLAN_BROADCAST_PREFIX = fileConfiguration.getString("messages.clan-broadcast.prefix");
                 CLAN_BROADCAST_INVITE_NOTIFICATION = fileConfiguration
                                 .getString("messages.clan-broadcast.invite-notification");

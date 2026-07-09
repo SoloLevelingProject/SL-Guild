@@ -14,7 +14,7 @@ SL-Guild is a Minecraft guild plugin for SoloLevelingProject servers.
 - Guild spawn, ally management, PvP toggle, guild chat, admin chat spy
 - Guild contribution by Vault money with TurtleTop point sync
 - YAML, H2, and SQLite storage
-- PlaceholderAPI support with `slguild` identifier
+- PlaceholderAPI support with `guild` identifier
 - PlayerPoints and Vault support for upgrade/create costs
 
 ## Soft Depends
@@ -26,30 +26,30 @@ SL-Guild is a Minecraft guild plugin for SoloLevelingProject servers.
 
 ## Commands
 
-- `/clan` aliases: `/slguild`
-- `/clanadmin` aliases: `/slguildadmin`, `/slguildad`
+- `/clan` aliases: `/guild`
+- `/clanadmin` aliases: `/guildadmin`, `/guildad`
 
 ## Permissions
 
-- `slguild.admin` for `/clanadmin`
-- `slguild.setspawn`
-- `slguild.seticon`
-- `slguild.setpermission`
-- `slguild.setcustomname`
-- `slguild.setmessage`
+- `guild.admin` for `/clanadmin`
+- `guild.setspawn`
+- `guild.seticon`
+- `guild.setpermission`
+- `guild.setcustomname`
+- `guild.setmessage`
 
 ## PlaceholderAPI
 
-Use `%slguild_*%` placeholders.
+Use `%guild_*%` placeholders.
 
 Examples:
 
-- `%slguild_clan_name%`
-- `%slguild_clan_formatname%`
-- `%slguild_clan_score%`
-- `%slguild_player_rank%`
-- `%slguild_top_score_name_1%`
-- `%slguild_top_score_value_1%`
+- `%guild_name%`
+- `%guild_formatname%`
+- `%guild_score%`
+- `%guild_player_rank%`
+- `%guild_top_score_name_1%`
+- `%guild_top_score_value_1%`
 
 ## API
 

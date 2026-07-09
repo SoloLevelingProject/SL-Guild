@@ -68,7 +68,7 @@ time-format:
   mm-ss: '%minutes% minutes %seconds% seconds'
   ss: '%seconds% seconds'
 messages:
-  prefix: '&#3498eb&lSL-GUILD&r '
+  prefix: '&#3498eb&lGUILD&r '
   clan-message:
     - '&7&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
     - '    &eClan Announcement &b%formatClanName%'
@@ -190,11 +190,11 @@ messages:
     set-spawn: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan spawn to (&c%x%&f, &a%y%&f, &b%z%&f [&cx&ay&bz&f]) (World: &e%world%&f).'
     change-permission: '%prefix%&#35d11d&l| &r%rank%&e %player%&f changed rank permission for &e%name%&f to: %newRank%'
   commands:
-    slguild:
+    guild:
       messages:
         non-clan-commands:
           - ' '
-          - '&#3498ebSL-GUILD'
+          - '&#3498ebGUILD'
           - '&7Version %version%'
           - ' '
           - '&#3498eb/clan create <clan name> &fCreate a new clan'
@@ -205,7 +205,7 @@ messages:
         in-clan-commands:
           messages: |
             
-            &#3498ebSL-GUILD
+            &#3498ebGUILD
             &7Version %version%
             %memberCommands%
             %managerCommands%

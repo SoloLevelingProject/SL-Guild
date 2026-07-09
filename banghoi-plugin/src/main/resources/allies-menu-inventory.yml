@@ -1,0 +1,124 @@
+title: '&0 🤝 Đồng Minh'
+rows: 4
+items:
+  border:
+    enabled: true
+    name: ' '
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    leave-blank:
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 26
+    - 30
+    - 32
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
+    lore:
+    - ''
+
+  addAlly:
+    name: '&#83FF29➕ Thêm Đồng Minh'
+    slot: 11
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZmMzE0MzFkNjQ1ODdmZjZlZjk4YzA2NzU4MTA2ODFmOGMxM2JmOTZmNTFkOWNiMDdlZDc4NTJiMmZmZDEifX19
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Gửi yêu cầu đồng minh'
+    - '  &8○ &7tới các bang hội khác'
+    - ''
+    - '  &#E43A96Nhấn&f để cấu hình'
+
+  allyInvitation:
+    name: '&#FDD500📩 Yêu Cầu Đồng Minh'
+    slot: 13
+    type: material
+    value: KNOWLEDGE_BOOK
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Chấp nhận hoặc từ chối'
+    - '  &8○ &7yêu cầu từ các bang khác'
+    - ''
+    - '  &8○ &7Hiện tại: &#FDD500%totalAllyInvitations% &7yêu cầu'
+    - ''
+    - '  &#E43A96Nhấn&f để cấu hình'
+
+  allyList:
+    name: '&#ADF3FD📋 Danh Sách Đồng Minh'
+    slot: 15
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdiZjM0NmRiODU1NWRkODk2YTQ1MTI4YTY4NmIzMDI4MzExOWE2ZWY2NDI2MTkzZWZkZTNjZDllYjE2Nzc5NCJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Quản lý danh sách đồng minh'
+    - '  &8○ &7của bang hội hiện tại'
+    - ''
+    - '  &#E43A96Nhấn&f để cấu hình'
+
+  back:
+    name: '&#FDD500🔙 Quay Lại'
+    slot: 30
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - '  &#E43A96Nhấn&f để quay lại'
+
+  close:
+    name: '&#FF4444✕ Đóng'
+    slot: 32
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - '  &#E43A96Nhấn&f để thoát'

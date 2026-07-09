@@ -49,7 +49,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s,
             @NotNull String[] args) {
         if (sender instanceof Player player) {
-            String commandPermission = "slguild.admin";
+            String commandPermission = "guild.admin";
             if (!player.hasPermission(commandPermission)) {
                 MessageUtil.sendMessage(player,
                         Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));
@@ -780,8 +780,8 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
             }
         }
 
-        sender.sendMessage("BangHoi (Version: " + BangHoi.plugin.getDescription().getVersion() + ") - Admin");
-        sender.sendMessage("Plugin developed by BangHoi");
+        sender.sendMessage("Guild (Version: " + BangHoi.plugin.getDescription().getVersion() + ") - Admin");
+        sender.sendMessage("Plugin developed by SoloLevelingProject");
         sender.sendMessage("");
         sender.sendMessage("/clanadmin reload");
         sender.sendMessage("/clanadmin chatspy");
@@ -806,7 +806,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player player) {
-            String commandPermission = "banghoi.admin";
+            String commandPermission = "guild.admin";
             if (!player.hasPermission(commandPermission)) {
                 MessageUtil.sendMessage(player,
                         Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));

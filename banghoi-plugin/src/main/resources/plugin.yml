@@ -13,8 +13,8 @@ folia-supported: true
 commands:
   clan:
     aliases:
-      - slguild
+      - guild
   clanadmin:
     aliases:
-      - slguildadmin
-      - slguildad
+      - guildadmin
+      - guildad

@@ -23,7 +23,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 
     @Override
     public String getIdentifier() {
-        return "slguild";
+        return "guild";
     }
 
     @Override
@@ -78,43 +78,43 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
         if (clanData == null)
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
 
-        if (s.equalsIgnoreCase("clan_name"))
+        if (s.equalsIgnoreCase("name"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_NAME.replace("%value%", clanData.getName());
-        if (s.equalsIgnoreCase("clan_customname"))
+        if (s.equalsIgnoreCase("customname"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CUSTOMNAME.replace("%value%",
                     clanData.getCustomName() != null ? BangHoi.nms.addColor(clanData.getCustomName()) : "");
-        if (s.equalsIgnoreCase("clan_formatname"))
+        if (s.equalsIgnoreCase("formatname"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMATNAME.replace("%value%",
                     clanData.getCustomName() != null ? BangHoi.nms.addColor(clanData.getCustomName())
                             : clanData.getName());
-        if (s.equalsIgnoreCase("clan_owner"))
+        if (s.equalsIgnoreCase("owner"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_OWNER.replace("%value%", clanData.getOwner());
-        if (s.equalsIgnoreCase("clan_message"))
+        if (s.equalsIgnoreCase("message"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MESSAGE.replace("%value%",
                     clanData.getMessage() != null ? BangHoi.nms.addColor(clanData.getMessage()) : "");
-        if (s.equalsIgnoreCase("clan_score"))
+        if (s.equalsIgnoreCase("score"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE.replace("%value%",
                     String.valueOf(ScoreCalculator.calculateScore(clanData)));
-        if (s.equalsIgnoreCase("clan_warning"))
+        if (s.equalsIgnoreCase("warning"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING.replace("%value%",
                     String.valueOf(clanData.getWarning()));
-        if (s.equalsIgnoreCase("clan_maxmembers"))
+        if (s.equalsIgnoreCase("maxmembers"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS.replace("%value%",
                     String.valueOf(clanData.getMaxMembers()));
-        if (s.equalsIgnoreCase("clan_createddate"))
+        if (s.equalsIgnoreCase("createddate"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE.replace("%value%",
                     String.valueOf(clanData.getCreatedDate()));
-        if (s.equalsIgnoreCase("clan_format_createddate"))
+        if (s.equalsIgnoreCase("format_createddate"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_CREATEDDATE.replace("%value%",
                     StringUtil.dateTimeToDateFormat(clanData.getCreatedDate()));
-        if (s.equalsIgnoreCase("clan_members"))
+        if (s.equalsIgnoreCase("members"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MEMBERS.replace("%value%",
                     String.valueOf(clanData.getMembers()));
-        if (s.equalsIgnoreCase("clan_allies"))
+        if (s.equalsIgnoreCase("allies"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_ALLIES.replace("%value%",
                     !clanData.getAllies().isEmpty() ? String.valueOf(clanData.getAllies()) : "");
-        if (s.startsWith("clan_subjectpermission_")) {
-            String subject = s.replace("clan_subjectpermission_", "");
+        if (s.startsWith("subjectpermission_")) {
+            String subject = s.replace("subjectpermission_", "");
             try {
                 return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SUBJECTPERMISSION_.replace("%value%",
                         String.valueOf(clanData.getSubjectPermission().get(Subject.valueOf(subject.toUpperCase()))));
@@ -122,8 +122,8 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
                 exception.printStackTrace();
             }
         }
-        if (s.startsWith("clan_format_subjectpermission_")) {
-            String subject = s.replace("clan_format_subjectpermission_", "");
+        if (s.startsWith("format_subjectpermission_")) {
+            String subject = s.replace("format_subjectpermission_", "");
             try {
                 return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_SUBJECTPERMISSION_.replace("%value%",
                         BangHoi.nms.addColor(ClanManager.getFormatRank(
@@ -132,10 +132,10 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
                 exception.printStackTrace();
             }
         }
-        if (s.equalsIgnoreCase("clan_discordchannelid"))
+        if (s.equalsIgnoreCase("discordchannelid"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDCHANNELID.replace("%value%",
                     String.valueOf(clanData.getDiscordChannelID()));
-        if (s.equalsIgnoreCase("clan_discordjoinlink"))
+        if (s.equalsIgnoreCase("discordjoinlink"))
             return Settings.SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDJOINLINK.replace("%value%",
                     clanData.getDiscordJoinLink() != null ? clanData.getDiscordJoinLink() : "");
 

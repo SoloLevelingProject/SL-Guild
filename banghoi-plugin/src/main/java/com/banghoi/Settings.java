@@ -197,37 +197,37 @@ public class Settings {
                 CUSTOM_HEADS_API_V2_CUSTOM_KEY = configuration.getString("custom-heads.API-v2.custom-key");
                 SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_NAME = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_name");
+                                .getString("soft-depends.placeholderapi.placeholders.name");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CUSTOMNAME = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_customname");
+                                .getString("soft-depends.placeholderapi.placeholders.customname");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMATNAME = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_formatname");
+                                .getString("soft-depends.placeholderapi.placeholders.formatname");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_OWNER = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_owner");
+                                .getString("soft-depends.placeholderapi.placeholders.owner");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MESSAGE = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_message");
+                                .getString("soft-depends.placeholderapi.placeholders.message");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_score");
+                                .getString("soft-depends.placeholderapi.placeholders.score");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_warning");
+                                .getString("soft-depends.placeholderapi.placeholders.warning");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_maxmembers");
+                                .getString("soft-depends.placeholderapi.placeholders.maxmembers");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_createddate");
+                                .getString("soft-depends.placeholderapi.placeholders.createddate");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_CREATEDDATE = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_format_createddate");
+                                .getString("soft-depends.placeholderapi.placeholders.format_createddate");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MEMBERS = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_members");
+                                .getString("soft-depends.placeholderapi.placeholders.members");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_ALLIES = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_allies");
+                                .getString("soft-depends.placeholderapi.placeholders.allies");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SUBJECTPERMISSION_ = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_subjectpermission_");
+                                .getString("soft-depends.placeholderapi.placeholders.subjectpermission_");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_SUBJECTPERMISSION_ = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_format_subjectpermission_");
+                                .getString("soft-depends.placeholderapi.placeholders.format_subjectpermission_");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDCHANNELID = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_discordchannelid");
+                                .getString("soft-depends.placeholderapi.placeholders.discordchannelid");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_DISCORDJOINLINK = configuration
-                                .getString("soft-depends.placeholderapi.placeholders.clan_discordjoinlink");
+                                .getString("soft-depends.placeholderapi.placeholders.discordjoinlink");
                 SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_RANK = configuration
                                 .getString("soft-depends.placeholderapi.placeholders.player_rank");
                 SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_RANK = configuration

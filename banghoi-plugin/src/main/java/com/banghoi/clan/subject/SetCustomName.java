@@ -1,0 +1,95 @@
+package com.banghoi.clan.subject;
+
+import com.banghoi.BangHoi;
+import com.banghoi.Settings;
+import com.banghoi.api.enums.Rank;
+import com.banghoi.api.enums.Subject;
+import com.banghoi.api.storage.IClanData;
+import com.banghoi.clan.ClanManager;
+import com.banghoi.clan.SubjectManager;
+import com.banghoi.language.Messages;
+import com.banghoi.storage.PluginDataManager;
+import com.banghoi.util.MessageUtil;
+import org.bukkit.entity.Player;
+
+public class SetCustomName extends SubjectManager {
+
+    private final String customName;
+
+    public SetCustomName(Rank rank, Player player, String playerName, String customName) {
+        super(rank, player, playerName, null, null);
+        this.customName = customName;
+    }
+
+    @Override
+    public boolean execute() {
+        if (!isPlayerInClan()) {
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+            return false;
+        }
+
+        if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
+            setRequiredRank(getPlayerClanData().getSubjectPermission().get(Subject.SETCUSTOMNAME));
+
+        String commandPermission = "banghoi.setcustomname";
+        if (!player.hasPermission(commandPermission)) {
+            MessageUtil.sendMessage(player, Messages.PERMISSION_REQUIRED.replace("%permission%", commandPermission));
+            return false;
+        }
+
+        if (!isPlayerRankSatisfied()) {
+            MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(getRequiredRank())));
+            return false;
+        }
+
+        String clanCustomNameStripColor = BangHoi.nms.stripColor(customName);
+
+        if (PluginDataManager.getClanDatabase().containsKey(clanCustomNameStripColor)) {
+            MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", customName));
+            return false;
+        }
+
+        if (ClanManager.getClansCustomName() != null)
+            if (!ClanManager.getClansCustomName().isEmpty())
+                for (String clanCustomName : ClanManager.getClansCustomName())
+                    if (clanCustomName.equalsIgnoreCase(customName)) {
+                        MessageUtil.sendMessage(player, Messages.CLAN_ALREADY_EXIST.replace("%clan%", customName));
+                        return false;
+                    }
+
+        if (clanCustomNameStripColor.length() < Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH) {
+            MessageUtil.sendMessage(player, Messages.ILLEGAL_MINIMUM_CLAN_LENGTH.replace("%minimumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH)));
+            return false;
+        }
+
+        if (clanCustomNameStripColor.length() > Settings.CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH) {
+            MessageUtil.sendMessage(player, Messages.ILLEGAL_MAXIMUM_CLAN_LENGTH.replace("%maximumClanNameLength%", String.valueOf(Settings.CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH)));
+            return false;
+        }
+
+        for (String prohibitedClanName : Settings.CLAN_SETTING_PROHIBITED_NAME) {
+            if (clanCustomNameStripColor.equalsIgnoreCase(prohibitedClanName)) {
+                MessageUtil.sendMessage(player, Messages.PROHIBITED_CLAN_NAME.replace("%clanName%", customName));
+                return false;
+            }
+        }
+
+        for (String prohibitedCharacter : Settings.CLAN_SETTING_PROHIBITED_CHARACTER) {
+            if (prohibitedCharacter.equals("&"))
+                continue;
+            if (clanCustomNameStripColor.contains(prohibitedCharacter)) {
+                MessageUtil.sendMessage(player, Messages.PROHIBITED_CHARACTER.replace("%character%", prohibitedCharacter));
+                return false;
+            }
+        }
+
+        IClanData playerClanData = getPlayerClanData();
+        playerClanData.setCustomName(customName);
+        PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
+
+        MessageUtil.sendMessage(player, Messages.SET_CUSTOM_NAME_SUCCESS.replace("%clan%", playerClanData.getName()).replace("%newCustomName%", customName));
+        ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_SET_CUSTOM_NAME.replace("%player%", playerName).replace("%newCustomName%", customName).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(playerName).getRank())));
+
+        return true;
+    }
+}

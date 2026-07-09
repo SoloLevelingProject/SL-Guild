@@ -98,7 +98,7 @@ items:
       - ''
       - ' &8 ❙ &#ADF3FDMô tả'
       - '  &8○ &7Mở khóa thêm kho bằng tài nguyên'
-      - '  &8○ &7tại giao diện Nâng Cấp SL-Guild'
+      - '  &8○ &7tại giao diện Nâng Cấp Guild'
       - ''
       - '  &#E43A96Chuột phải&f để mở menu nâng cấp'
     placeholders:
@@ -165,7 +165,7 @@ items:
       pitch: 2
     lore:
     - ''
-    - ' &8 ❙ &#FDD500SL-Guild: %clanName%'
+    - ' &8 ❙ &#FDD500Guild: %clanName%'
     - '  &8○ &7Số lượng kho: &#83FF29%clanMaxStorage%&8/&#2ECC71%serverMaxStorage%'
     - '  &8○ &7Tổng vật phẩm: &#FDD500%itemsStored%'
 

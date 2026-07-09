@@ -61,7 +61,7 @@ public class BangHoi extends JavaPlugin {
         PluginDataManager.loadAllCustomHeadsFromJsonFiles();
 
         log("&f--------------------------------");
-        log("&2SL-Guild");
+        log("&2Guild");
         log("&fVersion: &b" + getDescription().getVersion());
         log("&fAuthor: &bSoloLevelingProject");
         log("&eRunning version: " + Bukkit.getServer().getClass().getName().split("\\.")[3]);
@@ -311,7 +311,7 @@ public class BangHoi extends JavaPlugin {
         ClanAdminCommand.transferDataCommandNotifying.clear();
 
         log("&f--------------------------------");
-        log("&cSL-Guild");
+        log("&cGuild");
         log("&fVersion: &b" + getDescription().getVersion());
         log("&fAuthor: &bSoloLevelingProject");
         log("&f--------------------------------");
