@@ -11,7 +11,13 @@ public class GuildUpgradeFile {
     private static FileConfiguration fileConfiguration;
 
     public static void setup() {
-        file = new File(BangHoi.plugin.getDataFolder() + "/guild-upgrade.yml");
+        file = new File(BangHoi.plugin.getDataFolder() + "/configs/guild-upgrade.yml");
+        File oldFile = new File(BangHoi.plugin.getDataFolder() + "/guild-upgrade.yml");
+        if (!file.exists() && oldFile.exists()) {
+            file.getParentFile().mkdirs();
+            oldFile.renameTo(file);
+        }
+        file.getParentFile().mkdirs();
         fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 
@@ -22,7 +28,7 @@ public class GuildUpgradeFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                BangHoi.plugin.saveResource("guild-upgrade.yml", false);
+                BangHoi.plugin.saveResource("configs/guild-upgrade.yml", false);
             }
         } catch (Exception e) {
             e.printStackTrace();

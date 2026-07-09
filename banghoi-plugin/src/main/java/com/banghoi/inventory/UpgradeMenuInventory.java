@@ -9,7 +9,6 @@ import com.banghoi.api.enums.Subject;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.clan.ClanManager;
 import com.banghoi.clan.UpgradeManager;
-import com.banghoi.file.UpgradeFile;
 import com.banghoi.file.inventory.UpgradeMenuInventoryFile;
 import com.banghoi.language.Messages;
 import com.banghoi.storage.PluginDataManager;
@@ -112,33 +111,6 @@ public class UpgradeMenuInventory extends BangHoiInventoryBase {
                     .replace("%newMaxMembers%", String.valueOf(playerClanData.getMaxMembers())));
             super.open();
         }
-        if (itemCustomData.equals("upgradeStorage")) {
-            // check rank
-            Rank upgradeRequiredrank = Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.UPGRADE);
-            if (!Settings.CLAN_SETTING_PERMISSION_DEFAULT_FORCED)
-                upgradeRequiredrank = PluginDataManager.getClanDatabase(playerClanData.getName()).getSubjectPermission().get(Subject.UPGRADE);
-            if (!ClanManager.isPlayerRankSatisfied(getOwner().getName(), upgradeRequiredrank)) {
-                MessageUtil.sendMessage(getOwner(), Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(upgradeRequiredrank)));
-                return true;
-            }
-
-            if (!Settings.STORAGE_SETTINGS_ENABLED) {
-                MessageUtil.sendMessage(getOwner(), Messages.FEATURE_DISABLED);
-                return false;
-            }
-
-            CurrencyType upgradeStoragesCT = CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.max-storages.currency-type").toUpperCase());
-            int newMaxStorages = playerClanData.getMaxStorage() + 1;
-            long value = UpgradeFile.get().getLong("upgrade.max-storages.price." + newMaxStorages);
-            if (!(UpgradeFile.get().getConfigurationSection("upgrade.max-storages.price").getKeys(false).contains(String.valueOf(newMaxStorages))))
-                value = UpgradeFile.get().getLong("upgrade.max-storages.price.else");
-            if (UpgradeManager.checkPlayerCurrency(getOwner(), upgradeStoragesCT, value, true)) {
-                playerClanData.setMaxStorage(newMaxStorages);
-                PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
-                ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_UPGRADE_MAX_STORAGES.replace("%player%", getOwner().getName()).replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank())).replace("%newMaxStorages%", String.valueOf(playerClanData.getMaxStorage())));
-                super.open();
-            }
-        }
         return true;
     }
 
@@ -147,31 +119,7 @@ public class UpgradeMenuInventory extends BangHoiInventoryBase {
         BangHoi.support.getFoliaLib().getScheduler().runAsync(task -> {
             addBasicButton(fileConfiguration, true);
 
-            List<String> upgradeMaxStoragesItemLore = new ArrayList<>();
             IClanData playerClanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
-            int newMaxStorages = playerClanData.getMaxStorage() + 1;
-            CurrencyType upgradeStorageCT = CurrencyType.valueOf(UpgradeFile.get().getString("upgrade.max-storages.currency-type").toUpperCase());
-            for (String lore : fileConfiguration.getStringList("items.upgradeMaxStorage.lore")) {
-                lore = lore.replace("%totalStorages%", String.valueOf(playerClanData.getMaxStorage()));
-                lore = lore.replace("%newMaxStorages%", String.valueOf(newMaxStorages));
-                lore = lore.replace("%currencySymbol%", StringUtil.getCurrencySymbolFormat(upgradeStorageCT));
-                lore = lore.replace("%currencyName%", StringUtil.getCurrencyNameFormat(upgradeStorageCT));
-                if (UpgradeFile.get().getConfigurationSection("upgrade.max-storages.price").getKeys(false).contains(String.valueOf(newMaxStorages))) {
-                    lore = lore.replace("%price%", String.valueOf(UpgradeFile.get().getLong("upgrade.max-storages.price." + newMaxStorages)));
-                } else {
-                    lore = lore.replace("%price%", String.valueOf(UpgradeFile.get().getLong("upgrade.max-storages.price.else")));
-                }
-                upgradeMaxStoragesItemLore.add(lore);
-            }
-            ItemStack upgradeMaxStoragesItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.upgradeMaxStorage.type").toUpperCase()),
-                    fileConfiguration.getString("items.upgradeMaxStorage.value"),
-                    fileConfiguration.getInt("items.upgradeMaxStorage.customModelData"),
-                    fileConfiguration.getString("items.upgradeMaxStorage.name"),
-                    upgradeMaxStoragesItemLore, false), "upgradeStorage");
-            int upgradeMaxMemberItemSlot = fileConfiguration.getInt("items.upgradeMaxStorage.slot");
-            inventory.setItem(upgradeMaxMemberItemSlot, upgradeMaxStoragesItem);
-
             List<String> upgradeMaxMembersItemLore = new ArrayList<>();
             int newLevel = playerClanData.getLevel() + 1;
             int newMaxMembers = UpgradeManager.getMaxMembersForLevel(newLevel);

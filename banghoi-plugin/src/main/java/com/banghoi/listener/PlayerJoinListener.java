@@ -3,6 +3,7 @@ package com.banghoi.listener;
 import com.banghoi.BangHoi;
 import com.banghoi.Settings;
 import com.banghoi.clan.ClanManager;
+import com.banghoi.clan.GuildMaintenanceManager;
 import com.banghoi.storage.PluginDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,6 +28,8 @@ public class PlayerJoinListener implements Listener {
 
             if (Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED)
                 BangHoi.support.getFoliaLib().getScheduler().runLaterAsync(task2 -> ClanManager.sendClanBroadCast(player), 20 * Settings.CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY);
+
+            BangHoi.support.getFoliaLib().getScheduler().runLater(task2 -> GuildMaintenanceManager.sendDebtTitle(player), 20L * 3L);
         });
     }
 

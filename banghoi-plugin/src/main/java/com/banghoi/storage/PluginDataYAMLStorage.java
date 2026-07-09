@@ -10,13 +10,10 @@ import com.banghoi.api.storage.IPlayerData;
 import com.banghoi.clan.ClanManager;
 import com.banghoi.clan.UpgradeManager;
 import com.banghoi.util.FileNameUtil;
-import com.banghoi.util.StringUtil;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,13 +54,12 @@ public class PluginDataYAMLStorage implements PluginStorage {
         List<String> allies = new ArrayList<>();
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Subject, Rank> permissionDefault = new HashMap<>();
-        HashMap<Integer, Inventory> newInventory = new HashMap<>();
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
         ClanData clanData = new ClanData(clanName, null, null, null, 0, 0, Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
-                UpgradeManager.getDefaultLevel(), 0, new Date().getTime(), ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
+                UpgradeManager.getDefaultLevel(), 0, 0, 0, 0, new Date().getTime(), ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE, members, null, allies, permissionDefault, allyInvitation, 0,
-                null, newInventory, Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
+                null);
 
         if (!storage.contains("data"))
             return clanData;
@@ -80,6 +76,9 @@ public class PluginDataYAMLStorage implements PluginStorage {
             clanData.setMaxMembers(storage.getInt("data.thanh_vien_toi_da"));
             clanData.setLevel(UpgradeManager.getLevelForMaxMembers(clanData.getMaxMembers()));
             clanData.setGuildFund(storage.getLong("data.guild-fund", 0));
+            clanData.setMaintenanceDebt(storage.getLong("data.maintenance-debt", 0));
+            clanData.setMaintenanceDebtDays(storage.getInt("data.maintenance-debt-days", 0));
+            clanData.setLastMaintenanceDay(storage.getLong("data.last-maintenance-day", 0));
             for (String player : storage.getStringList("data.thanh_vien"))
                 clanData.getMembers().add(player);
 
@@ -127,6 +126,9 @@ public class PluginDataYAMLStorage implements PluginStorage {
             clanData.setLevel(level);
             clanData.setMaxMembers(UpgradeManager.getMaxMembersForLevel(level));
             clanData.setGuildFund(storage.getLong("data.guild-fund", 0));
+            clanData.setMaintenanceDebt(storage.getLong("data.maintenance-debt", 0));
+            clanData.setMaintenanceDebtDays(storage.getInt("data.maintenance-debt-days", 0));
+            clanData.setLastMaintenanceDay(storage.getLong("data.last-maintenance-day", 0));
             clanData.setMembers(storage.getStringList("data.members"));
         }
 
@@ -174,29 +176,6 @@ public class PluginDataYAMLStorage implements PluginStorage {
         clanData.setDiscordChannelID(storage.getLong("data.discord.channel-id"));
         clanData.setDiscordJoinLink(storage.getString("data.discord.join-link"));
 
-        // Check if the default max storage number does not equal to 0
-        if (storage.getInt("data.max-storage") == 0)
-            clanData.setMaxStorage(Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
-        else
-            clanData.setMaxStorage(storage.getInt("data.max-storage"));
-
-        // LAZY LOADING: store raw Base64 data instead of deserializing into Inventory objects.
-        HashMap<Integer, Map<Integer, String>> rawStorage = new HashMap<>();
-        if (storage.getConfigurationSection("data.storage") != null) {
-            for (String storageNumber : storage.getConfigurationSection("data.storage").getKeys(false)) {
-                Map<Integer, String> slotMap = new HashMap<>();
-                for (String slotNumber : storage.getConfigurationSection("data.storage." + storageNumber)
-                        .getKeys(false)) {
-                    String base64 = storage.getString("data.storage." + storageNumber + "." + slotNumber);
-                    if (base64 != null) {
-                        slotMap.put(Integer.parseInt(slotNumber), base64);
-                    }
-                }
-                rawStorage.put(Integer.parseInt(storageNumber), slotMap);
-            }
-        }
-        clanData.setSerializedStorage(rawStorage);
-
         return clanData;
     }
 
@@ -213,6 +192,9 @@ public class PluginDataYAMLStorage implements PluginStorage {
         storage.set("data.created-date", clanData.getCreatedDate());
         storage.set("data.level", clanData.getLevel());
         storage.set("data.guild-fund", clanData.getGuildFund());
+        storage.set("data.maintenance-debt", clanData.getMaintenanceDebt());
+        storage.set("data.maintenance-debt-days", clanData.getMaintenanceDebtDays());
+        storage.set("data.last-maintenance-day", clanData.getLastMaintenanceDay());
         storage.set("data.max-members", clanData.getMaxMembers());
         storage.set("data.members", clanData.getMembers());
         storage.set("data.allies", clanData.getAllies());
@@ -237,42 +219,11 @@ public class PluginDataYAMLStorage implements PluginStorage {
         storage.set("data.ally-invitation", clanData.getAllyInvitation());
         storage.set("data.discord.channel-id", clanData.getDiscordChannelID());
         storage.set("data.discord.join-link", clanData.getDiscordJoinLink());
-        storage.set("data.max-storage", clanData.getMaxStorage());
+        storage.set("data.max-storage", null);
+        storage.set("data.storage", null);
 
         if (storage.get("data.inventory") != null)
             storage.set("data.inventory", null);
-
-        // LAZY SAVING: use serialized storage directly, avoiding unnecessary deserialization.
-        if (clanData instanceof ClanData cd) {
-            HashMap<Integer, Map<Integer, String>> serialized = cd.syncAndGetSerializedStorage();
-            for (int storageNumber : serialized.keySet()) {
-                Map<Integer, String> items = serialized.get(storageNumber);
-                // Clear old slot data for this page
-                storage.set("data.storage." + storageNumber, null);
-                for (int slotNumber : items.keySet()) {
-                    storage.set("data.storage." + storageNumber + "." + slotNumber, items.get(slotNumber));
-                }
-            }
-        } else {
-            if (!clanData.getStorageHashMap().isEmpty()) {
-                for (int storageNumber : clanData.getStorageHashMap().keySet()) {
-                    Inventory inventoryContents = clanData.getStorageHashMap().get(storageNumber);
-                    int slotNumber = -1;
-                    for (ItemStack itemStack : inventoryContents.getContents()) {
-                        slotNumber++;
-                        if (itemStack == null) {
-                            storage.set("data.storage." + storageNumber + "." + slotNumber, null);
-                            continue;
-                        }
-                        if (BangHoi.nms.getCustomData(itemStack).equals("next")
-                                || BangHoi.nms.getCustomData(itemStack).equals("previous")
-                                || BangHoi.nms.getCustomData(itemStack).equals("noStorage"))
-                            continue;
-                        storage.set("data.storage." + storageNumber + "." + slotNumber, StringUtil.toBase64(itemStack));
-                    }
-                }
-            }
-        }
 
         try {
             storage.save(file);

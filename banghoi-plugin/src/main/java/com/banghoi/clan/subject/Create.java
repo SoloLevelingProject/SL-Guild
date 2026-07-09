@@ -11,7 +11,6 @@ import com.banghoi.storage.ClanData;
 import com.banghoi.storage.PluginDataManager;
 import com.banghoi.util.MessageUtil;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 import java.util.*;
 
@@ -94,7 +93,6 @@ public class Create extends SubjectManager {
         List<String> allies = new ArrayList<>();
         List<String> allyInvitation = new ArrayList<>();
         HashMap<Subject, Rank> permissionDefault = new HashMap<>();
-        HashMap<Integer, Inventory> inventory = new HashMap<>();
         for (Subject subject : Subject.values())
             permissionDefault.put(subject, Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(subject));
 
@@ -108,6 +106,9 @@ public class Create extends SubjectManager {
                 Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
                 UpgradeManager.getDefaultLevel(),
                 0,
+                0,
+                0,
+                0,
                 dateLong,
                 ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
@@ -117,9 +118,7 @@ public class Create extends SubjectManager {
                 permissionDefault,
                 allyInvitation,
                 0,
-                null,
-                inventory,
-                Settings.CLAN_SETTINGS_MAX_STORAGE_DEFAULT);
+                null);
 
         PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
 

@@ -92,8 +92,6 @@ public interface BangHoiAPI {
 
         List<Player> getPlayerUsingChatSpy();
 
-        void openClanStorage(Player player, String clanName, int storageNumber, boolean skipDisabled);
-
         boolean isConsoleUsingChatSpy();
     }
 

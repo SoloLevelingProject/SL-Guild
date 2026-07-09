@@ -8,6 +8,7 @@ import com.banghoi.api.enums.Subject;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.api.storage.IPlayerData;
 import com.banghoi.clan.ClanManager;
+import com.banghoi.clan.GuildMaintenanceManager;
 import com.banghoi.clan.subject.*;
 import com.banghoi.inventory.*;
 import com.banghoi.language.Messages;
@@ -177,6 +178,10 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 sendGuildFundHistory(player);
                 return false;
             }
+            if (args[0].equalsIgnoreCase("trano")) {
+                handlePayMaintenanceDebt(player);
+                return false;
+            }
         }
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("donggop")) {
@@ -222,15 +227,6 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
             }
             if (args[0].equalsIgnoreCase("requestally")) {
                 new RequestAlly(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.MANAGEALLY), player, player.getName(), args[1]).execute();
-                return false;
-            }
-            if (args[0].equalsIgnoreCase("openstorage")) {
-                try {
-                    int storageNumber = Integer.parseInt(args[1]);
-                    new OpenStorage(Settings.CLAN_SETTING_PERMISSION_DEFAULT.get(Subject.OPENSTORAGE), player, player.getName(), storageNumber).execute();
-                } catch (NumberFormatException exception) {
-                    MessageUtil.sendMessage(player, Messages.INVALID_NUMBER);
-                }
                 return false;
             }
         }
@@ -423,6 +419,28 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
         }
     }
 
+    private void handlePayMaintenanceDebt(Player player) {
+        IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
+        if (clanData == null) {
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+            return;
+        }
+        if (clanData.getMaintenanceDebt() <= 0) {
+            MessageUtil.sendMessage(player, Messages.GUILD_MAINTENANCE_NO_DEBT);
+            return;
+        }
+        long debt = clanData.getMaintenanceDebt();
+        if (!GuildMaintenanceManager.payDebtFromFund(clanData, player.getName())) {
+            MessageUtil.sendMessage(player, Messages.GUILD_MAINTENANCE_PAY_DEBT_NOT_ENOUGH
+                    .replace("%debt%", String.valueOf(debt))
+                    .replace("%balance%", String.valueOf(clanData.getGuildFund())));
+            return;
+        }
+        MessageUtil.sendMessage(player, Messages.GUILD_MAINTENANCE_PAY_DEBT_SUCCESS
+                .replace("%amount%", String.valueOf(debt))
+                .replace("%balance%", String.valueOf(clanData.getGuildFund())));
+    }
+
     private void sendGuildFundHistory(Player player) {
         IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
         if (clanData == null) {
@@ -455,6 +473,12 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
             return "Rút tiền";
         if (action.equalsIgnoreCase("UPGRADE"))
             return "Nâng cấp";
+        if (action.equalsIgnoreCase("MAINTENANCE"))
+            return "Phí duy trì";
+        if (action.equalsIgnoreCase("MAINTENANCE_DEBT"))
+            return "Nợ duy trì";
+        if (action.equalsIgnoreCase("PAY_DEBT"))
+            return "Trả nợ";
         return action;
     }
 
@@ -499,6 +523,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 commands.add("donggop");
                 commands.add("quy");
                 commands.add("lichsuquy");
+                commands.add("trano");
                 if (playerData.getRank() == Rank.LEADER || playerData.getRank() == Rank.MANAGER)
                     commands.add("rutien");
                 commands.add("menu");
@@ -533,11 +558,6 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
 
                         commands.add(serverPlayerName);
                     }
-                }
-
-                if (args[0].equals("openstorage") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.OPENSTORAGE))) {
-                    for (int storageNumber = 1; storageNumber <= playerClanData.getMaxStorage(); storageNumber++)
-                        commands.add(String.valueOf(storageNumber));
                 }
 
                 if (args[0].equalsIgnoreCase("kick") && ClanManager.isPlayerRankSatisfied(playerName, clanSubjectPer.get(Subject.KICK))) {

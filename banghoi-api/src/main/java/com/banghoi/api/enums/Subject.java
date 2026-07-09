@@ -13,7 +13,6 @@ public enum Subject {
     CHAT("Chat", "Clan chat"),
     UPGRADE("Upgrade", "Upgrade clan"),
     MANAGEALLY("Manage ally", "Send ally invite and manage clan's allies"),
-    OPENSTORAGE("Open storage", "Open and manage clan storage"),
     CONTRIBUTE("Contribute", "Contribute resources to clan");
 
     private String name;

@@ -45,7 +45,6 @@ subject:
     CHAT: Kênh chat bang hội
     UPGRADE: Nâng cấp bang hội
     MANAGEALLY: Thiết lập đồng minh
-    OPENSTORAGE: Mở kho bang
   description:
     INVITE: Gửi lời mời người chơi khác gia nhập bang
     KICK: Trục xuất một thành viên ra khỏi bang
@@ -59,7 +58,6 @@ subject:
     CHAT: Bật hoặc tắt kênh trò chuyện nội bộ bang
     UPGRADE: Mở giao diện nâng cấp bang hội
     MANAGEALLY: Gửi yêu cầu và quản lý danh sách bang đồng minh
-    OPENSTORAGE: Mở và sử dụng kho đồ chung của bang
 
 online-status:
   offline: '&cNGOẠI TUYẾN'
@@ -183,8 +181,6 @@ messages:
   feature-disabled: '%prefix%&cTính năng này đã bị Admin vô hiệu hóa.'
   invalid-location: '%prefix%&cKhông thể thao tác tại vị trí này!'
   invalid-number: '%prefix%&cVui lòng nhập một con số hợp lệ!'
-  storage-locked: '%prefix%&cKho đồ &e#%storageNumber%&c chưa được mở khóa!'
-  storage-number-exceed-limit: '%prefix%&cSố thứ tự kho không thể lớn hơn &e%maxStorageNumber%&c.'
   guild-fund:
     balance: '%prefix%&aQuỹ guild hiện có: &e%amount%&a.'
     deposit-success: '%prefix%&aBạn đã đóng góp &e%amount%&a vào quỹ guild. Quỹ hiện có: &e%balance%&a.'
@@ -193,6 +189,14 @@ messages:
     history-header: '%prefix%&aLịch sử quỹ guild gần nhất:'
     history-line: '&8- &e%time% &7| &f%player% &7| &b%action% &7| &e%amount% &7| còn &a%balance%'
     history-empty: '%prefix%&cGuild chưa có lịch sử quỹ.'
+  guild-maintenance:
+    debt-warning: '%prefix%&cGuild đang nợ phí duy trì &e%debt%&c. Còn &e%daysLeft%&c ngày trước khi bị xóa vĩnh viễn. Hãy đóng tiền bằng &e/guild donggop <số tiền>&c rồi dùng &e/guild trano&c.'
+    debt-title: '&cGuild đang nợ phí'
+    debt-subtitle: '&e%debt% &7| còn &e%daysLeft%&7 ngày trước khi bị xóa'
+    pay-debt-success: '%prefix%&aĐã trả nợ duy trì &e%amount%&a từ quỹ guild. Quỹ còn lại: &e%balance%&a.'
+    pay-debt-not-enough: '%prefix%&cQuỹ guild không đủ trả nợ. Cần &e%debt%&c, hiện có &e%balance%&c.'
+    no-debt: '%prefix%&aGuild không có nợ duy trì.'
+    disbanded: '%prefix%&cGuild &e%clan%&c bị xóa vĩnh viễn vì nợ phí duy trì quá hạn.'
 
   using-chat-box:
     clan-chat: '&#ADF3FD[Bang] &r%rank% &f%player%&8 ⇨ &f%message%'
@@ -224,7 +228,6 @@ messages:
     remove-ally-notification: '%prefix%&r%rank% &e%player%&c đã hủy liên minh với bang &e%clan%&c.'
     ally-removed-notification: '%prefix%&cBang &e%player%&c đã chấm dứt liên minh với bang chúng ta.'
     upgrade-max-members: '%prefix%&r%rank% &e%player%&a đã nâng cấp guild lên level &e%newLevel%&a và mở khóa &e%newMaxMembers%&a slot thành viên.'
-    upgrade-max-storages: '%prefix%&r%rank% &e%player%&a đã mở rộng thêm kho đồ! (Tối đa: &e%newMaxStorages%&a).'
     set-icon: '%prefix%&r%rank% &e%player%&a đã cập nhật biểu tượng mới cho bang.'
     set-spawn: '%prefix%&r%rank% &e%player%&a đã di dời căn cứ đến vị trí mới.'
     change-permission: '%prefix%&r%rank% &e%player%&a đã thay đổi quyền hạn chức vụ.'
@@ -262,6 +265,7 @@ messages:
                 &#ADF3FD/clan donggop <số tiền> &8- &fĐóng góp vào quỹ guild
                 &#ADF3FD/clan quy &8- &fXem quỹ guild
                 &#ADF3FD/clan lichsuquy &8- &fXem lịch sử quỹ guild
+                &#ADF3FD/clan trano &8- &fTrả nợ duy trì guild
                 %command%
               placeholder:
                 command: '&#ADF3FD/clan %command% &8- &f%description%'
@@ -270,6 +274,7 @@ messages:
                 &r
                 &#1D98D1■ Lệnh Quản Lý:
                 &#ADF3FD/clan rutien <số tiền> &8- &fRút tiền từ quỹ guild
+                &#ADF3FD/clan trano &8- &fTrả nợ duy trì guild
                 %command%
               placeholder:
                 command: '&#ADF3FD/clan %command% &8- &f%description%'
@@ -282,6 +287,7 @@ messages:
                 &#ADF3FD/clan setowner &8- &fChuyển quyền Bang Chủ
                 &#ADF3FD/clan disband &8- &fGiải tán guild
                 &#ADF3FD/clan rutien <số tiền> &8- &fRút tiền từ quỹ guild
+                &#ADF3FD/clan trano &8- &fTrả nợ duy trì guild
                 %command%
               placeholder:
                 command: '&#ADF3FD/clan %command% &8- &f%description%'

@@ -1,22 +1,17 @@
 package com.banghoi.clan;
 
 import com.banghoi.BangHoi;
-import com.banghoi.Settings;
 import com.banghoi.api.enums.Rank;
 import com.banghoi.api.event.ClanMemberJoinEvent;
 import com.banghoi.api.event.ClanMemberLeaveEvent;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.api.storage.IPlayerData;
-import com.banghoi.inventory.BangHoiStorageInventoryBase;
-import com.banghoi.inventory.ClanStorageInventory;
 import com.banghoi.language.Messages;
-import com.banghoi.storage.ClanData;
 import com.banghoi.storage.PluginDataManager;
 import com.banghoi.util.MessageUtil;
 import com.banghoi.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -233,60 +228,6 @@ public class ClanManager {
         if (rank == Rank.LEADER)
             return Messages.RANK_DISPLAY_LEADER;
         return Messages.RANK_DISPLAY_MEMBER;
-    }
-
-    public static void openClanStorage(Player player, String clanName, int storageNumber, boolean skipDisabled) {
-        if (!Settings.STORAGE_SETTINGS_ENABLED) {
-            if (!skipDisabled) {
-                MessageUtil.sendMessage(player, Messages.FEATURE_DISABLED);
-                return;
-            }
-        }
-
-        if (!isClanExisted(clanName))
-            return;
-        IClanData clanData = PluginDataManager.getClanDatabase(clanName);
-
-        if (storageNumber > clanData.getMaxStorage()) {
-            MessageUtil.sendMessage(player,
-                    Messages.STORAGE_LOCKED.replace("%storageNumber%", String.valueOf(storageNumber)));
-            return;
-        }
-
-        if (storageNumber > Settings.STORAGE_SETTINGS_MAX_INVENTORY) {
-            MessageUtil.sendMessage(player, Messages.STORAGE_NUMBER_EXCEED_LIMIT.replace("%maxStorageNumber%",
-                    String.valueOf(Settings.STORAGE_SETTINGS_MAX_INVENTORY)));
-            return;
-        }
-
-        // to prevent open an invalid inventory number lower than 1
-        if (storageNumber < 1)
-            storageNumber = 1;
-
-        // create a new inventory if clan did not have this inventory before
-        Inventory inventory = clanData.getOrLoadStorage(storageNumber);
-        if (inventory == null) {
-            if (clanData instanceof ClanData cd) {
-                inventory = cd.createStoragePage(storageNumber);
-            } else {
-                HashMap<Integer, Inventory> newInventoryHashMap = clanData.getStorageHashMap();
-                ClanStorageInventory clanStorageInventory = new ClanStorageInventory(storageNumber);
-                clanStorageInventory.setClanName(clanName);
-                newInventoryHashMap.put(storageNumber, clanStorageInventory.getInventory());
-                clanData.setStorageHashMap(newInventoryHashMap);
-                inventory = clanData.getStorageHashMap().get(storageNumber);
-            }
-        }
-        // Mark dirty since the player is opening it (may modify items)
-        if (clanData instanceof ClanData cd) {
-            cd.markStorageDirty(storageNumber);
-        }
-        PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
-
-        BangHoiStorageInventoryBase inventoryHolder = (BangHoiStorageInventoryBase) inventory.getHolder();
-        inventoryHolder.setMenuItems();
-        player.openInventory(inventoryHolder.getInventory());
-
     }
 
     public static List<Player> getPlayerUsingClanChat() {

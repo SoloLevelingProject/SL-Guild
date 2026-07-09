@@ -9,14 +9,11 @@ import com.banghoi.api.enums.Subject;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.api.storage.IPlayerData;
 import com.banghoi.clan.ClanManager;
-import com.banghoi.file.UpgradeFile;
 import com.banghoi.file.GuildUpgradeFile;
 import com.banghoi.file.inventory.*;
-import com.banghoi.inventory.ClanStorageInventory;
 import com.banghoi.language.English;
 import com.banghoi.language.Messages;
 import com.banghoi.language.Vietnamese;
-import com.banghoi.storage.ClanData;
 import com.banghoi.storage.PluginDataManager;
 import com.banghoi.support.DiscordSupport;
 import com.banghoi.util.MessageUtil;
@@ -28,7 +25,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -86,7 +82,6 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 SetPermissionInventoryFile.reload();
                 DisbandConfirmationInventoryFile.reload();
                 LeaveConfirmationInventoryFile.reload();
-                UpgradeFile.reload();
                 GuildUpgradeFile.reload();
 
                 Settings.setupValue();
@@ -506,61 +501,6 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     return false;
                 }
             }
-            if (args[0].equalsIgnoreCase("openClanStorage")) {
-                if (!(sender instanceof Player player)) {
-                    sender.sendMessage("This command is for player only!");
-                    return false;
-                }
-                String playerName = args[1];
-                if (!PluginDataManager.getPlayerDatabase().containsKey(playerName)) {
-                    sender.sendMessage("Player " + playerName + " does not exist in the database.");
-                    return false;
-                }
-                
-                String clanName = PluginDataManager.getPlayerDatabase(playerName).getClan();
-                if (clanName == null || !PluginDataManager.getClanDatabase().containsKey(clanName)) {
-                    sender.sendMessage("Player " + playerName + " is not in any valid clan.");
-                    return false;
-                }
-                
-                try {
-                    int storageNumber = 1;
-                    if (args.length >= 3) {
-                        storageNumber = Integer.parseInt(args[2]);
-                    }
-                    IClanData clanData = PluginDataManager.getClanDatabase(clanName);
-
-                    if (clanData.getMaxStorage() < storageNumber) {
-                        sender.sendMessage(
-                                "Clan " + clanName + " only has " + clanData.getMaxStorage() + " storages!");
-                        return false;
-                    }
-
-                    Inventory inventory = clanData.getOrLoadStorage(storageNumber);
-                    if (inventory == null) {
-                        if (clanData instanceof ClanData cd) {
-                            inventory = cd.createStoragePage(storageNumber);
-                        } else {
-                            HashMap<Integer, Inventory> newInventoryHashMap = clanData.getStorageHashMap();
-                            ClanStorageInventory clanStorageInventory = new ClanStorageInventory(storageNumber);
-                            clanStorageInventory.setClanName(clanName);
-                            newInventoryHashMap.put(storageNumber, clanStorageInventory.getInventory());
-                            clanData.setStorageHashMap(newInventoryHashMap);
-                            inventory = clanData.getStorageHashMap().get(storageNumber);
-                        }
-                    }
-                    if (clanData instanceof ClanData cd) {
-                        cd.markStorageDirty(storageNumber);
-                    }
-                    PluginDataManager.saveClanDatabaseToStorage(clanName, clanData);
-
-                    player.openInventory(inventory);
-                    return false;
-                } catch (NumberFormatException exception) {
-                    sender.sendMessage("Please enter a valid storage number!");
-                    return false;
-                }
-            }
             if (args[0].equalsIgnoreCase("clanresetall")) {
                 List<String> availableTypes = new ArrayList<>();
                 availableTypes.add("score");
@@ -794,7 +734,6 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 + "Types: score, warning, createddate, customname, message, icon, spawnpoint, subjectpermission, discordchannelid, discordjoinlink, members, allies");
         sender.sendMessage("/clanadmin setPlayerData <player name> <type> <set/reset> <value>");
         sender.sendMessage(ChatColor.AQUA + "Types: clanname, rank, joindate, scorecollected, lastactivated");
-        sender.sendMessage("/clanadmin openClanStorage <player name> (storage number)");
         sender.sendMessage("/clanadmin clanResetAll <type>");
         sender.sendMessage(ChatColor.AQUA + "Types: score, warning");
         sender.sendMessage("/clanadmin delete <clan name>");
@@ -825,7 +764,6 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
             commands.add("transferPluginDatabaseType");
             commands.add("setClanData");
             commands.add("setPlayerData");
-            commands.add("openClanStorage");
             commands.add("backup");
             commands.add("delete");
             commands.add("chatspy");
@@ -840,7 +778,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                     commands.addAll(PluginDataManager.getClanDatabase().keySet());
                 }
             }
-            if (args[0].equalsIgnoreCase("setplayerdata") || args[0].equalsIgnoreCase("openClanStorage")) {
+            if (args[0].equalsIgnoreCase("setplayerdata")) {
                 if (!PluginDataManager.getPlayerDatabase().isEmpty())
                     commands.addAll(PluginDataManager.getPlayerDatabase().keySet());
             }

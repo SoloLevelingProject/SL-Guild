@@ -16,9 +16,9 @@ public class ClanMenuInventoryFile {
     public static void setupFile() {
         createFileAndDir();
         saveDefault();
-        File clanMenuFile = new File(BangHoi.plugin.getDataFolder() + "/gui/" + fileName);
+        File clanMenuFile = InventoryFileHelper.getFile(fileName);
         try {
-            ConfigUpdater.update(BangHoi.plugin, "gui/" + fileName, clanMenuFile);
+            ConfigUpdater.update(BangHoi.plugin, InventoryFileHelper.getPath(fileName), clanMenuFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -26,7 +26,7 @@ public class ClanMenuInventoryFile {
     }
 
     private static void createFileAndDir() {
-        file = new File(BangHoi.plugin.getDataFolder() + "/gui/" + fileName);
+        file = InventoryFileHelper.getFile(fileName);
 
         if (!file.exists()) {
             try {
@@ -45,7 +45,7 @@ public class ClanMenuInventoryFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                BangHoi.plugin.saveResource("gui/" + fileName, false);
+                BangHoi.plugin.saveResource(InventoryFileHelper.getPath(fileName), false);
             }
         } catch (Exception e) {
             e.printStackTrace();

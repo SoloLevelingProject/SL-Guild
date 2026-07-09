@@ -16,9 +16,9 @@ public class MemberListInventoryFile {
     public static void setupFile() {
         createFileAndDir();
         saveDefault();
-        File MemberListFile = new File(BangHoi.plugin.getDataFolder() + "/gui/" + fileName);
+        File MemberListFile = InventoryFileHelper.getFile(fileName);
         try {
-            ConfigUpdater.update(BangHoi.plugin, "gui/" + fileName, MemberListFile);
+            ConfigUpdater.update(BangHoi.plugin, InventoryFileHelper.getPath(fileName), MemberListFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -26,7 +26,7 @@ public class MemberListInventoryFile {
     }
 
     private static void createFileAndDir() {
-        file = new File(BangHoi.plugin.getDataFolder() + "/gui/" + fileName);
+        file = InventoryFileHelper.getFile(fileName);
 
         if (!file.exists()) {
             try {
@@ -45,7 +45,7 @@ public class MemberListInventoryFile {
     public static void saveDefault() {
         try {
             if (!file.exists()) {
-                BangHoi.plugin.saveResource("gui/" + fileName, false);
+                BangHoi.plugin.saveResource(InventoryFileHelper.getPath(fileName), false);
             }
         } catch (Exception e) {
             e.printStackTrace();

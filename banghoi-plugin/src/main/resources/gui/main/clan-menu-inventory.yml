@@ -1,0 +1,243 @@
+#
+#    ____ _               ____  _
+#  / ___| | __ _ _ __   |  _ \| |_   _ ___
+# | |   | |/ _` | '_ \  | |_) | | | | / __|
+# | |___| | (_| | | | | |  __/| | |_| \__ \
+#  \____|_|\__,_|_| |_| |_|   |_|\__,_|___/
+#
+# A plugin made by SoloLevelingProject
+#
+#  Notes:
+#  * Supports hex color
+#  * There are 3 main types:
+#    + material: set the value to the MATERIAL of the block
+#      > For Minecraft versions below 1.13, you can use a number in 'value:' and 'data:'
+#          Example: (value: 95 | data: 1) [https://minecraft-ids.grahamedgecombe.com/]
+#      > For versions above 1.12.2, you can directly enter the item name (the 'data:' field is no longer needed)
+#          Example: (value: BOOK) [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html]
+#    + playerhead: used for the "bet-player:" item to display a player's head
+#    + customhead: see the section below
+#      + How to use custom-head:
+#          Step 1: Go to a custom head you want at https://minecraft-heads.com/custom-heads/
+#          Step 2: Scroll to the bottom and find the "Other" section, copy the "Value:" field and
+#                  paste it into the "value:" field of the item you want
+
+title: '&0 ⚔ Bang hội %formatClanName%'
+rows: 6
+items:
+  border:
+    enabled: true
+    name: ' '
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    leave-blank:
+    - 0
+    - 8
+    - 12
+    - 13
+    - 14
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 29
+    - 30
+    - 31
+    - 32
+    - 33
+    - 38
+    - 39
+    - 41
+    - 45
+    - 49
+    - 50
+    - 53
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
+    lore:
+    - ''
+  close:
+    name: '&#FF4444✕ Đóng'
+    slot: 49
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - '  &#E43A96Nhấn&f để thoát'
+  clanInfo:
+    name: '&#ADF3FD🛡 %formatClanName%'
+    slot: 13
+    lore:
+    - ' &8Mã số: &7#%clanName%'
+    - ' &8Ngày lập: &7%createdDate%'
+    - ''
+    - ' &8 ❙ &#ADF3FDThông tin bang'
+    - '  &8○ &7Bang chủ: &#FDD500%owner%'
+    - '  &8○ &7Điểm số: &#ADF3FD%score% ⚡'
+    - '  &8○ &7Thành viên: &#83FF29%memberSize%&8/&#2ECC71%maxMembers%'
+    - '  &8○ &7Đồng minh: &#B366FF%allySize%'
+    - ''
+    - ' &8 ❙ &#FFF38DLời nhắn'
+    - '  &f&o"%message%"'
+  members:
+    name: '&#83FF29👥 Thành viên'
+    slot: 20
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmU2M2UzYmMwZDBhMGY1ZDk3NGMwYTlhMGUyYTBkYjUxYWMzOTFhZmZhMmJmYmY3OGQxNmQyOWM4NDA1Y2ZjYSJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Xem danh sách cộng sự'
+    - '  &8○ &7Quản lý thành viên bang'
+    - ''
+    - '  &8○ &7Hiện có: &#83FF29%totalMembers% &7thành viên'
+    - ''
+    - '  &#E43A96Nhấn&f để mở danh sách'
+  allies:
+    name: '&#B366FF🤝 Đồng minh'
+    slot: 24
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTdiZjM0NmRiODU1NWRkODk2YTQ1MTI4YTY4NmIzMDI4MzExOWE2ZWY2NDI2MTkzZWZkZTNjZDllYjE2Nzc5NCJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Hợp tác với bang hội khác'
+    - '  &8○ &7Không thể tấn công đồng minh'
+    - ''
+    - '  &8○ &7Hiện có: &#B366FF%totalAllies% &7đồng minh'
+    - ''
+    - '  &#E43A96Nhấn&f để quản lý'
+  clanList:
+    name: '&#ADF3FD📋 Danh sách bang'
+    slot: 29
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJlYmJkYjE4ZDc0NzI4MWI1NDYyZjg1N2VlOTg0Njc1YTM5ZDVhMDI3NDQ0NmEyMmY2NjI2NGE1M2QyYjAzNCJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Xem tất cả bang hội máy chủ'
+    - '  &8○ &7Tổng số: &#FDD500%totalClans% &7bang'
+    - ''
+    - '  &#E43A96Nhấn&f để xem chi tiết'
+  upgrade:
+    name: '&#FDD500⬆ Nâng cấp'
+    slot: 33
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjQ2MjhhY2U3YzNhZmM2MWE0NzZkYzE0NDg5M2FhYTY0MmJhOTc2ZDk1MmI1MWVjZTI2YWJhZmI4OTZiOCJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Cải thiện chỉ số cơ bản'
+    - '  &8○ &7Mở rộng quy mô bang hội'
+    - ''
+    - '  &#E43A96Nhấn&f để nâng cấp'
+  settings:
+    name: '&#9281FF⚙ Cài đặt'
+    slot: 31
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTg5ZjFlODc2NGJlZWQ1ZTMzYTY4YjYxOTBhMDM0ODZiMWI0YjExYTNhNTkwNjg4Yzc1YTg5N2I5ZDEwZDk1In19fQ==
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Thiết lập tùy chỉnh riêng'
+    - '  &8○ &7Quản lý quyền hạn & bảo mật'
+    - ''
+    - '  &#E43A96Nhấn&f để cài đặt'
+  spawn:
+    name: '&#FFF38D🏠 Căn cứ'
+    slot: 38
+    type: material
+    value: RED_BED
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+      invalid-spawn-point:
+      - ''
+      - ' &8 ❙ &#FF4444Trạng thái'
+      - '  &8○ &#FF4444Chưa thiết lập căn cứ!'
+      - ''
+      - '  &8&mNhấn để dịch chuyển'
+      valid-spawn-point:
+      - ''
+      - ' &8 ❙ &#ADF3FDVị trí'
+      - '  &8○ &7Thế giới: &#FDD500%worldName%'
+      - '  &8○ &7Tọa độ: &f%x%, %y%, %z%'
+      - ''
+      - '  &#E43A96Nhấn&f để dịch chuyển về căn cứ'
+  leave:
+    name: '&#FF4444🚪 Rời bang'
+    slot: 50
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ' &7Rời khỏi tổ chức hiện tại'
+    - ''
+    - '  &#E43A96Nhấn&f để xác nhận rời bang'
+  contribute:
+    name: '&#FDD500💰 Cống hiến'
+    slot: 39
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTk5YWFmMjQ1NmE2MTIyZGU4ZjZiNjI2ODNmMmJjMmVlMjEwNzdjNjgwNTk2N2M5MWI1NmE1ZTgyZDNlNyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: BLOCK_STONE_BUTTON_CLICK_ON
+      volume: 1
+      pitch: 2
+    lore:
+    - ''
+    - ' &8 ❙ &#ADF3FDMô tả'
+    - '  &8○ &7Đóng góp tài nguyên cho bang'
+    - '  &8○ &7Nhận công huân để thăng tiến'
+    - ''
+    - '  &#E43A96Nhấn&f để cống hiến'

@@ -10,7 +10,7 @@ SL-Guild is a Minecraft guild plugin for SoloLevelingProject servers.
 ## Features
 
 - Guild creation, disband, invites, leave, kick, owner/manager management
-- Guild GUI menus, member lists, guild list, settings, upgrades, storage
+- Guild GUI menus, member lists, guild list, settings, upgrades
 - Guild spawn, ally management, PvP toggle, guild chat, admin chat spy
 - Guild contribution by Vault money with TurtleTop point sync
 - YAML, H2, and SQLite storage

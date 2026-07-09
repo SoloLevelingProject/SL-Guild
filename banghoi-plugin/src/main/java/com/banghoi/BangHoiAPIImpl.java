@@ -199,11 +199,6 @@ public class BangHoiAPIImpl implements com.banghoi.api.BangHoiAPI {
         }
 
         @Override
-        public void openClanStorage(Player player, String clanName, int storageNumber, boolean skipDisabled) {
-            ClanManager.openClanStorage(player, clanName, storageNumber, skipDisabled);
-        }
-
-        @Override
         public boolean isConsoleUsingChatSpy() {
             return ClanManager.isConsoleUsingChatSpy();
         }

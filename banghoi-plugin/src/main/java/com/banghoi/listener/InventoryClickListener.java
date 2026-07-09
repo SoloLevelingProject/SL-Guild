@@ -2,7 +2,6 @@ package com.banghoi.listener;
 
 import com.banghoi.BangHoi;
 import com.banghoi.inventory.BangHoiInventoryBase;
-import com.banghoi.inventory.BangHoiStorageInventoryBase;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +20,6 @@ public class InventoryClickListener implements Listener {
         InventoryHolder holder = event.getInventory().getHolder();
 
         if (holder instanceof BangHoiInventoryBase) ((BangHoiInventoryBase) holder).handleMenu(event);
-        if (holder instanceof BangHoiStorageInventoryBase) ((BangHoiStorageInventoryBase) holder).handleMenu(event);
     }
 
 }

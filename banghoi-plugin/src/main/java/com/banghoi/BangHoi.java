@@ -5,8 +5,8 @@ import com.banghoi.api.server.VersionSupport;
 import com.banghoi.command.ClanAdminCommand;
 import com.banghoi.command.ClanCommand;
 import com.banghoi.clan.ClanManager;
+import com.banghoi.clan.GuildMaintenanceManager;
 import com.banghoi.file.GuildUpgradeFile;
-import com.banghoi.file.UpgradeFile;
 import com.banghoi.file.inventory.*;
 import com.banghoi.language.English;
 import com.banghoi.language.Messages;
@@ -59,6 +59,7 @@ public class BangHoi extends JavaPlugin {
         support = new Support();
         support.setupSupports();
         initListener();
+        GuildMaintenanceManager.start();
         PluginDataManager.loadAllCustomHeadsFromJsonFiles();
 
         log("&f--------------------------------");
@@ -89,9 +90,9 @@ public class BangHoi extends JavaPlugin {
 
     public void initFiles() {
         // create directories
-        File inventoryFolder = new File(getDataFolder() + "/inventories");
-        if (!inventoryFolder.exists())
-            inventoryFolder.mkdirs();
+        File configFolder = new File(getDataFolder() + "/configs");
+        if (!configFolder.exists())
+            configFolder.mkdirs();
 
         File languageFolder = new File(getDataFolder() + "/languages");
         if (!languageFolder.exists())
@@ -100,6 +101,13 @@ public class BangHoi extends JavaPlugin {
         File backupFolder = new File(getDataFolder() + "/backup");
         if (!backupFolder.exists())
             backupFolder.mkdirs();
+
+        deleteObsoleteFile("configs/upgrade.yml");
+        deleteObsoleteFile("gui/storage/storage-list-inventory.yml");
+        deleteObsoleteFile("gui/storage/clan-storage-inventory.yml");
+        File obsoleteStorageFolder = new File(getDataFolder(), "gui/storage");
+        if (obsoleteStorageFolder.exists())
+            obsoleteStorageFolder.delete();
 
         // config.yml
         saveDefaultConfig();
@@ -112,110 +120,81 @@ public class BangHoi extends JavaPlugin {
         reloadConfig();
         MessageUtil.debug("LOADING FILE", "Loaded config.yml.");
 
-        // inventories/clan-list-inventory.yml
+        // gui/main/clan-list-inventory.yml
         ClanListInventoryFile.setupFile();
 
-        // inventories/no-clan-inventory.yml
+        // gui/main/no-clan-inventory.yml
         NoClanInventoryFile.setupFile();
 
-        // inventories/clan-menu-inventory.yml
+        // gui/main/clan-menu-inventory.yml
         ClanMenuInventoryFile.setupFile();
 
-        // inventories/members-menu-inventory.yml
+        // gui/members/members-menu-inventory.yml
         MembersMenuInventoryFile.setupFile();
 
-        // inventories/add-member-list-inventory.yml
+        // gui/members/add-member-list-inventory.yml
         AddMemberListInventoryFile.setupFile();
 
-        // inventories/member-list-inventory.yml
+        // gui/members/member-list-inventory.yml
         MemberListInventoryFile.setupFile();
 
-        // inventories/manage-member-inventory.yml
+        // gui/members/manage-member-inventory.yml
         ManageMemberInventoryFile.setupFile();
 
-        // inventories/manage-member-rank-inventory.yml
+        // gui/members/manage-member-rank-inventory.yml
         ManageMemberRankInventoryFile.setupFile();
 
-        // inventories/allies-menu-inventory.yml
+        // gui/allies/allies-menu-inventory.yml
         AlliesMenuInventoryFile.setupFile();
 
-        // inventories/add-ally-list-inventory.yml
+        // gui/allies/add-ally-list-inventory.yml
         AddAllyListInventoryFile.setupFile();
 
-        // inventories/ally-invitation-list-inventory.yml
+        // gui/allies/ally-invitation-list-inventory.yml
         AllyInvitationInventoryFile.setupFile();
 
-        // inventories/ally-invitation-confirm-inventory.yml
+        // gui/allies/ally-invitation-confirm-inventory.yml
         AllyInivtationConfirmInventoryFile.setupFile();
 
-        // inventories/ally-list-inventory.yml
+        // gui/allies/ally-list-inventory.yml
         AllyListInventoryFile.setupFile();
 
-        // inventories/manage-ally-inventory.yml
+        // gui/allies/manage-ally-inventory.yml
         ManageAllyInventoryFile.setupFile();
 
-        // inventories/view-clan-inventory.yml
+        // gui/main/view-clan-inventory.yml
         ViewClanInventoryFile.setupFile();
 
-        // inventories/upgrade-menu-inventory.yml
+        // gui/upgrade/upgrade-menu-inventory.yml
         UpgradeMenuInventoryFile.setupFile();
 
-        // inventories/clan-settings-inventory.yml
+        // gui/settings/clan-settings-inventory.yml
         ClanSettingsInventoryFile.setupFile();
 
-        // inventories/set-icon-custom-head-list-inventory.yml
+        // gui/settings/set-icon-custom-head-list-inventory.yml
         SetIconCustomHeadListInventoryFile.setupFile();
 
-        // inventories/set-icon-material-list-inventory.yml
+        // gui/settings/set-icon-material-list-inventory.yml
         SetIconMaterialListInventoryFile.setupFile();
 
-        // inventories/set-icon-menu-inventory.yml
+        // gui/settings/set-icon-menu-inventory.yml
         SetIconMenuInventoryFile.setupFile();
 
-        // inventories/set-permission-inventory.yml
+        // gui/settings/set-permission-inventory.yml
         SetPermissionInventoryFile.setupFile();
 
-        // inventories/disband-confirmation-inventory.yml
+        // gui/confirm/disband-confirmation-inventory.yml
         DisbandConfirmationInventoryFile.setupFile();
 
-        // inventories/leave-confirmation-inventory.yml
+        // gui/confirm/leave-confirmation-inventory.yml
         LeaveConfirmationInventoryFile.setupFile();
 
-        // inventories/storage-list-inventory.yml
-        StorageListInventoryFile.setupFile();
-
-        // inventories/clan-storage-inventory.yml
-        ClanStorageInventoryFile.setupFile();
-
-        // inventories/contribute-inventory.yml
+        // gui/main/contribute-inventory.yml
         ContributeInventoryFile.setupFile();
 
-        // upgrade.yml
-        String upgradeFileName = "upgrade.yml";
-        File upgradeFile = new File(getDataFolder() + "/upgrade.yml");
-        if (!upgradeFile.exists()) {
-            try {
-                UpgradeFile.setup();
-                UpgradeFile.saveDefault();
-                ConfigUpdater.update(this, upgradeFileName, upgradeFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                UpgradeFile.setup();
-                UpgradeFile.saveDefault();
-                ConfigUpdater.update(this, upgradeFileName, upgradeFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        UpgradeFile.reload();
-        MessageUtil.debug("LOADING FILE", "Loaded upgrade.yml.");
-
-        // guild-upgrade.yml
-        String guildUpgradeFileName = "guild-upgrade.yml";
-        File guildUpgradeFile = new File(getDataFolder() + "/guild-upgrade.yml");
+        // configs/guild-upgrade.yml
+        String guildUpgradeFileName = "configs/guild-upgrade.yml";
+        File guildUpgradeFile = new File(getDataFolder() + "/configs/guild-upgrade.yml");
         if (!guildUpgradeFile.exists()) {
             try {
                 GuildUpgradeFile.setup();
@@ -235,6 +214,12 @@ public class BangHoi extends JavaPlugin {
         }
         GuildUpgradeFile.reload();
         MessageUtil.debug("LOADING FILE", "Loaded guild-upgrade.yml.");
+    }
+
+    private void deleteObsoleteFile(String path) {
+        File file = new File(getDataFolder(), path);
+        if (file.exists())
+            file.delete();
     }
 
     public void initLanguages() {
@@ -283,7 +268,6 @@ public class BangHoi extends JavaPlugin {
         new SignChangeListener();
         new PlayerQuitListener();
         new PlayerMovementListener();
-        new InventoryCloseListener();
     }
 
     public void initDatabase() {

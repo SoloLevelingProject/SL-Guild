@@ -97,13 +97,8 @@ clan-settings:
       CHAT: MEMBER
       UPGRADE: MANAGER
       MANAGEALLY: MANAGER
-      OPENSTORAGE: MEMBER
       CONTRIBUTE: MEMBER
       JOIN: MEMBER
-    # Default available storage for newly created clans.
-    # Player will need to upgrade their max storage number to use more inventories.
-    # Set to 0 to not give any available storages to new clans.
-    max-storage-default: 1
     
     # Send a broadcast to all the players in the server about the creation of a new clan.
     # The plugin will select a random message from one of those lines below, set to 1 line to only use 1.
@@ -196,15 +191,12 @@ vanish-settings:
   hide-vanish-player:
     enabled: true
 
-# Storage settings
-# Modify max storage number or other stuffs related to clan storage here.
-storage-settings:
+# Daily guild maintenance uses guild fund only.
+guild-maintenance:
   enabled: true
-  # Changing this after player already created and put items in clan storage might cause losing items!
-  slots: 54
-  # Max storage for player to upgrade or utilize.
-  # Any storage numbers exceed the number below won't be able to use or upgrade.
-  max-storage: 30
+  daily-fee: 10000
+  max-debt-days: 7
+  warning-interval-minutes: 5
 
 # Custom head supports
 # minecraft-heads.com supports ClansPLus with their various custom heads.

@@ -109,8 +109,6 @@ public class Messages {
         public static String FEATURE_DISABLED;
         public static String INVALID_LOCATION;
         public static String INVALID_NUMBER;
-        public static String STORAGE_LOCKED;
-        public static String STORAGE_NUMBER_EXCEED_LIMIT;
         public static String GUILD_FUND_BALANCE;
         public static String GUILD_FUND_DEPOSIT_SUCCESS;
         public static String GUILD_FUND_WITHDRAW_SUCCESS;
@@ -118,6 +116,13 @@ public class Messages {
         public static String GUILD_FUND_HISTORY_HEADER;
         public static String GUILD_FUND_HISTORY_LINE;
         public static String GUILD_FUND_HISTORY_EMPTY;
+        public static String GUILD_MAINTENANCE_DEBT_WARNING;
+        public static String GUILD_MAINTENANCE_DEBT_TITLE;
+        public static String GUILD_MAINTENANCE_DEBT_SUBTITLE;
+        public static String GUILD_MAINTENANCE_PAY_DEBT_SUCCESS;
+        public static String GUILD_MAINTENANCE_PAY_DEBT_NOT_ENOUGH;
+        public static String GUILD_MAINTENANCE_NO_DEBT;
+        public static String GUILD_MAINTENANCE_DISBANDED;
         public static String USING_CHAT_BOX_CLAN_CHAT;
         public static String USING_CHAT_BOX_CREATE_CLAN;
         public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
@@ -151,7 +156,6 @@ public class Messages {
         public static String CLAN_BROADCAST_REMOVE_ALLY_NOTIFICATION;
         public static String CLAN_BROADCAST_ALLY_REMOVED_NOTIFICATION;
         public static String CLAN_BROADCAST_UPGRADE_MAX_MEMBERS;
-        public static String CLAN_BROADCAST_UPGRADE_MAX_STORAGES;
         public static String CLAN_BROADCAST_SET_ICON;
         public static String CLAN_BROADCAST_SET_SPAWN;
         public static String CLAN_BROADCAST_CHANGE_PERMISSION;
@@ -280,8 +284,6 @@ public class Messages {
                 FEATURE_DISABLED = fileConfiguration.getString("messages.feature-disabled");
                 INVALID_LOCATION = fileConfiguration.getString("messages.invalid-location");
                 INVALID_NUMBER = fileConfiguration.getString("messages.invalid-number");
-                STORAGE_LOCKED = fileConfiguration.getString("messages.storage-locked");
-                STORAGE_NUMBER_EXCEED_LIMIT = fileConfiguration.getString("messages.storage-number-exceed-limit");
                 GUILD_FUND_BALANCE = fileConfiguration.getString("messages.guild-fund.balance");
                 GUILD_FUND_DEPOSIT_SUCCESS = fileConfiguration.getString("messages.guild-fund.deposit-success");
                 GUILD_FUND_WITHDRAW_SUCCESS = fileConfiguration.getString("messages.guild-fund.withdraw-success");
@@ -289,6 +291,13 @@ public class Messages {
                 GUILD_FUND_HISTORY_HEADER = fileConfiguration.getString("messages.guild-fund.history-header");
                 GUILD_FUND_HISTORY_LINE = fileConfiguration.getString("messages.guild-fund.history-line");
                 GUILD_FUND_HISTORY_EMPTY = fileConfiguration.getString("messages.guild-fund.history-empty");
+                GUILD_MAINTENANCE_DEBT_WARNING = fileConfiguration.getString("messages.guild-maintenance.debt-warning");
+                GUILD_MAINTENANCE_DEBT_TITLE = fileConfiguration.getString("messages.guild-maintenance.debt-title");
+                GUILD_MAINTENANCE_DEBT_SUBTITLE = fileConfiguration.getString("messages.guild-maintenance.debt-subtitle");
+                GUILD_MAINTENANCE_PAY_DEBT_SUCCESS = fileConfiguration.getString("messages.guild-maintenance.pay-debt-success");
+                GUILD_MAINTENANCE_PAY_DEBT_NOT_ENOUGH = fileConfiguration.getString("messages.guild-maintenance.pay-debt-not-enough");
+                GUILD_MAINTENANCE_NO_DEBT = fileConfiguration.getString("messages.guild-maintenance.no-debt");
+                GUILD_MAINTENANCE_DISBANDED = fileConfiguration.getString("messages.guild-maintenance.disbanded");
                 USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");
                 USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
                 USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");
@@ -353,8 +362,6 @@ public class Messages {
                                 .getString("messages.clan-broadcast.ally-removed-notification");
                 CLAN_BROADCAST_UPGRADE_MAX_MEMBERS = fileConfiguration
                                 .getString("messages.clan-broadcast.upgrade-max-members");
-                CLAN_BROADCAST_UPGRADE_MAX_STORAGES = fileConfiguration
-                                .getString("messages.clan-broadcast.upgrade-max-storages");
                 CLAN_BROADCAST_SET_ICON = fileConfiguration.getString("messages.clan-broadcast.set-icon");
                 CLAN_BROADCAST_SET_SPAWN = fileConfiguration.getString("messages.clan-broadcast.set-spawn");
                 CLAN_BROADCAST_CHANGE_PERMISSION = fileConfiguration

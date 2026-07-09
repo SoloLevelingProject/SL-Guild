@@ -89,12 +89,6 @@ public class ClanMenuInventory extends BangHoiInventoryBase {
                     .execute();
         if (itemCustomData.equals("leave"))
             new LeaveConfirmationInventory(getOwner()).open();
-        if (itemCustomData.equals("storage")) {
-            if (Settings.STORAGE_SETTINGS_ENABLED)
-                new StorageListInventory(getOwner()).open();
-            else
-                MessageUtil.sendMessage(getOwner(), Messages.FEATURE_DISABLED);
-        }
         if (itemCustomData.equals("contribute")) {
             if (Settings.CONTRIBUTION_ENABLED)
                 new ContributeInventory(getOwner()).open();
@@ -212,24 +206,6 @@ public class ClanMenuInventory extends BangHoiInventoryBase {
                     spawnItemLore, false), "spawn");
             int spawnItemSlot = fileConfiguration.getInt("items.spawn.slot");
             inventory.setItem(spawnItemSlot, spawnItem);
-
-            int itemsStored = clanData.getTotalStorageItemCount();
-
-            List<String> clanStorageLore = fileConfiguration.getStringList("items.storage.lore");
-            int finalItemsStored = itemsStored;
-            clanStorageLore.replaceAll(string -> BangHoi.nms.addColor(string
-                    .replace("%clanMaxStorage%", String.valueOf(clanData.getMaxStorage()))
-                    .replace("%serverMaxStorage%", String.valueOf(Settings.STORAGE_SETTINGS_MAX_INVENTORY))
-                    .replace("%itemsStored%", String.valueOf(finalItemsStored))));
-
-            ItemStack clanStorageItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.storage.type").toUpperCase()),
-                    fileConfiguration.getString("items.storage.value"),
-                    fileConfiguration.getInt("items.storage.customModelData"),
-                    fileConfiguration.getString("items.storage.name"),
-                    clanStorageLore, false), "storage");
-            int clanStorageItemSlot = fileConfiguration.getInt("items.storage.slot");
-            inventory.setItem(clanStorageItemSlot, clanStorageItem);
 
             // Contribute button
             if (Settings.CONTRIBUTION_ENABLED) {

@@ -42,7 +42,6 @@ subject:
     CHAT: 'Clan chat'
     UPGRADE: 'Upgrade'
     MANAGEALLY: 'Manage allies'
-    OPENSTORAGE: 'Open storage'
   description:
     INVITE: 'Invite others to the clan'
     KICK: 'Kick a member out of the clan'
@@ -56,7 +55,6 @@ subject:
     CHAT: 'Enable or disable clan chat'
     UPGRADE: 'Upgrade the clan'
     MANAGEALLY: 'Send ally requests and manage allies'
-    OPENSTORAGE: 'Open and manage clan storage'
 online-status:
   offline: '&cOFFLINE'
   online: '&aONLINE'
@@ -156,8 +154,6 @@ messages:
   feature-disabled: '%prefix%&#d12f1d&l| &fThis feature is disabled by the administrators.'
   invalid-location: '%prefix%&#d12f1d&l| &fCannot do that here! Try to move to a better location.'
   invalid-number: '%prefix%&#d12f1d&l| &fPlease enter a valid number!'
-  storage-locked: '%prefix%&#d12f1d&l| &fYour clan has not unlocked storage #%storageNumber% yet!'
-  storage-number-exceed-limit: '%prefix%&#d12f1d&l| &fYou cannot open a storage that has its number higher than %maxStorageNumber%&f.'
   guild-fund:
     balance: '%prefix%&#35d11d&l| &fGuild fund balance: &e%amount%&f.'
     deposit-success: '%prefix%&#35d11d&l| &fDeposited &e%amount%&f into the guild fund. Current balance: &e%balance%&f.'
@@ -166,6 +162,14 @@ messages:
     history-header: '%prefix%&#35d11d&l| &fRecent guild fund history:'
     history-line: '&8- &e%time% &7| &f%player% &7| &b%action% &7| &e%amount% &7| balance &a%balance%'
     history-empty: '%prefix%&#d12f1d&l| &fGuild fund history is empty.'
+  guild-maintenance:
+    debt-warning: '%prefix%&#d12f1d&l| &fGuild owes &e%debt%&f maintenance money. &e%daysLeft%&f days left before permanent deletion. Deposit with &e/guild donggop <amount>&f, then run &e/guild trano&f.'
+    debt-title: '&cGuild maintenance debt'
+    debt-subtitle: '&e%debt% &7| &e%daysLeft%&7 days before deletion'
+    pay-debt-success: '%prefix%&#35d11d&l| &fPaid &e%amount%&f maintenance debt from guild fund. Current balance: &e%balance%&f.'
+    pay-debt-not-enough: '%prefix%&#d12f1d&l| &fGuild fund cannot pay debt. Need &e%debt%&f, balance &e%balance%&f.'
+    no-debt: '%prefix%&#35d11d&l| &fGuild has no maintenance debt.'
+    disbanded: '%prefix%&#d12f1d&l| &fGuild &e%clan%&f was permanently deleted because maintenance debt expired.'
   using-chat-box:
     clan-chat: '&r%formatClanName% &eCHAT &f&l| &r%rank% &f%player%&f: %message%'
     create-clan: '%prefix%&#eaff00&l| &fPlease enter the clan name in the chat box.'
@@ -194,7 +198,6 @@ messages:
     remove-ally-notification: '%prefix%&#35d11d&l| &r%rank%&e %player%&f removed clan &e%clan%&f from allies.'
     ally-removed-notification: '%prefix%&#d12f1d&l| &fThis clan was removed from the ally list of clan &e%clan%&f by &e%player%&f.'
     upgrade-max-members: '%prefix%&#35d11d&l| &r%rank%&e %player%&f upgraded the guild to level &2%newLevel%&f and unlocked &2%newMaxMembers%&f member slots.'
-    upgrade-max-storages: '%prefix%&#35d11d&l| &r%rank%&e %player%&f upgraded the max number of storages to &2%newMaxStorages%&f.'
     set-icon: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan icon to &e%value% (Type: %type%)&f.'
     set-spawn: '%prefix%&#35d11d&l| &r%rank%&e %player%&f set the clan spawn to (&c%x%&f, &a%y%&f, &b%z%&f [&cx&ay&bz&f]) (World: &e%world%&f).'
     change-permission: '%prefix%&#35d11d&l| &r%rank%&e %player%&f changed rank permission for &e%name%&f to: %newRank%'
@@ -233,6 +236,7 @@ messages:
                 &#3498eb/clan donggop <amount> &fDeposit to guild fund
                 &#3498eb/clan quy &fView guild fund
                 &#3498eb/clan lichsuquy &fView guild fund history
+                &#3498eb/clan trano &fPay maintenance debt
                 %command%
               placeholder:
                 command: '&#3498eb/clan %command% &f%description%'
@@ -241,6 +245,7 @@ messages:
                 &r
                 &#1d98d1Commands for managers
                 &#3498eb/clan rutien <amount> &fWithdraw from guild fund
+                &#3498eb/clan trano &fPay maintenance debt
                 %command%
               placeholder:
                 command: '&#3498eb/clan %command% &f%description%'
@@ -252,6 +257,7 @@ messages:
                 &#3498eb/clan disband &fDisband the clan
                 &#3498eb/clan setpermission &fSet permissions
                 &#3498eb/clan rutien <amount> &fWithdraw from guild fund
+                &#3498eb/clan trano &fPay maintenance debt
                 %command%
               placeholder:
                 command: '&#3498eb/clan %command% &f%description%'

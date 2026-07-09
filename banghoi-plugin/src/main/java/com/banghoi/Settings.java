@@ -46,7 +46,6 @@ public class Settings {
         public static int CLAN_SETTING_CUSTOM_NAME_MINIMUM_LENGTH;
         public static int CLAN_SETTING_CUSTOM_NAME_MAXIMUM_LENGTH;
         public static HashMap<Subject, Rank> CLAN_SETTING_PERMISSION_DEFAULT = new HashMap<>();
-        public static int CLAN_SETTINGS_MAX_STORAGE_DEFAULT;
         public static List<String> CLAN_SETTINGS_CREATION_BROADCAST;
         public static boolean CLAN_SETTING_PERMISSION_DEFAULT_FORCED;
         public static boolean CLAN_SETTING_SET_SPAWN_BLACKLIST_WORLDS_ENABLED;
@@ -59,10 +58,6 @@ public class Settings {
         public static int CHAT_SETTING_TIME_OUT;
         public static int SIGN_INPUT_SETTINGS_TIME_OUT;
         public static boolean VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED;
-        public static boolean STORAGE_SETTINGS_ENABLED;
-        public static int STORAGE_SETTINGS_SLOTS;
-        public static int STORAGE_SETTINGS_MAX_INVENTORY;
-        public static List<String> STORAGE_SETTINGS_BLACKLIST_MATERIAL = new ArrayList<>();
         public static boolean CUSTOM_HEADS_API_V2_ENABLED;
         public static String CUSTOM_HEADS_API_V2_CUSTOM_KEY;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN;
@@ -94,6 +89,10 @@ public class Settings {
         public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME_;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_;
         public static String SOFT_DEPEND_DISCORDWEBHOOK_URL;
+        public static boolean GUILD_MAINTENANCE_ENABLED;
+        public static long GUILD_MAINTENANCE_DAILY_FEE;
+        public static int GUILD_MAINTENANCE_MAX_DEBT_DAYS;
+        public static int GUILD_MAINTENANCE_WARNING_INTERVAL_MINUTES;
 
         // Contribution settings
         public static boolean CONTRIBUTION_ENABLED;
@@ -169,8 +168,6 @@ public class Settings {
                                         configuration.getString(
                                                         "clan-settings.creating-clan-settings.permission-default."
                                                                         + subject)));
-                CLAN_SETTINGS_MAX_STORAGE_DEFAULT = configuration
-                                .getInt("clan-settings.creating-clan-settings.max-storage-default");
                 CLAN_SETTINGS_CREATION_BROADCAST = configuration
                                 .getStringList("clan-settings.creating-clan-settings.creation-broadcast");
                 CLAN_SETTING_PERMISSION_DEFAULT_FORCED = configuration
@@ -190,11 +187,6 @@ public class Settings {
                 SIGN_INPUT_SETTINGS_TIME_OUT = configuration.getInt("sign-input-settings.time-out");
                 VANISH_SETTING_HIDE_VANISH_PLAYER_ENABLED = configuration
                                 .getBoolean("vanish-settings.hide-vanish-player.enabled");
-                STORAGE_SETTINGS_ENABLED = configuration.getBoolean("storage-settings.enabled");
-                STORAGE_SETTINGS_SLOTS = configuration.getInt("storage-settings.slots");
-                STORAGE_SETTINGS_MAX_INVENTORY = configuration.getInt("storage-settings.max-storage");
-                STORAGE_SETTINGS_BLACKLIST_MATERIAL = configuration
-                                .getStringList("storage-settings.black-list-material");
                 CUSTOM_HEADS_API_V2_ENABLED = configuration.getBoolean("custom-heads.API-v2.enabled");
                 CUSTOM_HEADS_API_V2_CUSTOM_KEY = configuration.getString("custom-heads.API-v2.custom-key");
                 SOFT_DEPEND_PLACEHOLDERAPI_NO_CLAN = configuration.getString("soft-depends.placeholderapi.no-clan");
@@ -253,6 +245,10 @@ public class Settings {
                 SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_ = configuration
                                 .getString("soft-depends.placeholderapi.placeholders.top_score_value_");
                 SOFT_DEPEND_DISCORDWEBHOOK_URL = configuration.getString("soft-depends.discordWebhook.webhookURL");
+                GUILD_MAINTENANCE_ENABLED = configuration.getBoolean("guild-maintenance.enabled", true);
+                GUILD_MAINTENANCE_DAILY_FEE = configuration.getLong("guild-maintenance.daily-fee", 10000);
+                GUILD_MAINTENANCE_MAX_DEBT_DAYS = configuration.getInt("guild-maintenance.max-debt-days", 7);
+                GUILD_MAINTENANCE_WARNING_INTERVAL_MINUTES = configuration.getInt("guild-maintenance.warning-interval-minutes", 5);
 
                 // Contribution settings
                 CONTRIBUTION_ENABLED = configuration.getBoolean("contribution-settings.enabled", true);
