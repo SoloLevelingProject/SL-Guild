@@ -54,6 +54,7 @@ items:
     - '  &8○ &7Level tiếp theo: &#2ECC71%newLevel%'
     - '  &8○ &7Thành viên: &#83FF29%totalMembers%&7/&#83FF29%maxMembers%'
     - '  &8○ &7Mở khóa tối đa: &#2ECC71%newMaxMembers%'
+    - '  &8○ &7Quỹ guild: &#FDD500%guildFund% %currencySymbol%'
     - ''
     - ' &8 ❙ &#FDD500Chi phí'
     - '  &8○ &7Giá: &#FDD500%price% %currencySymbol%'

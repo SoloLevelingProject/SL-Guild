@@ -16,6 +16,13 @@ public interface PluginStorage {
 
     boolean deleteClanData(String clanName);
 
+    default void addGuildFundTransaction(String clanName, String playerName, String action, long amount, long balanceAfter, long createdAt) {
+    }
+
+    default List<GuildFundTransaction> getGuildFundTransactions(String clanName, int limit) {
+        return List.of();
+    }
+
     List<String> getAllClans();
 
     List<String> getAllPlayers();

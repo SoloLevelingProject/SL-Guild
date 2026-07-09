@@ -234,6 +234,7 @@ soft-depends:
       score: '%value%'
       warning: '%value%'
       level: '%value%'
+      guild_fund: '%value%'
       maxmembers: '%value%'
       createddate: '%value%'
       format_createddate: '%value%'

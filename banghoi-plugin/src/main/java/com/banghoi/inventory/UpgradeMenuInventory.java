@@ -95,17 +95,22 @@ public class UpgradeMenuInventory extends BangHoiInventoryBase {
 
             int newMaxMembers = UpgradeManager.getMaxMembersForLevel(newLevel);
             long value = UpgradeManager.getVaultRequireForLevel(newLevel);
-            if (UpgradeManager.checkPlayerCurrency(getOwner(), CurrencyType.VAULT, value, true)) {
-                playerClanData.setLevel(newLevel);
-                playerClanData.setMaxMembers(newMaxMembers);
-                PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
-                ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_UPGRADE_MAX_MEMBERS
-                        .replace("%player%", getOwner().getName())
-                        .replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank()))
-                        .replace("%newLevel%", String.valueOf(playerClanData.getLevel()))
-                        .replace("%newMaxMembers%", String.valueOf(playerClanData.getMaxMembers())));
-                super.open();
+            if (playerClanData.getGuildFund() < value) {
+                MessageUtil.sendMessage(getOwner(), Messages.GUILD_FUND_NOT_ENOUGH
+                        .replace("%balance%", String.valueOf(playerClanData.getGuildFund())));
+                return true;
             }
+            playerClanData.setGuildFund(playerClanData.getGuildFund() - value);
+            playerClanData.setLevel(newLevel);
+            playerClanData.setMaxMembers(newMaxMembers);
+            PluginDataManager.saveClanDatabaseToStorage(playerClanData.getName(), playerClanData);
+            PluginDataManager.addGuildFundTransaction(playerClanData.getName(), getOwner().getName(), "UPGRADE", value, playerClanData.getGuildFund());
+            ClanManager.alertClan(playerClanData.getName(), Messages.CLAN_BROADCAST_UPGRADE_MAX_MEMBERS
+                    .replace("%player%", getOwner().getName())
+                    .replace("%rank%", ClanManager.getFormatRank(PluginDataManager.getPlayerDatabase(getOwner().getName()).getRank()))
+                    .replace("%newLevel%", String.valueOf(playerClanData.getLevel()))
+                    .replace("%newMaxMembers%", String.valueOf(playerClanData.getMaxMembers())));
+            super.open();
         }
         if (itemCustomData.equals("upgradeStorage")) {
             // check rank
@@ -177,6 +182,7 @@ public class UpgradeMenuInventory extends BangHoiInventoryBase {
                 lore = lore.replace("%newLevel%", UpgradeManager.hasLevel(newLevel) ? String.valueOf(newLevel) : "MAX");
                 lore = lore.replace("%maxMembers%", String.valueOf(playerClanData.getMaxMembers()));
                 lore = lore.replace("%newMaxMembers%", String.valueOf(newMaxMembers));
+                lore = lore.replace("%guildFund%", String.valueOf(playerClanData.getGuildFund()));
                 lore = lore.replace("%currencySymbol%", StringUtil.getCurrencySymbolFormat(CurrencyType.VAULT));
                 lore = lore.replace("%currencyName%", StringUtil.getCurrencyNameFormat(CurrencyType.VAULT));
                 lore = lore.replace("%price%", UpgradeManager.hasLevel(newLevel) ? String.valueOf(price) : "MAX");

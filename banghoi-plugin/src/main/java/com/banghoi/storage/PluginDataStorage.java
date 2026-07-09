@@ -59,6 +59,14 @@ public class PluginDataStorage {
         return STORAGE.deleteClanData(clanName);
     }
 
+    public static void addGuildFundTransaction(String clanName, String playerName, String action, long amount, long balanceAfter, long createdAt) {
+        STORAGE.addGuildFundTransaction(clanName, playerName, action, amount, balanceAfter, createdAt);
+    }
+
+    public static List<GuildFundTransaction> getGuildFundTransactions(String clanName, int limit) {
+        return STORAGE.getGuildFundTransactions(clanName, limit);
+    }
+
     public static List<String> getAllClans() {
         return STORAGE.getAllClans();
     }

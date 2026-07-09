@@ -23,6 +23,7 @@ public class ClanData implements IClanData {
     private int warning;
     private int maxMembers;
     private int level;
+    private long guildFund;
     private long createdDate;
     private ItemType itemType;
     private String iconValue;
@@ -47,7 +48,7 @@ public class ClanData implements IClanData {
     private final Set<Integer> dirtyPages = new HashSet<>();
 
     public ClanData(String name, String customName, String owner, String message, int score, int warning,
-            int maxMembers, int level, long createdDate, ItemType itemType, String iconValue, List<String> members,
+            int maxMembers, int level, long guildFund, long createdDate, ItemType itemType, String iconValue, List<String> members,
             Location spawnPoint, List<String> allies, HashMap<Subject, Rank> subjectPermission,
             List<String> allyInvitation, long discordChannelID, String discordJoinLink,
             HashMap<Integer, Inventory> storage, int maxStorage) {
@@ -59,6 +60,7 @@ public class ClanData implements IClanData {
         this.warning = warning;
         this.maxMembers = maxMembers;
         this.level = level;
+        this.guildFund = guildFund;
         this.createdDate = createdDate;
         this.itemType = itemType;
         this.iconValue = iconValue;
@@ -330,6 +332,16 @@ public class ClanData implements IClanData {
     @Override
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    @Override
+    public long getGuildFund() {
+        return guildFund;
+    }
+
+    @Override
+    public void setGuildFund(long guildFund) {
+        this.guildFund = guildFund;
     }
 
     @Override

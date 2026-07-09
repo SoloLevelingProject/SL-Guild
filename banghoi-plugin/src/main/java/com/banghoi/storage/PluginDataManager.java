@@ -180,6 +180,14 @@ public class PluginDataManager {
         return deleted;
     }
 
+    public static void addGuildFundTransaction(String clanName, String playerName, String action, long amount, long balanceAfter) {
+        PluginDataStorage.addGuildFundTransaction(clanName, playerName, action, amount, balanceAfter, System.currentTimeMillis());
+    }
+
+    public static List<GuildFundTransaction> getGuildFundTransactions(String clanName, int limit) {
+        return PluginDataStorage.getGuildFundTransactions(clanName, limit);
+    }
+
     public static void transferDatabase(CommandSender commandSender, DatabaseType toDatabaseType) {
         if (BangHoi.databaseType != toDatabaseType) {
             DatabaseType oldDatabaseType = BangHoi.databaseType;

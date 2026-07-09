@@ -111,6 +111,13 @@ public class Messages {
         public static String INVALID_NUMBER;
         public static String STORAGE_LOCKED;
         public static String STORAGE_NUMBER_EXCEED_LIMIT;
+        public static String GUILD_FUND_BALANCE;
+        public static String GUILD_FUND_DEPOSIT_SUCCESS;
+        public static String GUILD_FUND_WITHDRAW_SUCCESS;
+        public static String GUILD_FUND_NOT_ENOUGH;
+        public static String GUILD_FUND_HISTORY_HEADER;
+        public static String GUILD_FUND_HISTORY_LINE;
+        public static String GUILD_FUND_HISTORY_EMPTY;
         public static String USING_CHAT_BOX_CLAN_CHAT;
         public static String USING_CHAT_BOX_CREATE_CLAN;
         public static String USING_CHAT_BOX_SET_CUSTOM_NAME;
@@ -275,6 +282,13 @@ public class Messages {
                 INVALID_NUMBER = fileConfiguration.getString("messages.invalid-number");
                 STORAGE_LOCKED = fileConfiguration.getString("messages.storage-locked");
                 STORAGE_NUMBER_EXCEED_LIMIT = fileConfiguration.getString("messages.storage-number-exceed-limit");
+                GUILD_FUND_BALANCE = fileConfiguration.getString("messages.guild-fund.balance");
+                GUILD_FUND_DEPOSIT_SUCCESS = fileConfiguration.getString("messages.guild-fund.deposit-success");
+                GUILD_FUND_WITHDRAW_SUCCESS = fileConfiguration.getString("messages.guild-fund.withdraw-success");
+                GUILD_FUND_NOT_ENOUGH = fileConfiguration.getString("messages.guild-fund.not-enough");
+                GUILD_FUND_HISTORY_HEADER = fileConfiguration.getString("messages.guild-fund.history-header");
+                GUILD_FUND_HISTORY_LINE = fileConfiguration.getString("messages.guild-fund.history-line");
+                GUILD_FUND_HISTORY_EMPTY = fileConfiguration.getString("messages.guild-fund.history-empty");
                 USING_CHAT_BOX_CLAN_CHAT = fileConfiguration.getString("messages.using-chat-box.clan-chat");
                 USING_CHAT_BOX_CREATE_CLAN = fileConfiguration.getString("messages.using-chat-box.create-clan");
                 USING_CHAT_BOX_SET_CUSTOM_NAME = fileConfiguration.getString("messages.using-chat-box.set-custom-name");

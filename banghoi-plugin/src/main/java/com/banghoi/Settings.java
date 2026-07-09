@@ -74,6 +74,7 @@ public class Settings {
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_SCORE;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_WARNING;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_LEVEL;
+        public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_GUILD_FUND;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_CLAN_FORMAT_CREATEDDATE;
@@ -213,6 +214,8 @@ public class Settings {
                                 .getString("soft-depends.placeholderapi.placeholders.warning");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_LEVEL = configuration
                                 .getString("soft-depends.placeholderapi.placeholders.level");
+                SOFT_DEPEND_PLACEHOLDERAPI_CLAN_GUILD_FUND = configuration
+                                .getString("soft-depends.placeholderapi.placeholders.guild_fund");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_MAXMEMBERS = configuration
                                 .getString("soft-depends.placeholderapi.placeholders.maxmembers");
                 SOFT_DEPEND_PLACEHOLDERAPI_CLAN_CREATEDDATE = configuration

@@ -29,10 +29,12 @@ public class PluginDataSQLiteStorage implements PluginStorage {
     private static Connection connection;
     private static String clanTable;
     private static String playerTable;
+    private static String guildFundHistoryTable;
 
     public PluginDataSQLiteStorage(String fileName, String clanTableName, String playerTableName) {
         clanTable = clanTableName;
         playerTable = playerTableName;
+        guildFundHistoryTable = clanTableName + "_fund_history";
         try {
             if (connection != null)
                 disableStorage();
@@ -61,6 +63,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                     " WARNING INTEGER, " +
                     " MAXMEMBERS INTEGER, " +
                     " GUILDLEVEL INTEGER, " +
+                    " GUILDFUND INTEGER, " +
                     " CREATEDDATE INTEGER, " +
                     " ICONTYPE TEXT, " +
                     " ICONVALUE TEXT, " +
@@ -89,6 +92,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
             addColumnIfMissing(statement, clanTable, "MAXSTORAGE", "INTEGER");
             addColumnIfMissing(statement, clanTable, "CONGHUAN", "INTEGER");
             addColumnIfMissing(statement, clanTable, "GUILDLEVEL", "INTEGER");
+            addColumnIfMissing(statement, clanTable, "GUILDFUND", "INTEGER");
             addColumnIfMissing(statement, clanTable, "SPAWNPOINTYAW", "REAL");
             addColumnIfMissing(statement, clanTable, "SPAWNPOINTPITCH", "REAL");
 
@@ -110,6 +114,17 @@ public class PluginDataSQLiteStorage implements PluginStorage {
             addColumnIfMissing(statement, playerTable, "CONGHUANCONTRIBUTED", "INTEGER");
             addColumnIfMissing(statement, playerTable, "LASTCONTRIBUTETIME", "INTEGER");
             addColumnIfMissing(statement, playerTable, "MONEYCONTRIBUTECOUNTTODAY", "INTEGER");
+
+            String sql3 = "CREATE TABLE IF NOT EXISTS " + guildFundHistoryTable + " " +
+                    "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    " CLAN TEXT not NULL, " +
+                    " PLAYERNAME TEXT not NULL, " +
+                    " ACTION TEXT not NULL, " +
+                    " AMOUNT INTEGER, " +
+                    " BALANCEAFTER INTEGER, " +
+                    " CREATEDAT INTEGER)";
+            statement.executeUpdate(sql3);
+            MessageUtil.debug("LOADING DATABASE (SQLITE)", "Connected to guild fund history table: " + guildFundHistoryTable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,11 +177,11 @@ public class PluginDataSQLiteStorage implements PluginStorage {
     private static void initClanData(String clanName) {
         String sql = "INSERT INTO " + clanTable + " (" +
                 "NAME, CUSTOMNAME, OWNER, MESSAGE, SCORE, WARNING, " +
-                "MAXMEMBERS, GUILDLEVEL, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
+                "MAXMEMBERS, GUILDLEVEL, GUILDFUND, CREATEDDATE, ICONTYPE, ICONVALUE, MEMBERS, " +
                 "SPAWNPOINTWORLD, SPAWNPOINTX, SPAWNPOINTY, SPAWNPOINTZ, SPAWNPOINTYAW, SPAWNPOINTPITCH, " +
                 "ALLIES, SUBJECTPERMISSION, ALLYINVITATION, " +
                 "DISCORDCHANNELID, DISCORDJOINLINK, STORAGE, MAXSTORAGE, CONGHUAN) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, clanName); // NAME
             preparedStatement.setString(2, ""); // CUSTOMNAME
@@ -176,24 +191,25 @@ public class PluginDataSQLiteStorage implements PluginStorage {
             preparedStatement.setInt(6, 0); // WARNING
             preparedStatement.setInt(7, 0); // MAXMEMBERS
             preparedStatement.setInt(8, 0); // GUILDLEVEL
-            preparedStatement.setInt(9, 0); // CREATEDDATE
-            preparedStatement.setString(10, ""); // ICONTYPE
-            preparedStatement.setString(11, ""); // ICONVALUE
-            preparedStatement.setString(12, ""); // MEMBERS
-            preparedStatement.setString(13, ""); // SPAWNPOINTWORLD
-            preparedStatement.setInt(14, 0); // SPAWNPOINTX
-            preparedStatement.setInt(15, 0); // SPAWNPOINTY
-            preparedStatement.setInt(16, 0); // SPAWNPOINTZ
-            preparedStatement.setInt(17, 0); // SPAWNPOINTYAW
-            preparedStatement.setInt(18, 0); // SPAWNPOINTPITCH
-            preparedStatement.setString(19, ""); // ALLIES
-            preparedStatement.setString(20, ""); // SUBJECTPERMISSION
-            preparedStatement.setString(21, ""); // ALLYINVITATION
-            preparedStatement.setLong(22, 0L); // DISCORDCHANNELID
-            preparedStatement.setString(23, ""); // DISCORDJOINLINK
-            preparedStatement.setString(24, ""); // STORAGE
-            preparedStatement.setInt(25, 0); // MAXSTORAGE
-            preparedStatement.setLong(26, 0); // CONGHUAN
+            preparedStatement.setLong(9, 0); // GUILDFUND
+            preparedStatement.setInt(10, 0); // CREATEDDATE
+            preparedStatement.setString(11, ""); // ICONTYPE
+            preparedStatement.setString(12, ""); // ICONVALUE
+            preparedStatement.setString(13, ""); // MEMBERS
+            preparedStatement.setString(14, ""); // SPAWNPOINTWORLD
+            preparedStatement.setInt(15, 0); // SPAWNPOINTX
+            preparedStatement.setInt(16, 0); // SPAWNPOINTY
+            preparedStatement.setInt(17, 0); // SPAWNPOINTZ
+            preparedStatement.setInt(18, 0); // SPAWNPOINTYAW
+            preparedStatement.setInt(19, 0); // SPAWNPOINTPITCH
+            preparedStatement.setString(20, ""); // ALLIES
+            preparedStatement.setString(21, ""); // SUBJECTPERMISSION
+            preparedStatement.setString(22, ""); // ALLYINVITATION
+            preparedStatement.setLong(23, 0L); // DISCORDCHANNELID
+            preparedStatement.setString(24, ""); // DISCORDJOINLINK
+            preparedStatement.setString(25, ""); // STORAGE
+            preparedStatement.setInt(26, 0); // MAXSTORAGE
+            preparedStatement.setLong(27, 0); // CONGHUAN
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -241,6 +257,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                 0,
                 Settings.CLAN_SETTING_MAXIMUM_MEMBER_DEFAULT,
                 UpgradeManager.getDefaultLevel(),
+                0,
                 new Date().getTime(),
                 ItemType.valueOf(Settings.CLAN_SETTING_ICON_DEFAULT_TYPE.toUpperCase()),
                 Settings.CLAN_SETTING_ICON_DEFAULT_VALUE,
@@ -274,6 +291,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                     level = UpgradeManager.getLevelForMaxMembers(resultSet.getInt("MAXMEMBERS"));
                 clanData.setLevel(level);
                 clanData.setMaxMembers(UpgradeManager.getMaxMembersForLevel(level));
+                clanData.setGuildFund(resultSet.getLong("GUILDFUND"));
                 clanData.setCreatedDate(resultSet.getLong("CREATEDDATE"));
                 clanData.setIconType(ItemType.valueOf(resultSet.getString("ICONTYPE").toUpperCase()));
                 clanData.setIconValue(resultSet.getString("ICONVALUE"));
@@ -362,6 +380,7 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                 + " WARNING = ?,"
                 + " MAXMEMBERS = ?,"
                 + " GUILDLEVEL = ?,"
+                + " GUILDFUND = ?,"
                 + " CREATEDDATE = ?,"
                 + " ICONTYPE = ?,"
                 + " ICONVALUE = ?,"
@@ -392,33 +411,34 @@ public class PluginDataSQLiteStorage implements PluginStorage {
             preparedStatement.setInt(6, clanData.getWarning());
             preparedStatement.setInt(7, clanData.getMaxMembers());
             preparedStatement.setInt(8, clanData.getLevel());
-            preparedStatement.setLong(9, clanData.getCreatedDate());
-            preparedStatement.setString(10, clanData.getIconType().toString().toUpperCase());
-            preparedStatement.setString(11, clanData.getIconValue());
-            preparedStatement.setString(12, gson.toJson(clanData.getMembers()));
+            preparedStatement.setLong(9, clanData.getGuildFund());
+            preparedStatement.setLong(10, clanData.getCreatedDate());
+            preparedStatement.setString(11, clanData.getIconType().toString().toUpperCase());
+            preparedStatement.setString(12, clanData.getIconValue());
+            preparedStatement.setString(13, gson.toJson(clanData.getMembers()));
             if (clanData.getSpawnPoint() != null) {
                 String spawnWorldName = clanData.getSpawnPoint().getWorld() != null
                         ? clanData.getSpawnPoint().getWorld().getName()
                         : clanData instanceof ClanData cd ? cd.getSpawnWorldName() : null;
-                preparedStatement.setString(13, spawnWorldName);
-                preparedStatement.setDouble(14, clanData.getSpawnPoint().getX());
-                preparedStatement.setDouble(15, clanData.getSpawnPoint().getY());
-                preparedStatement.setDouble(16, clanData.getSpawnPoint().getZ());
-                preparedStatement.setDouble(17, clanData.getSpawnPoint().getYaw());
-                preparedStatement.setDouble(18, clanData.getSpawnPoint().getPitch());
+                preparedStatement.setString(14, spawnWorldName);
+                preparedStatement.setDouble(15, clanData.getSpawnPoint().getX());
+                preparedStatement.setDouble(16, clanData.getSpawnPoint().getY());
+                preparedStatement.setDouble(17, clanData.getSpawnPoint().getZ());
+                preparedStatement.setDouble(18, clanData.getSpawnPoint().getYaw());
+                preparedStatement.setDouble(19, clanData.getSpawnPoint().getPitch());
             } else {
-                preparedStatement.setString(13, null);
-                preparedStatement.setDouble(14, 0);
+                preparedStatement.setString(14, null);
                 preparedStatement.setDouble(15, 0);
                 preparedStatement.setDouble(16, 0);
                 preparedStatement.setDouble(17, 0);
                 preparedStatement.setDouble(18, 0);
+                preparedStatement.setDouble(19, 0);
             }
-            preparedStatement.setString(19, gson.toJson(clanData.getAllies()));
-            preparedStatement.setString(20, gson.toJson(clanData.getSubjectPermission()));
-            preparedStatement.setString(21, gson.toJson(clanData.getAllyInvitation()));
-            preparedStatement.setLong(22, clanData.getDiscordChannelID());
-            preparedStatement.setString(23, clanData.getDiscordJoinLink());
+            preparedStatement.setString(20, gson.toJson(clanData.getAllies()));
+            preparedStatement.setString(21, gson.toJson(clanData.getSubjectPermission()));
+            preparedStatement.setString(22, gson.toJson(clanData.getAllyInvitation()));
+            preparedStatement.setLong(23, clanData.getDiscordChannelID());
+            preparedStatement.setString(24, clanData.getDiscordJoinLink());
 
             // LAZY SAVING: sync dirty live pages, then write serialized storage directly.
             // Avoids re-serializing pages that haven't been modified.
@@ -447,10 +467,10 @@ public class PluginDataSQLiteStorage implements PluginStorage {
                 }
             }
 
-            preparedStatement.setString(24, gson.toJson(clanInventoryBase64Converted));
-            preparedStatement.setInt(25, clanData.getMaxStorage());
-            preparedStatement.setLong(26, 0); // CONGHUAN (legacy, no longer used)
-            preparedStatement.setString(27, clanData.getName());
+            preparedStatement.setString(25, gson.toJson(clanInventoryBase64Converted));
+            preparedStatement.setInt(26, clanData.getMaxStorage());
+            preparedStatement.setLong(27, 0); // CONGHUAN (legacy, no longer used)
+            preparedStatement.setString(28, clanData.getName());
             preparedStatement.executeUpdate();
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -466,11 +486,54 @@ public class PluginDataSQLiteStorage implements PluginStorage {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, clanName);
             ps.execute();
+            try (PreparedStatement historyStatement = connection.prepareStatement("DELETE FROM " + guildFundHistoryTable + " WHERE CLAN=?")) {
+                historyStatement.setString(1, clanName);
+                historyStatement.execute();
+            }
             return true;
         } catch (Exception exception) {
             exception.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public void addGuildFundTransaction(String clanName, String playerName, String action, long amount, long balanceAfter, long createdAt) {
+        String sql = "INSERT INTO " + guildFundHistoryTable + " (CLAN, PLAYERNAME, ACTION, AMOUNT, BALANCEAFTER, CREATEDAT) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, clanName);
+            preparedStatement.setString(2, playerName);
+            preparedStatement.setString(3, action);
+            preparedStatement.setLong(4, amount);
+            preparedStatement.setLong(5, balanceAfter);
+            preparedStatement.setLong(6, createdAt);
+            preparedStatement.executeUpdate();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<GuildFundTransaction> getGuildFundTransactions(String clanName, int limit) {
+        String sql = "SELECT * FROM " + guildFundHistoryTable + " WHERE CLAN=? ORDER BY CREATEDAT DESC LIMIT ?";
+        List<GuildFundTransaction> transactions = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, clanName);
+            preparedStatement.setInt(2, limit);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                transactions.add(new GuildFundTransaction(
+                        resultSet.getString("CLAN"),
+                        resultSet.getString("PLAYERNAME"),
+                        resultSet.getString("ACTION"),
+                        resultSet.getLong("AMOUNT"),
+                        resultSet.getLong("BALANCEAFTER"),
+                        resultSet.getLong("CREATEDAT")));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return transactions;
     }
 
     @Override

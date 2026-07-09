@@ -185,6 +185,14 @@ messages:
   invalid-number: '%prefix%&cVui lòng nhập một con số hợp lệ!'
   storage-locked: '%prefix%&cKho đồ &e#%storageNumber%&c chưa được mở khóa!'
   storage-number-exceed-limit: '%prefix%&cSố thứ tự kho không thể lớn hơn &e%maxStorageNumber%&c.'
+  guild-fund:
+    balance: '%prefix%&aQuỹ guild hiện có: &e%amount%&a.'
+    deposit-success: '%prefix%&aBạn đã đóng góp &e%amount%&a vào quỹ guild. Quỹ hiện có: &e%balance%&a.'
+    withdraw-success: '%prefix%&aBạn đã rút &e%amount%&a khỏi quỹ guild. Quỹ còn lại: &e%balance%&a.'
+    not-enough: '%prefix%&cQuỹ guild không đủ tiền. Hiện có: &e%balance%&c.'
+    history-header: '%prefix%&aLịch sử quỹ guild gần nhất:'
+    history-line: '&8- &e%time% &7| &f%player% &7| &b%action% &7| &e%amount% &7| còn &a%balance%'
+    history-empty: '%prefix%&cGuild chưa có lịch sử quỹ.'
 
   using-chat-box:
     clan-chat: '&#ADF3FD[Bang] &r%rank% &f%player%&8 ⇨ &f%message%'
@@ -251,6 +259,9 @@ messages:
                 &#ADF3FD/clan info <tên> &8- &fXem thông tin guild
                 &#ADF3FD/clan leave &8- &fRời guild
                 &#ADF3FD/clan pvp &8- &fBật/tắt sát thương đồng đội
+                &#ADF3FD/clan donggop <số tiền> &8- &fĐóng góp vào quỹ guild
+                &#ADF3FD/clan quy &8- &fXem quỹ guild
+                &#ADF3FD/clan lichsuquy &8- &fXem lịch sử quỹ guild
                 %command%
               placeholder:
                 command: '&#ADF3FD/clan %command% &8- &f%description%'
@@ -258,6 +269,7 @@ messages:
               messages: |
                 &r
                 &#1D98D1■ Lệnh Quản Lý:
+                &#ADF3FD/clan rutien <số tiền> &8- &fRút tiền từ quỹ guild
                 %command%
               placeholder:
                 command: '&#ADF3FD/clan %command% &8- &f%description%'
@@ -269,6 +281,7 @@ messages:
                 &#ADF3FD/clan upgrade &8- &fNâng cấp guild
                 &#ADF3FD/clan setowner &8- &fChuyển quyền Bang Chủ
                 &#ADF3FD/clan disband &8- &fGiải tán guild
+                &#ADF3FD/clan rutien <số tiền> &8- &fRút tiền từ quỹ guild
                 %command%
               placeholder:
                 command: '&#ADF3FD/clan %command% &8- &f%description%'

@@ -11,8 +11,11 @@ import com.banghoi.clan.ClanManager;
 import com.banghoi.clan.subject.*;
 import com.banghoi.inventory.*;
 import com.banghoi.language.Messages;
+import com.banghoi.storage.GuildFundTransaction;
 import com.banghoi.storage.PluginDataManager;
 import com.banghoi.util.MessageUtil;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -23,10 +26,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Date;
 
 public class ClanCommand implements CommandExecutor, TabExecutor {
 
@@ -158,8 +163,30 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                     return false;
                 }
             }
+            if (args[0].equalsIgnoreCase("quy")) {
+                IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
+                if (clanData == null) {
+                    MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+                    return false;
+                }
+                MessageUtil.sendMessage(player, Messages.GUILD_FUND_BALANCE
+                        .replace("%amount%", String.valueOf(clanData.getGuildFund())));
+                return false;
+            }
+            if (args[0].equalsIgnoreCase("lichsuquy")) {
+                sendGuildFundHistory(player);
+                return false;
+            }
         }
         if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("donggop")) {
+                handleGuildFundDeposit(player, args[1]);
+                return false;
+            }
+            if (args[0].equalsIgnoreCase("rutien")) {
+                handleGuildFundWithdraw(player, args[1]);
+                return false;
+            }
             if (args[0].equalsIgnoreCase("info")) {
                 if (PluginDataManager.getClanDatabase().containsKey(args[1])) {
                     new ViewClanInformationInventory(player, args[1]).open();
@@ -303,6 +330,134 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
         return false;
     }
 
+    private void handleGuildFundDeposit(Player player, String amountText) {
+        IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
+        if (clanData == null) {
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+            return;
+        }
+
+        Long amount = parsePositiveAmount(player, amountText);
+        if (amount == null)
+            return;
+
+        Economy economy = BangHoi.support.getVault();
+        if (economy == null) {
+            player.sendMessage("Error: Vault plugin is missing, please contact the server admin immediately");
+            return;
+        }
+        if (economy.getBalance(player) < amount) {
+            MessageUtil.sendMessage(player, Messages.NOT_ENOUGH_CURRENCY
+                    .replace("%currencySymbol%", Messages.CURRENCY_DISPLAY_VAULT_SYMBOL)
+                    .replace("%price%", String.valueOf(amount))
+                    .replace("%currencyName%", Messages.CURRENCY_DISPLAY_VAULT_NAME));
+            return;
+        }
+
+        EconomyResponse response = economy.withdrawPlayer(player, amount);
+        if (!response.transactionSuccess()) {
+            MessageUtil.sendMessage(player, Messages.NOT_ENOUGH_CURRENCY
+                    .replace("%currencySymbol%", Messages.CURRENCY_DISPLAY_VAULT_SYMBOL)
+                    .replace("%price%", String.valueOf(amount))
+                    .replace("%currencyName%", Messages.CURRENCY_DISPLAY_VAULT_NAME));
+            return;
+        }
+        clanData.setGuildFund(clanData.getGuildFund() + amount);
+        PluginDataManager.saveClanDatabaseToStorage(clanData.getName(), clanData);
+        PluginDataManager.addGuildFundTransaction(clanData.getName(), player.getName(), "DEPOSIT", amount, clanData.getGuildFund());
+
+        MessageUtil.sendMessage(player, Messages.GUILD_FUND_DEPOSIT_SUCCESS
+                .replace("%amount%", String.valueOf(amount))
+                .replace("%balance%", String.valueOf(clanData.getGuildFund())));
+    }
+
+    private void handleGuildFundWithdraw(Player player, String amountText) {
+        IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
+        if (clanData == null) {
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+            return;
+        }
+        if (!ClanManager.isPlayerRankSatisfied(player.getName(), Rank.MANAGER)) {
+            MessageUtil.sendMessage(player, Messages.REQUIRED_RANK.replace("%requiredRank%", ClanManager.getFormatRank(Rank.MANAGER)));
+            return;
+        }
+
+        Long amount = parsePositiveAmount(player, amountText);
+        if (amount == null)
+            return;
+
+        Economy economy = BangHoi.support.getVault();
+        if (economy == null) {
+            player.sendMessage("Error: Vault plugin is missing, please contact the server admin immediately");
+            return;
+        }
+        if (clanData.getGuildFund() < amount) {
+            MessageUtil.sendMessage(player, Messages.GUILD_FUND_NOT_ENOUGH
+                    .replace("%balance%", String.valueOf(clanData.getGuildFund())));
+            return;
+        }
+
+        EconomyResponse response = economy.depositPlayer(player, amount);
+        if (!response.transactionSuccess()) {
+            player.sendMessage("Error: Could not deposit money to your account, please contact the server admin immediately");
+            return;
+        }
+        clanData.setGuildFund(clanData.getGuildFund() - amount);
+        PluginDataManager.saveClanDatabaseToStorage(clanData.getName(), clanData);
+        PluginDataManager.addGuildFundTransaction(clanData.getName(), player.getName(), "WITHDRAW", amount, clanData.getGuildFund());
+
+        MessageUtil.sendMessage(player, Messages.GUILD_FUND_WITHDRAW_SUCCESS
+                .replace("%amount%", String.valueOf(amount))
+                .replace("%balance%", String.valueOf(clanData.getGuildFund())));
+    }
+
+    private Long parsePositiveAmount(Player player, String amountText) {
+        try {
+            long amount = Long.parseLong(amountText);
+            if (amount <= 0)
+                throw new NumberFormatException();
+            return amount;
+        } catch (NumberFormatException exception) {
+            MessageUtil.sendMessage(player, Messages.INVALID_NUMBER);
+            return null;
+        }
+    }
+
+    private void sendGuildFundHistory(Player player) {
+        IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(player.getName());
+        if (clanData == null) {
+            MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
+            return;
+        }
+
+        List<GuildFundTransaction> transactions = PluginDataManager.getGuildFundTransactions(clanData.getName(), 10);
+        if (transactions.isEmpty()) {
+            MessageUtil.sendMessage(player, Messages.GUILD_FUND_HISTORY_EMPTY);
+            return;
+        }
+
+        MessageUtil.sendMessage(player, Messages.GUILD_FUND_HISTORY_HEADER);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (GuildFundTransaction transaction : transactions) {
+            MessageUtil.sendMessage(player, Messages.GUILD_FUND_HISTORY_LINE
+                    .replace("%time%", dateFormat.format(new Date(transaction.getCreatedAt())))
+                    .replace("%player%", transaction.getPlayerName())
+                    .replace("%action%", formatGuildFundAction(transaction.getAction()))
+                    .replace("%amount%", String.valueOf(transaction.getAmount()))
+                    .replace("%balance%", String.valueOf(transaction.getBalanceAfter())));
+        }
+    }
+
+    private String formatGuildFundAction(String action) {
+        if (action.equalsIgnoreCase("DEPOSIT"))
+            return "Đóng góp";
+        if (action.equalsIgnoreCase("WITHDRAW"))
+            return "Rút tiền";
+        if (action.equalsIgnoreCase("UPGRADE"))
+            return "Nâng cấp";
+        return action;
+    }
+
     private String getSubjectDescription(Subject subject) {
         return subject.getDescription() == null ? subject.toString().toLowerCase() : subject.getDescription();
     }
@@ -341,6 +496,11 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
                 }
                 commands.add("setting");
                 commands.add("upgrade");
+                commands.add("donggop");
+                commands.add("quy");
+                commands.add("lichsuquy");
+                if (playerData.getRank() == Rank.LEADER || playerData.getRank() == Rank.MANAGER)
+                    commands.add("rutien");
                 commands.add("menu");
                 // player is not in a clan -> list all commands for non clan player
             } else {

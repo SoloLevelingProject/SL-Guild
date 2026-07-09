@@ -50,6 +50,10 @@ public interface IClanData {
 
     void setLevel(int level);
 
+    long getGuildFund();
+
+    void setGuildFund(long guildFund);
+
     long getCreatedDate();
 
     void setCreatedDate(long createdDate);
