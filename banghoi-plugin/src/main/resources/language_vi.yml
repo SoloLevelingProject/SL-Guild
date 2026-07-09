@@ -16,8 +16,8 @@
 
 rank-display:
   MEMBER: '&#83FF29Thành Viên'
-  MANAGER: '&#1D98D1Quản Lý'
-  LEADER: '&#FDD500Bang Chủ'
+  MANAGER: '&#1D98D1Hội Phó'
+  LEADER: '&#FDD500Hội Trưởng'
 
 currency-display:
   VAULT:
@@ -120,8 +120,8 @@ messages:
   incoming-clan-invite: |
     %prefix%&e%player%&a đang mời bạn vào bang hội &e%clan%&a.
     &aBạn có &e%seconds% giây&a để phản hồi.
-    &#83FF29/clan accept&f - Chấp nhận
-    &#FF4444/clan deny&f - Từ chối
+    &#83FF29/guild accept&f - Chấp nhận
+    &#FF4444/guild deny&f - Từ chối
     
   invite-expired: '%prefix%&cLời mời gia nhập bang &e%clan%&c đã hết hạn.'
   inviter-invite-expired: '%prefix%&cLời mời gửi đến &e%player%&c đã hết hạn.'
@@ -171,7 +171,7 @@ messages:
   toggle-clan-chat-off: '%prefix%&cĐã &lTẮT&c kênh chat bang hội.'
   toggle-clan-pvp-on: '%prefix%&aĐã &lBẬT&a PvP bang hội! Bạn có thể tấn công người cùng bang.'
   toggle-clan-pvp-off: '%prefix%&cĐã &lTẮT&c PvP bang hội an toàn.'
-  clan-member-pvp-deny: '%prefix%&cKhông thể tấn công đồng đội! Dùng lệnh &e/clan pvp&c để bật PvP bang.'
+  clan-member-pvp-deny: '%prefix%&cKhông thể tấn công đồng đội! Dùng lệnh &e/guild pvp&c để bật PvP bang.'
   clan-member-pvp-deny-victim: '%prefix%&e%player%&c đang tắt tính năng PvP bang hội.'
   
   clan-set-spawn-black-list-world: '%prefix%&cThế giới này không cho phép thiết lập căn cứ!'
@@ -239,11 +239,11 @@ messages:
         - ' '
         - '&#ADF3FD&lGuild &8(v%version%)'
         - ' '
-        - '  &#ADF3FD/clan create <tên> &8- &fTạo guild mới'
-        - '  &#ADF3FD/clan accept &8- &fChấp nhận lời mời'
-        - '  &#ADF3FD/clan deny &8- &fTừ chối lời mời'
-        - '  &#ADF3FD/clan info <tên> &8- &fXem thông tin một guild'
-        - '  &#ADF3FD/clan list &8- &fXem danh sách guild'
+        - '  &#ADF3FD/guild create <tên> &8- &fTạo guild mới'
+        - '  &#ADF3FD/guild accept &8- &fChấp nhận lời mời'
+        - '  &#ADF3FD/guild deny &8- &fTừ chối lời mời'
+        - '  &#ADF3FD/guild info <tên> &8- &fXem thông tin một guild'
+        - '  &#ADF3FD/guild list &8- &fXem danh sách guild'
         - ' '
         in-clan-commands:
           messages: |2
@@ -257,37 +257,37 @@ messages:
               messages: |
                 &r
                 &#83FF29■ Lệnh Thành Viên:
-                &#ADF3FD/clan menu &8- &fMở giao diện guild
-                &#ADF3FD/clan list &8- &fXem danh sách guild
-                &#ADF3FD/clan info <tên> &8- &fXem thông tin guild
-                &#ADF3FD/clan leave &8- &fRời guild
-                &#ADF3FD/clan pvp &8- &fBật/tắt sát thương đồng đội
-                &#ADF3FD/clan donggop <số tiền> &8- &fĐóng góp vào quỹ guild
-                &#ADF3FD/clan quy &8- &fXem quỹ guild
-                &#ADF3FD/clan lichsuquy &8- &fXem lịch sử quỹ guild
-                &#ADF3FD/clan trano &8- &fTrả nợ duy trì guild
+                &#ADF3FD/guild menu &8- &fMở giao diện guild
+                &#ADF3FD/guild list &8- &fXem danh sách guild
+                &#ADF3FD/guild info <tên> &8- &fXem thông tin guild
+                &#ADF3FD/guild leave &8- &fRời guild
+                &#ADF3FD/guild pvp &8- &fBật/tắt sát thương đồng đội
+                &#ADF3FD/guild donggop <số tiền> &8- &fĐóng góp vào quỹ guild
+                &#ADF3FD/guild quy &8- &fXem quỹ guild
+                &#ADF3FD/guild lichsuquy &8- &fXem lịch sử quỹ guild
+                &#ADF3FD/guild trano &8- &fTrả nợ duy trì guild
                 %command%
               placeholder:
-                command: '&#ADF3FD/clan %command% &8- &f%description%'
+                command: '&#ADF3FD/guild %command% &8- &f%description%'
             managerCommands:
               messages: |
                 &r
                 &#1D98D1■ Lệnh Quản Lý:
-                &#ADF3FD/clan rutien <số tiền> &8- &fRút tiền từ quỹ guild
-                &#ADF3FD/clan trano &8- &fTrả nợ duy trì guild
+                &#ADF3FD/guild rutien <số tiền> &8- &fRút tiền từ quỹ guild
+                &#ADF3FD/guild trano &8- &fTrả nợ duy trì guild
                 %command%
               placeholder:
-                command: '&#ADF3FD/clan %command% &8- &f%description%'
+                command: '&#ADF3FD/guild %command% &8- &f%description%'
             leaderCommands:
               messages: |
                 &r
                 &#FDD500■ Lệnh Bang Chủ:
-                &#ADF3FD/clan setting &8- &fThiết lập quyền hạn
-                &#ADF3FD/clan upgrade &8- &fNâng cấp guild
-                &#ADF3FD/clan setowner &8- &fChuyển quyền Bang Chủ
-                &#ADF3FD/clan disband &8- &fGiải tán guild
-                &#ADF3FD/clan rutien <số tiền> &8- &fRút tiền từ quỹ guild
-                &#ADF3FD/clan trano &8- &fTrả nợ duy trì guild
+                &#ADF3FD/guild setting &8- &fThiết lập quyền hạn
+                &#ADF3FD/guild upgrade &8- &fNâng cấp guild
+                &#ADF3FD/guild setowner &8- &fChuyển quyền Bang Chủ
+                &#ADF3FD/guild disband &8- &fGiải tán guild
+                &#ADF3FD/guild rutien <số tiền> &8- &fRút tiền từ quỹ guild
+                &#ADF3FD/guild trano &8- &fTrả nợ duy trì guild
                 %command%
               placeholder:
-                command: '&#ADF3FD/clan %command% &8- &f%description%'
+                command: '&#ADF3FD/guild %command% &8- &f%description%'

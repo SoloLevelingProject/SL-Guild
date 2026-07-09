@@ -26,12 +26,12 @@ SL-Guild is a Minecraft guild plugin for SoloLevelingProject servers.
 
 ## Commands
 
-- `/clan` aliases: `/guild`
-- `/clanadmin` aliases: `/guildadmin`, `/guildad`
+- `/guild`
+- `/guildadmin` aliases: `/guildad`
 
 ## Permissions
 
-- `guild.admin` for `/clanadmin`
+- `guild.admin` for `/guildadmin`
 - `guild.setspawn`
 - `guild.seticon`
 - `guild.setpermission`

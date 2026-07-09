@@ -25,6 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import static com.banghoi.util.MessageUtil.log;
 
@@ -233,6 +234,7 @@ public class BangHoi extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        updateLegacyCommandMentions(vietnameseFile);
         Vietnamese.reload();
 
         // language_en.yml
@@ -245,9 +247,21 @@ public class BangHoi extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        updateLegacyCommandMentions(englishFile);
         English.reload();
 
         Messages.setupValue(Settings.LANGUAGE);
+    }
+
+    private void updateLegacyCommandMentions(File file) {
+        try {
+            String content = Files.readString(file.toPath());
+            String updated = content.replace("/clanadmin", "/guildadmin").replace("/clan", "/guild");
+            if (!content.equals(updated))
+                Files.writeString(file.toPath(), updated);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void initCommands() {

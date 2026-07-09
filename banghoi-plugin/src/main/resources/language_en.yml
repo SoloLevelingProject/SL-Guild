@@ -104,8 +104,8 @@ messages:
   invitation-success: '%prefix%&#35d11d&l| &fInvitation sent to &e%player%&f, they have &e%seconds% seconds&f to accept!'
   incoming-clan-invite: |
     %prefix%&#35d11d&l| &e%player%&f invited you to join clan &e%clan%&f, you have &e%seconds% seconds&f to decide before the invite expires.
-    &a/clan accept&f to accept
-    &c/clan reject&f to reject
+    &a/guild accept&f to accept
+    &c/guild reject&f to reject
   invite-expired: '%prefix%&#d12f1d&l| &fInvitation to clan &e%clan%&f has expired.'
   inviter-invite-expired: '%prefix%&#d12f1d&l| &fInvitation to &e%player%&f has expired.'
   self-kick-error: '%prefix%&#d12f1d&l| &fYou cannot kick yourself.'
@@ -145,7 +145,7 @@ messages:
   toggle-clan-chat-off: '%prefix%&#35d11d&l| &fClan chat &cdisabled&f.'
   toggle-clan-pvp-on: '%prefix%&#35d11d&l| &fClan PVP &aenabled&f. You can now PVP with members and allies.'
   toggle-clan-pvp-off: '%prefix%&#35d11d&l| &fClan PVP &cdisabled&f.'
-  clan-member-pvp-deny: '%prefix%&#d12f1d&l| &fCannot attack clan member. Use &e/clan pvp&f to enable/disable PVP.'
+  clan-member-pvp-deny: '%prefix%&#d12f1d&l| &fCannot attack guild member. Use &e/guild pvp&f to enable/disable PVP.'
   clan-member-pvp-deny-victim: '%prefix%&#d12f1d&l| &e%player%&f has not enabled clan PVP. They must enable it to take damage.'
   clan-set-spawn-black-list-world: '%prefix%&#d12f1d&l| &fThis world is blacklisted for setting spawn! Use a different world.'
   clan-spawn-black-list-world: '%prefix%&#d12f1d&l| &fCannot teleport to this world. Ask a leader to change the spawn.'
@@ -209,11 +209,11 @@ messages:
           - '&#3498ebGUILD'
           - '&7Version %version%'
           - ' '
-          - '&#3498eb/clan create <clan name> &fCreate a new clan'
-          - '&#3498eb/clan accept &fAccept a clan invitation'
-          - '&#3498eb/clan deny &fReject a clan invitation'
-          - '&#3498eb/clan info <clan name> &fView specific clan information'
-          - '&#3498eb/clan list &fView list of clans'
+          - '&#3498eb/guild create <guild name> &fCreate a new guild'
+          - '&#3498eb/guild accept &fAccept a guild invitation'
+          - '&#3498eb/guild deny &fReject a guild invitation'
+          - '&#3498eb/guild info <guild name> &fView specific guild information'
+          - '&#3498eb/guild list &fView list of guilds'
         in-clan-commands:
           messages: |
             
@@ -227,37 +227,37 @@ messages:
               messages: |
                 &r
                 &#34eb6bCommands for members
-                &#3498eb/clan list &fView list of clans'
-                &#3498eb/clan info <clan name> &fView specific clan information
-                &#3498eb/clan menu &fOpen clan GUI
-                &#3498eb/clan leave &fLeave clan
-                &#3498eb/clan setting &fClan settings
-                &#3498eb/clan upgrade &fUpgrade clan
-                &#3498eb/clan donggop <amount> &fDeposit to guild fund
-                &#3498eb/clan quy &fView guild fund
-                &#3498eb/clan lichsuquy &fView guild fund history
-                &#3498eb/clan trano &fPay maintenance debt
+                &#3498eb/guild list &fView list of guilds'
+                &#3498eb/guild info <guild name> &fView specific guild information
+                &#3498eb/guild menu &fOpen guild GUI
+                &#3498eb/guild leave &fLeave guild
+                &#3498eb/guild setting &fGuild settings
+                &#3498eb/guild upgrade &fUpgrade guild
+                &#3498eb/guild donggop <amount> &fDeposit to guild fund
+                &#3498eb/guild quy &fView guild fund
+                &#3498eb/guild lichsuquy &fView guild fund history
+                &#3498eb/guild trano &fPay maintenance debt
                 %command%
               placeholder:
-                command: '&#3498eb/clan %command% &f%description%'
+                command: '&#3498eb/guild %command% &f%description%'
             managerCommands:
               messages: |
                 &r
                 &#1d98d1Commands for managers
-                &#3498eb/clan rutien <amount> &fWithdraw from guild fund
-                &#3498eb/clan trano &fPay maintenance debt
+                &#3498eb/guild rutien <amount> &fWithdraw from guild fund
+                &#3498eb/guild trano &fPay maintenance debt
                 %command%
               placeholder:
-                command: '&#3498eb/clan %command% &f%description%'
+                command: '&#3498eb/guild %command% &f%description%'
             leaderCommands:
               messages: |
                 &r
                 &#e8e51eCommands for leaders (Includes manager commands)
-                &#3498eb/clan setowner &fTransfer leadership to another clan member
-                &#3498eb/clan disband &fDisband the clan
-                &#3498eb/clan setpermission &fSet permissions
-                &#3498eb/clan rutien <amount> &fWithdraw from guild fund
-                &#3498eb/clan trano &fPay maintenance debt
+                &#3498eb/guild setowner &fTransfer leadership to another guild member
+                &#3498eb/guild disband &fDisband the guild
+                &#3498eb/guild setpermission &fSet permissions
+                &#3498eb/guild rutien <amount> &fWithdraw from guild fund
+                &#3498eb/guild trano &fPay maintenance debt
                 %command%
               placeholder:
-                command: '&#3498eb/clan %command% &f%description%'
+                command: '&#3498eb/guild %command% &f%description%'

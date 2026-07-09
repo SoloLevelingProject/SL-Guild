@@ -11,10 +11,9 @@ loadbefore:
   - TurtleTop
 folia-supported: true
 commands:
-  clan:
+  guild:
+    description: Guild command
+  guildadmin:
+    description: Guild admin command
     aliases:
-      - guild
-  clanadmin:
-    aliases:
-      - guildadmin
       - guildad

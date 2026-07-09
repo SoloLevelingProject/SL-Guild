@@ -39,7 +39,7 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
     public static List<CommandSender> transferDataCommandNotifying = new ArrayList<>();
 
     public ClanAdminCommand() {
-        BangHoi.plugin.getCommand("clanadmin").setExecutor(this);
+        BangHoi.plugin.getCommand("guildadmin").setExecutor(this);
     }
 
     @Override
@@ -725,19 +725,19 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
         sender.sendMessage("Guild (Version: " + BangHoi.plugin.getDescription().getVersion() + ") - Admin");
         sender.sendMessage("Plugin developed by SoloLevelingProject");
         sender.sendMessage("");
-        sender.sendMessage("/clanadmin reload");
-        sender.sendMessage("/clanadmin chatspy");
-        sender.sendMessage("/clanadmin transferPluginDatabaseType <type>");
-        sender.sendMessage("/clanadmin backup (custom file name)");
-        sender.sendMessage("/clanadmin setClanData <clan name> <type> <give/add/set/remove/reset> <value>");
+        sender.sendMessage("/guildadmin reload");
+        sender.sendMessage("/guildadmin chatspy");
+        sender.sendMessage("/guildadmin transferPluginDatabaseType <type>");
+        sender.sendMessage("/guildadmin backup (custom file name)");
+        sender.sendMessage("/guildadmin setClanData <clan name> <type> <give/add/set/remove/reset> <value>");
         sender.sendMessage(ChatColor.AQUA
                 + "Types: score, warning, createddate, customname, message, icon, spawnpoint, subjectpermission, discordchannelid, discordjoinlink, members, allies");
-        sender.sendMessage("/clanadmin setPlayerData <player name> <type> <set/reset> <value>");
+        sender.sendMessage("/guildadmin setPlayerData <player name> <type> <set/reset> <value>");
         sender.sendMessage(ChatColor.AQUA + "Types: clanname, rank, joindate, scorecollected, lastactivated");
-        sender.sendMessage("/clanadmin clanResetAll <type>");
+        sender.sendMessage("/guildadmin clanResetAll <type>");
         sender.sendMessage(ChatColor.AQUA + "Types: score, warning");
-        sender.sendMessage("/clanadmin delete <clan name>");
-        sender.sendMessage("/clanadmin debug");
+        sender.sendMessage("/guildadmin delete <clan name>");
+        sender.sendMessage("/guildadmin debug");
         sender.sendMessage("");
         sender.sendMessage("<>: Required");
         sender.sendMessage("(): Optional");

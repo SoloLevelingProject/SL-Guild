@@ -39,7 +39,7 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
     public static List<CommandSender> commandConfirmation = new ArrayList<>();
 
     public ClanCommand() {
-        BangHoi.plugin.getCommand("clan").setExecutor(this);
+        BangHoi.plugin.getCommand("guild").setExecutor(this);
     }
 
     @Override
