@@ -69,20 +69,35 @@ public class ClanManager {
 
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
 
-        if (playerData.getClan() != null && forceToLeaveOldClan) {
+        if (playerData.getClan() != null && playerData.getClan().equalsIgnoreCase(clanName)) {
+            return;
+        }
+        if (playerData.getClan() != null && !forceToLeaveOldClan) {
+            return;
+        }
+        if (playerData.getClan() != null) {
             String oldClan = playerData.getClan();
-            PluginDataManager.getClanDatabase(oldClan).getMembers().remove(playerName);
+            IClanData oldClanData = PluginDataManager.getClanDatabase(oldClan);
+            if (oldClanData != null) {
+                oldClanData.getMembers().removeIf(member -> member.equalsIgnoreCase(playerName));
+                PluginDataManager.saveClanDatabaseToStorage(oldClan, oldClanData);
+            }
             PluginDataManager.clearPlayerDatabase(playerName);
             Bukkit.getPluginManager().callEvent(new ClanMemberLeaveEvent(playerName, oldClan));
         }
 
-        PluginDataManager.getClanDatabase(clanName).getMembers().add(playerName);
+        IClanData clanData = PluginDataManager.getClanDatabase(clanName);
+        if (clanData.getMembers().stream().noneMatch(member -> member.equalsIgnoreCase(playerName))) {
+            clanData.getMembers().add(playerName);
+        }
         playerData.setClan(clanName);
         playerData.setRank(Rank.MEMBER);
         playerData.setJoinDate(new Date().getTime());
+        PluginDataManager.resetPlayerContribution(playerName);
         PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
         PluginDataManager.saveClanDatabaseToStorage(clanName);
         Bukkit.getPluginManager().callEvent(new ClanMemberJoinEvent(playerName, clanName));
+        invalidateCache();
     }
 
     // === Cached ranking maps (5-second TTL to avoid HashMap storms from PlaceholderAPI) ===
@@ -115,9 +130,10 @@ public class ClanManager {
         if (PluginDataManager.getClanDatabase().isEmpty())
             return clansScore;
 
-        for (String clanName : PluginDataManager.getClanDatabase().keySet())
-            clansScore.put(clanName,
-                    (int) com.banghoi.util.ScoreCalculator.calculateScore(PluginDataManager.getClanDatabase(clanName)));
+        for (String clanName : PluginDataManager.getClanDatabase().keySet()) {
+            long score = com.banghoi.util.ScoreCalculator.calculateScore(PluginDataManager.getClanDatabase(clanName));
+            clansScore.put(clanName, score > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) score);
+        }
 
         cachedClansScore = clansScore;
         clansScoreCacheExpiry = now + CACHE_TTL_MS;

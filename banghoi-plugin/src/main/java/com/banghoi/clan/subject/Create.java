@@ -126,6 +126,7 @@ public class Create extends SubjectManager {
         playerData.setClan(clanName);
         playerData.setRank(Rank.LEADER);
         playerData.setJoinDate(dateLong);
+        PluginDataManager.resetPlayerContribution(playerName);
 
         PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
 

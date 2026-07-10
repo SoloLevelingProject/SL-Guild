@@ -13,6 +13,7 @@ import com.banghoi.util.MessageUtil;
 import com.banghoi.util.ScoreCalculator;
 import com.banghoi.util.StringUtil;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -96,7 +97,7 @@ public class ContributeInventory extends BangHoiInventoryBase {
         IPlayerData playerData = PluginDataManager.getPlayerDatabase(playerName);
         IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(playerName);
 
-        if (clanData == null) {
+        if (playerData == null || clanData == null || !PluginDataManager.isPlayerInCurrentClan(playerName)) {
             MessageUtil.sendMessage(player, Messages.MUST_BE_IN_CLAN);
             return;
         }
@@ -125,24 +126,32 @@ public class ContributeInventory extends BangHoiInventoryBase {
             return;
         }
 
-        // Withdraw money
-        economy.withdrawPlayer(player, Settings.CONTRIBUTION_MONEY_AMOUNT);
+        if (!Settings.CONTRIBUTION_TURTLETOP_ENABLED
+                || !Bukkit.getPluginManager().isPluginEnabled("TurtleTop")) {
+            MessageUtil.sendMessage(player, Messages.CONTRIBUTION_DISABLED);
+            return;
+        }
+
+        EconomyResponse response = economy.withdrawPlayer(player, Settings.CONTRIBUTION_MONEY_AMOUNT);
+        if (!response.transactionSuccess()) {
+            MessageUtil.sendMessage(player, Messages.CONTRIBUTION_NOT_ENOUGH_MONEY
+                    .replace("%amount%", String.valueOf(Settings.CONTRIBUTION_MONEY_AMOUNT)));
+            return;
+        }
 
         // Add conghuan points
         long conghuanReward = Settings.CONTRIBUTION_MONEY_CONGHUAN_REWARD;
-        // conghuan tracking is now handled by TurtleTop only
         playerData.setMoneyContributeCountToday(playerData.getMoneyContributeCountToday() + 1);
         playerData.setLastContributeTime(new Date().getTime());
 
         // Save data
-        PluginDataManager.saveClanDatabaseToStorage(clanData.getName(), clanData);
         PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
 
         // Add to TurtleTop if enabled
         if (Settings.CONTRIBUTION_TURTLETOP_ENABLED) {
             try {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                        "tt add " + playerName + " conghuan " + conghuanReward);
+                        "tt add " + playerName + " " + Settings.SCORE_TURTLETOP_POINT + " " + conghuanReward);
             } catch (Exception e) {
                 e.printStackTrace();
             }

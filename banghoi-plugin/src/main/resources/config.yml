@@ -253,3 +253,14 @@ soft-depends:
   # Put your discord web hook here to let plugin send plugin messages to your discord channel
   discordWebhook:
     webhookURL: ''
+
+contribution-settings:
+  enabled: true
+  score-turtletop-point: conghuan
+  turtletop:
+    enabled: true
+  money:
+    enabled: true
+    amount: 10000
+    conghuan-reward: 10
+    max-times-per-day: 1

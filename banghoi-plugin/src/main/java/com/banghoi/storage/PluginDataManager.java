@@ -60,6 +60,51 @@ public class PluginDataManager {
         return getClanDatabase(playerClanName);
     }
 
+    public static boolean isPlayerInCurrentClan(String playerName) {
+        IPlayerData playerData = getPlayerDatabase(playerName);
+        return playerData != null && isPlayerInCurrentClan(playerName, playerData.getClan());
+    }
+
+    public static boolean isPlayerInCurrentClan(String playerName, String clanName) {
+        if (clanName == null) {
+            return false;
+        }
+        IPlayerData playerData = getPlayerDatabase(playerName);
+        IClanData clanData = getClanDatabase(clanName);
+        if (playerData == null || clanData == null || playerData.getClan() == null
+                || !playerData.getClan().equalsIgnoreCase(clanName)) {
+            return false;
+        }
+        if (playerName.equalsIgnoreCase(clanData.getOwner())) {
+            return true;
+        }
+        return clanData.getMembers() != null && clanData.getMembers().stream()
+                .anyMatch(member -> member.equalsIgnoreCase(playerName));
+    }
+
+    public static void updatePlayerContribution(String playerName, long contribution) {
+        IPlayerData playerData = getPlayerDatabase(playerName);
+        if (playerData == null) {
+            return;
+        }
+        long newContribution = isPlayerInCurrentClan(playerName) ? Math.max(0, contribution) : 0;
+        if (playerData.getScoreCollected() == newContribution) {
+            return;
+        }
+        playerData.setScoreCollected(newContribution);
+        savePlayerDatabaseToStorage(playerName, playerData);
+        ClanManager.invalidateCache();
+    }
+
+    public static void setPlayerContribution(String playerName, long contribution) {
+        long newContribution = isPlayerInCurrentClan(playerName) ? Math.max(0, contribution) : 0;
+        if (Bukkit.getPluginManager().isPluginEnabled("TurtleTop")) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+                    "tt set " + playerName + " " + Settings.SCORE_TURTLETOP_POINT + " " + newContribution);
+        }
+        updatePlayerContribution(playerName, newContribution);
+    }
+
     public static IPlayerData getPlayerDatabase(String playerName) {
         IPlayerData playerData = playerDatabase.get(playerName);
         if (playerData == null) {
@@ -83,6 +128,11 @@ public class PluginDataManager {
         if (getPlayerDatabase().containsKey(playerName))
             return;
         getPlayerDatabase().put(playerName, PluginDataStorage.getPlayerData(playerName));
+        IPlayerData loadedPlayerData = getPlayerDatabase().get(playerName);
+        if (loadedPlayerData.getClan() == null && loadedPlayerData.getScoreCollected() != 0) {
+            loadedPlayerData.setScoreCollected(0);
+            savePlayerDatabaseToStorage(playerName, loadedPlayerData);
+        }
         if (ClanManager.managersFromOldData.containsKey(playerName)) {
             IPlayerData playerData = getPlayerDatabase(playerName);
             if (ClanManager.isPlayerInClan(playerName))
@@ -152,6 +202,7 @@ public class PluginDataManager {
         playerDatabase.get(playerName).setClan(null);
         playerDatabase.get(playerName).setRank(null);
         playerDatabase.get(playerName).setJoinDate(0);
+        resetPlayerContribution(playerName);
 
         /*
          * if (playerClanName != null && !playerClanName.equalsIgnoreCase("")) {
@@ -160,6 +211,11 @@ public class PluginDataManager {
          */
 
         savePlayerDatabaseToStorage(playerName);
+        ClanManager.invalidateCache();
+    }
+
+    public static void resetPlayerContribution(String playerName) {
+        setPlayerContribution(playerName, 0);
     }
 
     public static boolean deleteClanData(String clanName) {
@@ -168,15 +224,20 @@ public class PluginDataManager {
 
         IClanData clanData = getClanDatabase(clanName);
 
-        if (!clanData.getMembers().isEmpty())
-            for (String memberName : clanData.getMembers())
-                clearPlayerDatabase(memberName);
+        Set<String> members = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        if (clanData.getOwner() != null)
+            members.add(clanData.getOwner());
+        if (clanData.getMembers() != null)
+            members.addAll(clanData.getMembers());
+        for (String memberName : members)
+            clearPlayerDatabase(memberName);
 
         PluginDataManager.getClanDatabase().remove(clanName);
         boolean deleted = PluginDataStorage.deleteClanData(clanName);
         if (deleted) {
             Bukkit.getPluginManager().callEvent(new ClanDisbandEvent(clanName));
         }
+        ClanManager.invalidateCache();
         return deleted;
     }
 
@@ -407,8 +468,7 @@ public class PluginDataManager {
         if (!deletedClans.isEmpty())
             for (String clanName : deletedClans)
                 try {
-                    clanDatabase.remove(clanName);
-                    PluginDataStorage.deleteClanData(clanName);
+                    deleteClanData(clanName);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }

@@ -278,7 +278,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
                 playerData.setUUID(storage.getString("data.UUID"));
             playerData.setClan(storage.getString("data.clan"));
             playerData.setJoinDate(storage.getLong("data.join-date"));
-            playerData.setScoreCollected(storage.getInt("data.score-collected"));
+            playerData.setScoreCollected(storage.getLong("data.score-collected"));
             playerData.setLastActivated(storage.getLong("data.last-activated"));
 
             playerData.setLastContributeTime(storage.getLong("data.last-contribute-time"));

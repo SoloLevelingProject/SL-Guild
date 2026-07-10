@@ -193,7 +193,7 @@ public class ClanListInventory extends PaginatedInventory {
 
         String NAString = "N/A";
         String bestScoreClanName;
-        int bestScoreClanValue;
+        long bestScoreClanValue;
         String oldestClanName;
         String oldestClanValue;
         if (!PluginDataManager.getClanDatabase().isEmpty()) {
@@ -203,7 +203,7 @@ public class ClanListInventory extends PaginatedInventory {
                     .getClanDatabase(HashMapUtil.sortFromLowestToGreatestL(ClanManager.getClansCreatedDate()).get(0));
             bestScoreClanName = ClanManager.getFormatClanName(bestScoreClan);
             oldestClanName = ClanManager.getFormatClanName(oldestClan);
-            bestScoreClanValue = (int) com.banghoi.util.ScoreCalculator.calculateScore(bestScoreClan);
+            bestScoreClanValue = com.banghoi.util.ScoreCalculator.calculateScore(bestScoreClan);
             oldestClanValue = StringUtil.dateTimeToDateFormat(oldestClan.getCreatedDate());
         } else {
             bestScoreClanValue = 0;

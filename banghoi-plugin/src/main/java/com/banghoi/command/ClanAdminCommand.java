@@ -438,7 +438,9 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                                         + " cannot be removed from the clan because they are the clan leader!");
                                 return false;
                             }
-                            PluginDataManager.getClanDatabase(playerData.getClan()).getMembers().remove(playerName);
+                            IClanData memberClanData = PluginDataManager.getClanDatabase(playerData.getClan());
+                            memberClanData.getMembers().removeIf(member -> member.equalsIgnoreCase(playerName));
+                            PluginDataManager.saveClanDatabaseToStorage(memberClanData.getName(), memberClanData);
                             PluginDataManager.clearPlayerDatabase(playerName);
                             sender.sendMessage("Removed " + playerName + " from clan " + clanName);
                             return false;
@@ -644,6 +646,11 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                                 return false;
                             }
                             String playerClanName = PluginDataManager.getPlayerDatabase(playerName).getClan();
+                            IClanData playerClanData = PluginDataManager.getClanDatabase(playerClanName);
+                            if (playerClanData != null) {
+                                playerClanData.getMembers().removeIf(member -> member.equalsIgnoreCase(playerName));
+                                PluginDataManager.saveClanDatabaseToStorage(playerClanName, playerClanData);
+                            }
                             PluginDataManager.clearPlayerDatabase(playerName);
                             sender.sendMessage(
                                     "Removed " + playerName + " from members list of clan " + playerClanName);
@@ -691,12 +698,12 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                                 sender.sendMessage("Date is not available!");
                                 return false;
                             }
-                            PluginDataManager.getPlayerDatabase(playerName).setScoreCollected(newScoreCollected);
+                            PluginDataManager.setPlayerContribution(playerName, newScoreCollected);
                             sender.sendMessage("Set score collected from " + playerName + " to " + newScoreCollected);
                             return false;
                         }
                         if (args[3].equalsIgnoreCase("reset")) {
-                            PluginDataManager.getPlayerDatabase(playerName).setScoreCollected(0);
+                            PluginDataManager.resetPlayerContribution(playerName);
                             sender.sendMessage("Reset score collected from " + playerName + ".");
                             return false;
                         }

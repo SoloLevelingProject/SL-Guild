@@ -52,7 +52,7 @@ items:
     - ''
     - ' &8 ❙ &#FDD500Thành tích & Vai trò'
     - '  &8○ &7Chức vụ: %rank%'
-    - '  &8○ &7Điểm số: &#ADF3FD%scoreCollected% ⚡'
+    - '  &8○ &7Điểm cống hiến: &#ADF3FD%scoreCollected% ⚡'
     - ''
     - ' &8 ❙ &#757575Mã định danh (UUID)'
     - '  &8%uuid%'
