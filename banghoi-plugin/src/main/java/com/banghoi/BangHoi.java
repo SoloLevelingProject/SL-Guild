@@ -114,6 +114,7 @@ public class BangHoi extends JavaPlugin {
         // config.yml
         saveDefaultConfig();
         File configFile = new File(getDataFolder(), "config.yml");
+        migrateContributionConfig(configFile);
         try {
             ConfigUpdater.update(this, "config.yml", configFile);
         } catch (IOException e) {
@@ -237,6 +238,21 @@ public class BangHoi extends JavaPlugin {
             file.delete();
     }
 
+    private void migrateContributionConfig(File file) {
+        try {
+            String content = Files.readString(file.toPath());
+            String updated = content.replace("CONGHUAN", "CONGHIEN")
+                    .replace("Conghuan", "CongHien")
+                    .replace("conghuan", "conghien")
+                    .replaceAll("(?m)^ {6}JOIN:\\s*\\S+\\s*\\R?", "");
+            if (!content.equals(updated)) {
+                Files.writeString(file.toPath(), updated);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void initLanguages() {
         // language_vi.yml
         String vietnameseFileName = "language_vi.yml";
@@ -270,7 +286,11 @@ public class BangHoi extends JavaPlugin {
     private void updateLegacyCommandMentions(File file) {
         try {
             String content = Files.readString(file.toPath());
-            String updated = content.replace("/clanadmin", "/guildadmin").replace("/clan", "/guild");
+            String updated = content.replace("/clanadmin", "/guildadmin")
+                    .replace("/clan", "/guild")
+                    .replace("CONGHUAN", "CONGHIEN")
+                    .replace("Conghuan", "CongHien")
+                    .replace("conghuan", "conghien");
             if (!content.equals(updated))
                 Files.writeString(file.toPath(), updated);
         } catch (IOException exception) {

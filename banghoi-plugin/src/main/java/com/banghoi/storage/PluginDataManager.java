@@ -98,7 +98,8 @@ public class PluginDataManager {
 
     public static void setPlayerContribution(String playerName, long contribution) {
         long newContribution = isPlayerInCurrentClan(playerName) ? Math.max(0, contribution) : 0;
-        if (Bukkit.getPluginManager().isPluginEnabled("TurtleTop")) {
+        if (Settings.CONTRIBUTION_TURTLETOP_ENABLED
+                && Bukkit.getPluginManager().isPluginEnabled("TurtleTop")) {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
                     "tt set " + playerName + " " + Settings.SCORE_TURTLETOP_POINT + " " + newContribution);
         }

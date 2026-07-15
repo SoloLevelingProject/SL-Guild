@@ -270,6 +270,11 @@ public class ClanCommand implements CommandExecutor, TabExecutor {
         }
 
         if (args[0].equalsIgnoreCase("seticon")) {
+            if (args.length < 3) {
+                MessageUtil.sendMessage(player, Messages.INVALID_ICON_TYPE);
+                return false;
+            }
+
             ItemType itemType;
             try {
                 itemType = ItemType.valueOf(args[1].toUpperCase());

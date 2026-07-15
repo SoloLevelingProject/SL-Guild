@@ -66,14 +66,14 @@ items:
     lore:
       - ''
       - '&fSố tiền cần cống hiến: &e%amount%'
-      - '&fĐiểm cống hiến nhận được: &b%conghuan%'
+      - '&fĐiểm cống hiến nhận được: &b%conghien%'
       - ''
       - '&7Giới hạn: %maxTimes% lần/ngày'
       - '&7Số lần còn lại: &e%timesRemaining%'
       - '&7Thời gian còn lại: %cooldown%'
       - ''
       - '&eClick để cống hiến tiền'
-  conghuan-info:
+  conghien-info:
     name: '&bĐiểm Cống Hiến'
     slot: 15
     type: material
@@ -86,7 +86,7 @@ items:
       pitch: 1
     lore:
       - ''
-      - '&fTổng điểm cống hiến bang: &b%totalConghuan%'
-      - '&fĐiểm bạn đã cống hiến: &e%yourConghuan%'
+      - '&fTổng điểm cống hiến bang: &b%totalCongHien%'
+      - '&fĐiểm bạn đã cống hiến: &e%yourCongHien%'
       - ''
       - '&7Nguồn: Cống Hiến'

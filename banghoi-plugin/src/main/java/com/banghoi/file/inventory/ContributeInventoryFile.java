@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class ContributeInventoryFile {
     private static File file;
@@ -15,6 +16,7 @@ public class ContributeInventoryFile {
 
     public static void setupFile() {
         createFileAndDir();
+        migrateLegacyNames();
         saveDefault();
         File contributeFile = InventoryFileHelper.getFile(fileName);
         try {
@@ -23,6 +25,20 @@ public class ContributeInventoryFile {
             e.printStackTrace();
         }
         reload();
+    }
+
+    private static void migrateLegacyNames() {
+        try {
+            String content = Files.readString(file.toPath());
+            String updated = content.replace("CONGHUAN", "CONGHIEN")
+                    .replace("Conghuan", "CongHien")
+                    .replace("conghuan", "conghien");
+            if (!content.equals(updated)) {
+                Files.writeString(file.toPath(), updated);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void createFileAndDir() {

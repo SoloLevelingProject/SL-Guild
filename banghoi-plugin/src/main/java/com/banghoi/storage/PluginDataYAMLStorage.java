@@ -331,6 +331,47 @@ public class PluginDataYAMLStorage implements PluginStorage {
     }
 
     @Override
+    public synchronized void addGuildFundTransaction(String clanName, String playerName, String action, long amount,
+            long balanceAfter, long createdAt) {
+        File file = getClanFile(clanName);
+        YamlConfiguration storage = YamlConfiguration.loadConfiguration(file);
+        List<Map<?, ?>> transactions = new ArrayList<>(storage.getMapList("data.guild-fund-history"));
+        Map<String, Object> transaction = new LinkedHashMap<>();
+        transaction.put("player", playerName);
+        transaction.put("action", action);
+        transaction.put("amount", amount);
+        transaction.put("balance-after", balanceAfter);
+        transaction.put("created-at", createdAt);
+        transactions.add(transaction);
+        storage.set("data.guild-fund-history", transactions);
+        try {
+            storage.save(file);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public synchronized List<GuildFundTransaction> getGuildFundTransactions(String clanName, int limit) {
+        YamlConfiguration storage = YamlConfiguration.loadConfiguration(getClanFile(clanName));
+        List<GuildFundTransaction> transactions = new ArrayList<>();
+        for (Map<?, ?> entry : storage.getMapList("data.guild-fund-history")) {
+            Object amount = entry.get("amount");
+            Object balanceAfter = entry.get("balance-after");
+            Object createdAt = entry.get("created-at");
+            transactions.add(new GuildFundTransaction(
+                    clanName,
+                    String.valueOf(entry.get("player")),
+                    String.valueOf(entry.get("action")),
+                    amount instanceof Number number ? number.longValue() : 0,
+                    balanceAfter instanceof Number number ? number.longValue() : 0,
+                    createdAt instanceof Number number ? number.longValue() : 0));
+        }
+        transactions.sort(Comparator.comparingLong(GuildFundTransaction::getCreatedAt).reversed());
+        return transactions.subList(0, Math.min(Math.max(0, limit), transactions.size()));
+    }
+
+    @Override
     public List<String> getAllClans() {
         File clanFolder = new File(BangHoi.plugin.getDataFolder() + "/banghoiData");
         File[] listOfFilesClan = clanFolder.listFiles();

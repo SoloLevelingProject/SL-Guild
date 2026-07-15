@@ -16,7 +16,6 @@ import com.banghoi.language.English;
 import com.banghoi.language.Messages;
 import com.banghoi.language.Vietnamese;
 import com.banghoi.storage.PluginDataManager;
-import com.banghoi.support.DiscordSupport;
 import com.banghoi.util.MessageUtil;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.ChatColor;
@@ -91,8 +90,6 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 Vietnamese.reload();
                 English.reload();
                 Messages.setupValue(Settings.LANGUAGE);
-
-                BangHoi.support.discordSupport = new DiscordSupport(Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL);
 
                 sender.sendMessage("Plugin reloaded (" + (System.currentTimeMillis() - time) + "ms)");
                 return false;

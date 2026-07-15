@@ -88,7 +88,6 @@ public class Settings {
         public static String SOFT_DEPEND_PLACEHOLDERAPI_PLAYER_FORMAT_LASTACTIVATED;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_NAME_;
         public static String SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_;
-        public static String SOFT_DEPEND_DISCORDWEBHOOK_URL;
         public static boolean GUILD_MAINTENANCE_ENABLED;
         public static long GUILD_MAINTENANCE_DAILY_FEE;
         public static int GUILD_MAINTENANCE_MAX_DEBT_DAYS;
@@ -98,7 +97,7 @@ public class Settings {
         public static boolean CONTRIBUTION_ENABLED;
         public static boolean CONTRIBUTION_MONEY_ENABLED;
         public static long CONTRIBUTION_MONEY_AMOUNT;
-        public static long CONTRIBUTION_MONEY_CONGHUAN_REWARD;
+        public static long CONTRIBUTION_MONEY_CONGHIEN_REWARD;
         public static boolean CONTRIBUTION_TURTLETOP_ENABLED;
         public static String SCORE_TURTLETOP_POINT;
         public static int CONTRIBUTION_MONEY_MAX_TIMES_PER_DAY;
@@ -139,9 +138,9 @@ public class Settings {
                 CLAN_SETTING_ICON_DEFAULT_VALUE = configuration
                                 .getString("clan-settings.creating-clan-settings.icon-default.value");
                 CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_ENABLED = configuration
-                                .getBoolean("clan-settings.on-join.clan-broadcast.enabled");
+                                .getBoolean("clan-settings.messages-settings.on-join.clan-broadcast.enabled");
                 CLAN_SETTINGS_MESSAGES_SETTINGS_ON_JOIN_CLAN_BROADCAST_DELAY = configuration
-                                .getLong("clan-settings.on-join.clan-broadcast.enabled");
+                                .getLong("clan-settings.messages-settings.on-join.clan-broadcast.delay");
                 CLAN_SETTING_TIME_TO_ACCEPT = configuration.getInt("clan-settings.invite-settings.time-to-accept");
                 if (!CLAN_SETTING_PROHIBITED_NAME.isEmpty())
                         CLAN_SETTING_PROHIBITED_NAME.clear();
@@ -244,7 +243,6 @@ public class Settings {
                                 .getString("soft-depends.placeholderapi.placeholders.top_score_name_");
                 SOFT_DEPEND_PLACEHOLDERAPI_TOP_SCORE_VALUE_ = configuration
                                 .getString("soft-depends.placeholderapi.placeholders.top_score_value_");
-                SOFT_DEPEND_DISCORDWEBHOOK_URL = configuration.getString("soft-depends.discordWebhook.webhookURL");
                 GUILD_MAINTENANCE_ENABLED = configuration.getBoolean("guild-maintenance.enabled", true);
                 GUILD_MAINTENANCE_DAILY_FEE = configuration.getLong("guild-maintenance.daily-fee", 10000);
                 GUILD_MAINTENANCE_MAX_DEBT_DAYS = configuration.getInt("guild-maintenance.max-debt-days", 7);
@@ -254,12 +252,12 @@ public class Settings {
                 CONTRIBUTION_ENABLED = configuration.getBoolean("contribution-settings.enabled", true);
                 CONTRIBUTION_MONEY_ENABLED = configuration.getBoolean("contribution-settings.money.enabled", true);
                 CONTRIBUTION_MONEY_AMOUNT = configuration.getLong("contribution-settings.money.amount", 10000);
-                CONTRIBUTION_MONEY_CONGHUAN_REWARD = configuration
-                                .getLong("contribution-settings.money.conghuan-reward", 10);
+                CONTRIBUTION_MONEY_CONGHIEN_REWARD = configuration
+                                .getLong("contribution-settings.money.conghien-reward", 10);
                 CONTRIBUTION_TURTLETOP_ENABLED = configuration.getBoolean("contribution-settings.turtletop.enabled",
                                 true);
                 SCORE_TURTLETOP_POINT = configuration.getString("contribution-settings.score-turtletop-point",
-                                "conghuan");
+                                "conghien");
                 CONTRIBUTION_MONEY_MAX_TIMES_PER_DAY = configuration
                                 .getInt("contribution-settings.money.max-times-per-day", 1);
         }

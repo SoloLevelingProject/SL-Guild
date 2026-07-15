@@ -101,10 +101,6 @@ public class ClanSettingsInventory extends BangHoiInventoryBase {
             if (ClanManager.isPlayerRankSatisfied(getOwner().getName(), Rank.LEADER))
                 new SetPermissionInventory(getOwner()).open();
         }
-        if (itemCustomData.equals("setDiscord")) {
-            // TODO set discord
-            MessageUtil.sendMessage(getOwner(), Messages.FEATURE_IN_PROGRESS);
-        }
         if (itemCustomData.equals("disband")) {
             new DisbandConfirmationInventory(getOwner()).open();
         }
@@ -193,21 +189,6 @@ public class ClanSettingsInventory extends BangHoiInventoryBase {
                     setPermissionItemLore, false), "setPermission");
             int setPermissionItemSlot = fileConfiguration.getInt("items.setPermission.slot");
             inventory.setItem(setPermissionItemSlot, setPermissionItem);
-
-            List<String> setDiscordItemLore = new ArrayList<>();
-            for (String lore : fileConfiguration.getStringList("items.setDiscord.lore")) {
-                lore = lore.replace("%checkPermission%", ClanManager.isPlayerRankSatisfied(getOwner().getName(), Rank.LEADER) ? fileConfiguration.getString("items.setDiscord.placeholders.checkPermission.true")
-                        : fileConfiguration.getString("items.setDiscord.placeholders.checkPermission.false").replace("%getRequiredRank%", ClanManager.getFormatRank(Rank.LEADER)));
-                setDiscordItemLore.add(lore);
-            }
-            ItemStack setDiscordItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.setDiscord.type").toUpperCase()),
-                    fileConfiguration.getString("items.setDiscord.value"),
-                    fileConfiguration.getInt("items.setDiscord.customModelData"),
-                    fileConfiguration.getString("items.setDiscord.name"),
-                    setDiscordItemLore, false), "setDiscord");
-            int setDiscordItemSlot = fileConfiguration.getInt("items.setDiscord.slot");
-            inventory.setItem(setDiscordItemSlot, setDiscordItem);
 
             List<String> disbandItemLore = new ArrayList<>();
             for (String lore : fileConfiguration.getStringList("items.disband.lore")) {

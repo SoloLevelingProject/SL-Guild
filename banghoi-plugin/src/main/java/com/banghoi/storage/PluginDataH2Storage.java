@@ -25,10 +25,12 @@ public class PluginDataH2Storage implements PluginStorage {
     private static JdbcConnection connection;
     private static String clanTable;
     private static String playerTable;
+    private static String guildFundHistoryTable;
 
     public PluginDataH2Storage(String fileName, String clanTableName, String playerTableName) {
         clanTable = clanTableName;
         playerTable = playerTableName;
+        guildFundHistoryTable = clanTableName + "_fund_history";
         try {
             if (connection != null)
                 disableStorage();
@@ -189,6 +191,16 @@ public class PluginDataH2Storage implements PluginStorage {
             MessageUtil.debug("LOADING DATABASE (H2)", "Connected to clan table: " + clanTable);
             statement.executeUpdate(sql2);
             MessageUtil.debug("LOADING DATABASE (H2)", "Connected to player table: " + playerTable);
+            String sql3 = "CREATE TABLE IF NOT EXISTS " + guildFundHistoryTable + " " +
+                    "(CLAN TEXT not NULL, " +
+                    " PLAYERNAME TEXT not NULL, " +
+                    " ACTION TEXT not NULL, " +
+                    " AMOUNT LONG, " +
+                    " BALANCEAFTER LONG, " +
+                    " CREATEDAT LONG)";
+            statement.executeUpdate(sql3);
+            MessageUtil.debug("LOADING DATABASE (H2)",
+                    "Connected to guild fund history table: " + guildFundHistoryTable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -506,11 +518,57 @@ public class PluginDataH2Storage implements PluginStorage {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, clanName);
             ps.execute();
+            try (PreparedStatement historyStatement = connection
+                    .prepareStatement("DELETE FROM " + guildFundHistoryTable + " WHERE CLAN=?")) {
+                historyStatement.setString(1, clanName);
+                historyStatement.execute();
+            }
             return true;
         } catch (Exception exception) {
             exception.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public void addGuildFundTransaction(String clanName, String playerName, String action, long amount,
+            long balanceAfter, long createdAt) {
+        String sql = "INSERT INTO " + guildFundHistoryTable
+                + " (CLAN, PLAYERNAME, ACTION, AMOUNT, BALANCEAFTER, CREATEDAT) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, clanName);
+            preparedStatement.setString(2, playerName);
+            preparedStatement.setString(3, action);
+            preparedStatement.setLong(4, amount);
+            preparedStatement.setLong(5, balanceAfter);
+            preparedStatement.setLong(6, createdAt);
+            preparedStatement.executeUpdate();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<GuildFundTransaction> getGuildFundTransactions(String clanName, int limit) {
+        String sql = "SELECT * FROM " + guildFundHistoryTable + " WHERE CLAN=? ORDER BY CREATEDAT DESC LIMIT ?";
+        List<GuildFundTransaction> transactions = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, clanName);
+            preparedStatement.setInt(2, Math.max(0, limit));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                transactions.add(new GuildFundTransaction(
+                        resultSet.getString("CLAN"),
+                        resultSet.getString("PLAYERNAME"),
+                        resultSet.getString("ACTION"),
+                        resultSet.getLong("AMOUNT"),
+                        resultSet.getLong("BALANCEAFTER"),
+                        resultSet.getLong("CREATEDAT")));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return transactions;
     }
 
     @Override

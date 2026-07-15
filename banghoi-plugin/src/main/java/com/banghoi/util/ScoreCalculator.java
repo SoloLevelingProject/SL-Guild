@@ -8,8 +8,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Calculates current guild contribution from each current member's synced
- * TurtleTop balance.
+ * Calculates current guild contribution from each current member's stored
+ * contribution score.
  */
 public class ScoreCalculator {
 

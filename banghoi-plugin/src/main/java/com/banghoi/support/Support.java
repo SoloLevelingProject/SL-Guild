@@ -1,7 +1,6 @@
 package com.banghoi.support;
 
 import com.banghoi.BangHoi;
-import com.banghoi.Settings;
 import com.banghoi.util.MessageUtil;
 import com.tcoded.folialib.FoliaLib;
 import net.milkbowl.vault.economy.Economy;
@@ -14,7 +13,6 @@ public class Support {
 
     public PlayerPointsAPI playerPointsAPI;
     public Economy vaultEconomyAPI;
-    public DiscordSupport discordSupport;
     public FoliaLib foliaLib;
     public boolean placeholderAPISupported = false;
     public boolean playerPointsSupported = false;
@@ -34,10 +32,6 @@ public class Support {
 
     public PlayerPointsAPI getPlayerPointsAPI() {
         return playerPointsAPI;
-    }
-
-    public DiscordSupport getDiscordSupport() {
-        return discordSupport;
     }
 
     public FoliaLib getFoliaLib() {
@@ -65,9 +59,6 @@ public class Support {
             new PlaceholderAPISupport().register();
             placeholderAPISupported = true;
         }
-
-        // discordWebhook
-        discordSupport = new DiscordSupport(Settings.SOFT_DEPEND_DISCORDWEBHOOK_URL);
 
         // FoliaLib
         foliaLib = new FoliaLib(BangHoi.plugin);

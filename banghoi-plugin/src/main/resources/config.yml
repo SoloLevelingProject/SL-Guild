@@ -98,7 +98,6 @@ clan-settings:
       UPGRADE: MANAGER
       MANAGEALLY: MANAGER
       CONTRIBUTE: MEMBER
-      JOIN: MEMBER
     
     # Send a broadcast to all the players in the server about the creation of a new clan.
     # The plugin will select a random message from one of those lines below, set to 1 line to only use 1.
@@ -250,17 +249,13 @@ soft-depends:
       # %top%: Gets the top number
       top_score_name_: '&r%formatClanName%'
       top_score_value_: '%value%'
-  # Put your discord web hook here to let plugin send plugin messages to your discord channel
-  discordWebhook:
-    webhookURL: ''
-
 contribution-settings:
   enabled: true
-  score-turtletop-point: conghuan
+  score-turtletop-point: conghien
   turtletop:
     enabled: true
   money:
     enabled: true
     amount: 10000
-    conghuan-reward: 10
+    conghien-reward: 10
     max-times-per-day: 1

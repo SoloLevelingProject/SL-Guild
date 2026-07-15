@@ -5,6 +5,7 @@ import com.banghoi.Settings;
 import com.banghoi.api.enums.ItemType;
 import com.banghoi.api.storage.IClanData;
 import com.banghoi.api.storage.IPlayerData;
+import com.banghoi.clan.ClanManager;
 import com.banghoi.file.inventory.ContributeInventoryFile;
 import com.banghoi.language.Messages;
 import com.banghoi.storage.PluginDataManager;
@@ -126,12 +127,6 @@ public class ContributeInventory extends BangHoiInventoryBase {
             return;
         }
 
-        if (!Settings.CONTRIBUTION_TURTLETOP_ENABLED
-                || !Bukkit.getPluginManager().isPluginEnabled("TurtleTop")) {
-            MessageUtil.sendMessage(player, Messages.CONTRIBUTION_DISABLED);
-            return;
-        }
-
         EconomyResponse response = economy.withdrawPlayer(player, Settings.CONTRIBUTION_MONEY_AMOUNT);
         if (!response.transactionSuccess()) {
             MessageUtil.sendMessage(player, Messages.CONTRIBUTION_NOT_ENOUGH_MONEY
@@ -139,19 +134,25 @@ public class ContributeInventory extends BangHoiInventoryBase {
             return;
         }
 
-        // Add conghuan points
-        long conghuanReward = Settings.CONTRIBUTION_MONEY_CONGHUAN_REWARD;
+        // Add contribution points
+        long congHienReward = Math.max(0, Settings.CONTRIBUTION_MONEY_CONGHIEN_REWARD);
+        long currentContribution = Math.max(0, playerData.getScoreCollected());
+        long newContribution = currentContribution > Long.MAX_VALUE - congHienReward
+                ? Long.MAX_VALUE
+                : currentContribution + congHienReward;
+        playerData.setScoreCollected(newContribution);
         playerData.setMoneyContributeCountToday(playerData.getMoneyContributeCountToday() + 1);
         playerData.setLastContributeTime(new Date().getTime());
 
-        // Save data
         PluginDataManager.savePlayerDatabaseToStorage(playerName, playerData);
+        ClanManager.invalidateCache();
 
         // Add to TurtleTop if enabled
-        if (Settings.CONTRIBUTION_TURTLETOP_ENABLED) {
+        if (Settings.CONTRIBUTION_TURTLETOP_ENABLED
+                && Bukkit.getPluginManager().isPluginEnabled("TurtleTop")) {
             try {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                        "tt add " + playerName + " " + Settings.SCORE_TURTLETOP_POINT + " " + conghuanReward);
+                        "tt add " + playerName + " " + Settings.SCORE_TURTLETOP_POINT + " " + congHienReward);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -159,7 +160,7 @@ public class ContributeInventory extends BangHoiInventoryBase {
 
         MessageUtil.sendMessage(player, Messages.CONTRIBUTION_SUCCESS_MONEY
                 .replace("%amount%", String.valueOf(Settings.CONTRIBUTION_MONEY_AMOUNT))
-                .replace("%conghuan%", String.valueOf(conghuanReward)));
+                .replace("%conghien%", String.valueOf(congHienReward)));
 
         // Refresh GUI
         new ContributeInventory(player).open();
@@ -219,7 +220,7 @@ public class ContributeInventory extends BangHoiInventoryBase {
             List<String> moneyLore = fileConfiguration.getStringList("items.money-contribute.lore");
             moneyLore.replaceAll(string -> BangHoi.nms.addColor(string
                     .replace("%amount%", String.valueOf(Settings.CONTRIBUTION_MONEY_AMOUNT))
-                    .replace("%conghuan%", String.valueOf(Settings.CONTRIBUTION_MONEY_CONGHUAN_REWARD))
+                    .replace("%conghien%", String.valueOf(Settings.CONTRIBUTION_MONEY_CONGHIEN_REWARD))
                     .replace("%timesRemaining%", moneyTimesStr)
                     .replace("%maxTimes%", moneyMaxStr)
                     .replace("%cooldown%", cooldownStr)));
@@ -233,20 +234,20 @@ public class ContributeInventory extends BangHoiInventoryBase {
             int moneySlot = fileConfiguration.getInt("items.money-contribute.slot");
             inventory.setItem(moneySlot, moneyItem);
 
-            // Conghuan info display
-            List<String> conghuanLore = fileConfiguration.getStringList("items.conghuan-info.lore");
-            conghuanLore.replaceAll(string -> BangHoi.nms.addColor(string
-                    .replace("%totalConghuan%", String.valueOf(ScoreCalculator.calculateScore(clanData)))
-                    .replace("%yourConghuan%", String.valueOf(ScoreCalculator.getPlayerPoint(getOwner().getName())))));
+            // Contribution info display
+            List<String> congHienLore = fileConfiguration.getStringList("items.conghien-info.lore");
+            congHienLore.replaceAll(string -> BangHoi.nms.addColor(string
+                    .replace("%totalCongHien%", String.valueOf(ScoreCalculator.calculateScore(clanData)))
+                    .replace("%yourCongHien%", String.valueOf(ScoreCalculator.getPlayerPoint(getOwner().getName())))));
 
-            ItemStack conghuanItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
-                    ItemType.valueOf(fileConfiguration.getString("items.conghuan-info.type").toUpperCase()),
-                    fileConfiguration.getString("items.conghuan-info.value"),
-                    fileConfiguration.getInt("items.conghuan-info.customModelData"),
-                    fileConfiguration.getString("items.conghuan-info.name"),
-                    conghuanLore, false), "conghuan-info");
-            int conghuanSlot = fileConfiguration.getInt("items.conghuan-info.slot");
-            inventory.setItem(conghuanSlot, conghuanItem);
+            ItemStack congHienItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.conghien-info.type").toUpperCase()),
+                    fileConfiguration.getString("items.conghien-info.value"),
+                    fileConfiguration.getInt("items.conghien-info.customModelData"),
+                    fileConfiguration.getString("items.conghien-info.name"),
+                    congHienLore, false), "conghien-info");
+            int congHienSlot = fileConfiguration.getInt("items.conghien-info.slot");
+            inventory.setItem(congHienSlot, congHienItem);
         });
     }
 

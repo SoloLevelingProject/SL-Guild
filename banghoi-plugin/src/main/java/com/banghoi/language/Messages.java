@@ -377,7 +377,7 @@ public class Messages {
                 CONTRIBUTION_DISABLED = fileConfiguration.getString("messages.contribution.disabled",
                                 "&cContribution is currently disabled.");
                 CONTRIBUTION_SUCCESS_MONEY = fileConfiguration.getString("messages.contribution.success-money",
-                                "&aYou contributed &e%amount% &amoney and earned &b%conghuan% &aconghuan points!");
+                                "&aYou contributed &e%amount% &amoney and earned &b%conghien% &aconghien points!");
                 CONTRIBUTION_ALREADY_TODAY = fileConfiguration.getString("messages.contribution.already-today",
                                 "&cYou have already contributed money today!");
                 CONTRIBUTION_NOT_ENOUGH_MONEY = fileConfiguration.getString("messages.contribution.not-enough-money",
