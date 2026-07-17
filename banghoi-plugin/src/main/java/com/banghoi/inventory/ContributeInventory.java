@@ -83,6 +83,8 @@ public class ContributeInventory extends BangHoiInventoryBase {
             new ClanMenuInventory(getOwner()).open();
         if (itemCustomData.equals("money-contribute"))
             handleMoneyContribution();
+        if (itemCustomData.equals("skillbook-contribute"))
+            new SkillBookListInventory(getOwner()).open();
         return true;
     }
 
@@ -189,14 +191,13 @@ public class ContributeInventory extends BangHoiInventoryBase {
 
     @Override
     public void setMenuItems() {
-        BangHoi.support.getFoliaLib().getScheduler().runAsync(task -> {
-            IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
-            if (clanData == null)
-                return;
+        IClanData clanData = PluginDataManager.getClanDatabaseByPlayerName(getOwner().getName());
+        if (clanData == null)
+            return;
 
-            IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
+        IPlayerData playerData = PluginDataManager.getPlayerDatabase(getOwner().getName());
 
-            addBasicButton(fileConfiguration, false);
+        addBasicButton(fileConfiguration, false);
 
             // Back button
             ItemStack backItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
@@ -234,6 +235,15 @@ public class ContributeInventory extends BangHoiInventoryBase {
             int moneySlot = fileConfiguration.getInt("items.money-contribute.slot");
             inventory.setItem(moneySlot, moneyItem);
 
+            // Skill book contribute button
+            ItemStack skillBookItem = BangHoi.nms.addCustomData(ItemUtil.getItem(
+                    ItemType.valueOf(fileConfiguration.getString("items.skillbook-contribute.type").toUpperCase()),
+                    fileConfiguration.getString("items.skillbook-contribute.value"),
+                    fileConfiguration.getInt("items.skillbook-contribute.customModelData"),
+                    fileConfiguration.getString("items.skillbook-contribute.name"),
+                    fileConfiguration.getStringList("items.skillbook-contribute.lore"), false), "skillbook-contribute");
+            inventory.setItem(fileConfiguration.getInt("items.skillbook-contribute.slot"), skillBookItem);
+
             // Contribution info display
             List<String> congHienLore = fileConfiguration.getStringList("items.conghien-info.lore");
             congHienLore.replaceAll(string -> BangHoi.nms.addColor(string
@@ -247,8 +257,7 @@ public class ContributeInventory extends BangHoiInventoryBase {
                     fileConfiguration.getString("items.conghien-info.name"),
                     congHienLore, false), "conghien-info");
             int congHienSlot = fileConfiguration.getInt("items.conghien-info.slot");
-            inventory.setItem(congHienSlot, congHienItem);
-        });
+        inventory.setItem(congHienSlot, congHienItem);
     }
 
     private static void resetDailyCountIfNewDay(IPlayerData playerData) {

@@ -63,14 +63,16 @@ public class ItemUtil {
                 .replace("%score%", String.valueOf(ScoreCalculator.calculateScore(clanData)))
                 .replace("%formatClanName%", ClanManager.getFormatClanName(clanData))
                 .replace("%clanName%", String.valueOf(clanData.getName()))
-                .replace("%clanCustomName%", ClanManager.getFormatClanCustomName(clanData)))
+                .replace("%clanCustomName%", ClanManager.getFormatClanCustomName(clanData))
                 .replace("%owner%", String.valueOf(clanData.getOwner()))
                 .replace("%memberSize%", String.valueOf(clanData.getMembers().size()))
                 .replace("%maxMembers%", String.valueOf(clanData.getMaxMembers()))
                 .replace("%allySize%", String.valueOf(clanData.getAllies().size()))
                 .replace("%message%", ClanManager.getFormatClanMessage(clanData))
                 .replace("%createdDate%", StringUtil.dateTimeToDateFormat(clanData.getCreatedDate()))
-                .replace("%warning%", String.valueOf(clanData.getWarning())));
+                .replace("%warning%", String.valueOf(clanData.getWarning()))
+                .replace("%level%", String.valueOf(clanData.getLevel()))
+                .replace("%guildFund%", String.valueOf(clanData.getGuildFund()))));
         itemMeta.setLore(itemLore);
         modItem.setItemMeta(itemMeta);
         return modItem;

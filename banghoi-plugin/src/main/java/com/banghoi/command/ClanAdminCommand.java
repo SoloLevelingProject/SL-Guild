@@ -11,6 +11,7 @@ import com.banghoi.api.storage.IPlayerData;
 import com.banghoi.clan.ClanManager;
 import com.banghoi.file.GuildGiftFile;
 import com.banghoi.file.GuildUpgradeFile;
+import com.banghoi.file.SkillBookContributeFile;
 import com.banghoi.file.inventory.*;
 import com.banghoi.language.English;
 import com.banghoi.language.Messages;
@@ -82,8 +83,11 @@ public class ClanAdminCommand implements CommandExecutor, TabExecutor {
                 SetPermissionInventoryFile.reload();
                 DisbandConfirmationInventoryFile.reload();
                 LeaveConfirmationInventoryFile.reload();
+                ContributeInventoryFile.reload();
+                SkillBookListInventoryFile.reload();
                 GuildGiftFile.reload();
                 GuildUpgradeFile.reload();
+                SkillBookContributeFile.reload();
 
                 Settings.setupValue();
 

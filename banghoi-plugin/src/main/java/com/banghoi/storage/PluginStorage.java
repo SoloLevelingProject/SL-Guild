@@ -12,7 +12,7 @@ public interface PluginStorage {
 
     PlayerData getPlayerData(String playerName);
 
-    void savePlayerData(String playerName, IPlayerData playerData);
+    boolean savePlayerData(String playerName, IPlayerData playerData);
 
     boolean deleteClanData(String clanName);
 

@@ -621,24 +621,25 @@ public class PluginDataH2Storage implements PluginStorage {
     }
 
     @Override
-    public void savePlayerData(String playerName, IPlayerData playerData) {
-        if (!isPlayerDataExisted(playerName))
-            initPlayerData(playerName);
+    public boolean savePlayerData(String playerName, IPlayerData playerData) {
+        try {
+            if (!isPlayerDataExisted(playerName))
+                initPlayerData(playerName);
 
-        String sql = "UPDATE " + playerTable + " "
-                + "SET PLAYERNAME = ?,"
-                + " UUID = ?,"
-                + " CLAN = ?,"
-                + " RANK = ?,"
-                + " JOINDATE = ?,"
-                + " SCORECOLLECTED = ?,"
-                + " LASTACTIVATED = ?,"
-                + " CONGHUANCONTRIBUTED = ?,"
-                + " LASTCONTRIBUTETIME = ?,"
-                + " MONEYCONTRIBUTECOUNTTODAY = ?"
-                + " WHERE PLAYERNAME = ?";
+            String sql = "UPDATE " + playerTable + " "
+                    + "SET PLAYERNAME = ?,"
+                    + " UUID = ?,"
+                    + " CLAN = ?,"
+                    + " RANK = ?,"
+                    + " JOINDATE = ?,"
+                    + " SCORECOLLECTED = ?,"
+                    + " LASTACTIVATED = ?,"
+                    + " CONGHUANCONTRIBUTED = ?,"
+                    + " LASTCONTRIBUTETIME = ?,"
+                    + " MONEYCONTRIBUTECOUNTTODAY = ?"
+                    + " WHERE PLAYERNAME = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, playerName);
             preparedStatement.setString(2, playerData.getUUID());
             preparedStatement.setString(3, playerData.getClan());
@@ -653,9 +654,11 @@ public class PluginDataH2Storage implements PluginStorage {
             preparedStatement.setLong(9, playerData.getLastContributeTime());
             preparedStatement.setInt(10, playerData.getMoneyContributeCountToday());
             preparedStatement.setString(11, playerName);
-            preparedStatement.execute();
+            return preparedStatement.executeUpdate() == 1;
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
+            return false;
         }
     }
 

@@ -1,0 +1,80 @@
+title: '&#ADF3FD📖 Cống Hiến Sách'
+rows: 6
+items:
+  border:
+    enabled: true
+    name: ''
+    type: material
+    value: BLACK_STAINED_GLASS_PANE
+    customModelData: 0
+    leave-blank:
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+    click-sound:
+      enabled: false
+      name: ''
+      volume: 1
+      pitch: 1
+    lore:
+      - ''
+  book-append-lore:
+    - ' '
+    - '&aĐiểm cống hiến: &b%points% / 1 quyển'
+    - '&e🖱 &fChuột Trái: &7Cống hiến 1 quyển'
+    - '&e🖱 &fChuột Phải: &7Cống hiến TẤT CẢ sách loại này'
+  back:
+    name: '&eQuay Lại'
+    slot: 49
+    type: customhead
+    value: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDliMmJlZTM5YjZlZjQ3ZTE4MmQ2ZjFkY2E5ZGVhODQyZmNkNjhiZGE5YmFjYzZhNmQ2NmE4ZGNkZjNlYyJ9fX0=
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'BLOCK_STONE_BUTTON_CLICK_ON'
+      volume: 1
+      pitch: 2
+    lore:
+      - '&eClick để quay lại'
+  no-books:
+    name: '&cBạn không có Sách Kỹ Năng nào!'
+    slot: 22
+    type: material
+    value: BARRIER
+    customModelData: 0
+    click-sound:
+      enabled: true
+      name: 'ENTITY_VILLAGER_NO'
+      volume: 1
+      pitch: 1
+    lore:
+      - ''
+      - '&7Hiện tại trong túi đồ của bạn không có'
+      - '&7cuốn sách kỹ năng nào hợp lệ để cống hiến.'
+      - ''
+      - '&eHãy đi thu thập sách nhé!'

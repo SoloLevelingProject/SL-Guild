@@ -231,7 +231,7 @@ messages:
               messages: |
                 &r
                 &#34eb6bCommands for members
-                &#3498eb/guild list &fView list of guilds'
+                &#3498eb/guild list &fView list of guilds
                 &#3498eb/guild info <guild name> &fView specific guild information
                 &#3498eb/guild menu &fOpen guild GUI
                 &#3498eb/guild leave &fLeave guild

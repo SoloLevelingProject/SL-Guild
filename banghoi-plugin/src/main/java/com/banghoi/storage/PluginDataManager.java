@@ -83,27 +83,43 @@ public class PluginDataManager {
     }
 
     public static void updatePlayerContribution(String playerName, long contribution) {
+        tryUpdatePlayerContribution(playerName, contribution);
+    }
+
+    private static boolean tryUpdatePlayerContribution(String playerName, long contribution) {
         IPlayerData playerData = getPlayerDatabase(playerName);
         if (playerData == null) {
-            return;
+            return false;
         }
         long newContribution = isPlayerInCurrentClan(playerName) ? Math.max(0, contribution) : 0;
         if (playerData.getScoreCollected() == newContribution) {
-            return;
+            return true;
         }
+        long oldContribution = playerData.getScoreCollected();
         playerData.setScoreCollected(newContribution);
-        savePlayerDatabaseToStorage(playerName, playerData);
+        if (!PluginDataStorage.savePlayerData(playerName, playerData)) {
+            playerData.setScoreCollected(oldContribution);
+            return false;
+        }
         ClanManager.invalidateCache();
+        return true;
     }
 
     public static void setPlayerContribution(String playerName, long contribution) {
+        trySetPlayerContribution(playerName, contribution);
+    }
+
+    public static boolean trySetPlayerContribution(String playerName, long contribution) {
         long newContribution = isPlayerInCurrentClan(playerName) ? Math.max(0, contribution) : 0;
+        if (!tryUpdatePlayerContribution(playerName, newContribution))
+            return false;
         if (Settings.CONTRIBUTION_TURTLETOP_ENABLED
                 && Bukkit.getPluginManager().isPluginEnabled("TurtleTop")) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
-                    "tt set " + playerName + " " + Settings.SCORE_TURTLETOP_POINT + " " + newContribution);
+            BangHoi.support.getFoliaLib().getScheduler().runNextTick(task -> Bukkit.dispatchCommand(
+                    Bukkit.getConsoleSender(),
+                    "tt set " + playerName + " " + Settings.SCORE_TURTLETOP_POINT + " " + newContribution));
         }
-        updatePlayerContribution(playerName, newContribution);
+        return true;
     }
 
     public static IPlayerData getPlayerDatabase(String playerName) {

@@ -8,6 +8,7 @@ import com.banghoi.clan.ClanManager;
 import com.banghoi.clan.GuildMaintenanceManager;
 import com.banghoi.file.GuildGiftFile;
 import com.banghoi.file.GuildUpgradeFile;
+import com.banghoi.file.SkillBookContributeFile;
 import com.banghoi.file.inventory.*;
 import com.banghoi.language.English;
 import com.banghoi.language.Messages;
@@ -194,6 +195,12 @@ public class BangHoi extends JavaPlugin {
 
         // gui/main/contribute-inventory.yml
         ContributeInventoryFile.setupFile();
+
+        // gui/main/skillbook-list-inventory.yml
+        SkillBookListInventoryFile.setupFile();
+
+        // configs/skillbook-contribute.yml
+        SkillBookContributeFile.setupFile();
 
         // configs/guild-upgrade.yml
         String guildUpgradeFileName = "configs/guild-upgrade.yml";

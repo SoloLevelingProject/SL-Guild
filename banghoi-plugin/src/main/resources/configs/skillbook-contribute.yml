@@ -1,0 +1,9 @@
+# Cấu hình đóng góp Sách Kỹ Năng từ plugin Shadowhunter.
+enabled: true
+
+# Khóa là shadow_skill_id đã chuyển thành chữ thường; dấu cách và dấu gạch ngang thành dấu gạch dưới.
+skillbooks:
+  arcane_bolt:
+    points: 100
+  mana_shield:
+    points: 75

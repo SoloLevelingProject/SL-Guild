@@ -51,8 +51,8 @@ public class PluginDataStorage {
         return STORAGE.getPlayerData(playerName);
     }
 
-    public static void savePlayerData(String playerName, IPlayerData playerData) {
-        STORAGE.savePlayerData(playerName, playerData);
+    public static boolean savePlayerData(String playerName, IPlayerData playerData) {
+        return STORAGE.savePlayerData(playerName, playerData);
     }
 
     public static boolean deleteClanData(String clanName) {

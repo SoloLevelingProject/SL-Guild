@@ -294,7 +294,7 @@ public class PluginDataYAMLStorage implements PluginStorage {
     }
 
     @Override
-    public void savePlayerData(String playerName, IPlayerData playerData) {
+    public boolean savePlayerData(String playerName, IPlayerData playerData) {
         File file = getPlayerFile(playerName);
         YamlConfiguration storage = YamlConfiguration.loadConfiguration(file);
 
@@ -311,8 +311,10 @@ public class PluginDataYAMLStorage implements PluginStorage {
 
         try {
             storage.save(file);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
